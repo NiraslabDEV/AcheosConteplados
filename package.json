@@ -10,6 +10,7 @@
     "build": "npm ci && mkdir -p public/static public/views && cp -r static/* public/static/ && cp -r views/* public/views/"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-ejs-layouts": "^2.5.1",

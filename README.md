@@ -1,69 +1,71 @@
-# Consórcios Premium
+# Sonhos à Vista - Site de Consórcios Contemplados
 
-Sistema web para gerenciamento e exibição de cartas de consórcio contempladas.
+Este é o repositório do site Sonhos à Vista, uma plataforma para venda de consórcios contemplados de imóveis e veículos.
 
-## 🚀 Tecnologias
+## Tecnologias Utilizadas
 
 - Node.js
 - Express
-- EJS
-- JavaScript
-- CSS3
-- HTML5
+- EJS (Embedded JavaScript Templates)
+- Bootstrap 5
+- jQuery
+- Vercel Analytics
 
-## 📋 Pré-requisitos
+## Características
 
-- Node.js 14.x ou superior
-- NPM ou Yarn
+- Páginas responsivas para imóveis e veículos
+- Carrossel de imagens
+- Seções de FAQ
+- Design moderno e atraente
+- Integração com WhatsApp para contato
+- Analytics para acompanhamento de visitantes
 
-## 🔧 Instalação
+## Como Implantar na Vercel e Ativar o Analytics
 
-1. Clone o repositório:
+### 1. Implantação na Vercel
+
+1. Certifique-se de ter uma conta na [Vercel](https://vercel.com/)
+2. Conecte seu repositório GitHub à Vercel
+3. Clique em "Import" para importar o projeto
+4. Mantenha as configurações padrão e clique em "Deploy"
+
+### 2. Ativação do Analytics
+
+O Vercel Analytics já está configurado neste projeto. Uma vez que o site esteja implantado na Vercel:
+
+1. Acesse o dashboard do seu projeto na Vercel
+2. Navegue até a aba "Analytics"
+3. Clique em "Enable Analytics"
+4. O rastreamento de visitantes começará automaticamente
+
+## Desenvolvimento Local
 
 ```bash
-git clone https://github.com/NiraslabDEV/consorcios-balsa.git
-cd consorcios-balsa
-```
-
-2. Instale as dependências:
-
-```bash
+# Instalar dependências
 npm install
+
+# Iniciar servidor de desenvolvimento
+node app.js
 ```
 
-3. Inicie o servidor:
+Acesse `http://localhost:3000` para ver o site em funcionamento.
 
-```bash
-npm run dev
-```
+## Estrutura do Projeto
 
-O sistema estará disponível em `http://localhost:3000`
+- `app.js` - Arquivo principal do servidor Express
+- `views/` - Templates EJS
+  - `layouts/` - Layout principal
+  - `partials/` - Componentes reutilizáveis
+  - `index.ejs` - Página inicial
+  - `imoveis.ejs` - Página de imóveis
+  - `veiculos.ejs` - Página de veículos
+- `public/` e `static/` - Arquivos estáticos (CSS, JS, imagens)
+- `data/` - Dados dos consórcios em formato Excel
 
-## 📦 Estrutura do Projeto
+## Manutenção
 
-```
-├── app.js              # Arquivo principal do servidor Express
-├── data/              # Arquivos Excel com os dados das cartas
-├── static/            # Arquivos estáticos (CSS, JS, imagens)
-├── views/             # Templates EJS
-│   ├── layouts/      # Layout principal
-│   ├── index.ejs     # Página inicial
-│   ├── imoveis.ejs   # Página de imóveis
-│   └── veiculos.ejs  # Página de veículos
-└── package.json
-```
+Para atualizar os consórcios disponíveis, substitua o arquivo Excel na pasta `data/` mantendo o formato compatível com o existente.
 
-## 🛠️ Funcionalidades
+---
 
-- Exibição de cartas de consórcio para imóveis e veículos
-- Formulário de contato integrado com WhatsApp
-- Layout responsivo
-- Carregamento dinâmico de dados via Excel
-
-## ✒️ Autor
-
-- **Gabriel Balsarin** - [NiraslabDEV](https://github.com/NiraslabDEV)
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes
+© 2024 Sonhos à Vista - Todos os direitos reservados
