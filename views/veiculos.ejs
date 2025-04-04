@@ -1,7 +1,32 @@
-<div class="container mt-5">
+<!-- Hero Section -->
+<div class="hero-section-veiculos">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h1 class="display-4 text-white mb-4">Realize o Sonho do Carro Novo</h1>
+        <p class="lead text-white mb-4">
+          Encontre as melhores oportunidades de consórcio automotivo com as
+          administradoras mais confiáveis do mercado.
+        </p>
+        <a href="#oportunidades" class="btn btn-custom btn-lg"
+          >Ver Oportunidades</a
+        >
+      </div>
+      <div class="col-md-6">
+        <img
+          src="/static/images/carro-novo-familia.jpg"
+          alt="Família feliz com carro novo"
+          class="img-fluid rounded shadow-lg"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5" id="oportunidades">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Cartas de Crédito para Veículos</h2>
-    <a href="/" class="btn btn-outline-primary">
+    <h2 class="text-orange">Cartas de Crédito para Veículos</h2>
+    <a href="/" class="btn btn-outline-orange">
       <i class="fas fa-arrow-left me-2"></i>Voltar
     </a>
   </div>
@@ -235,3 +260,90 @@
     });
   });
 </script>
+
+<style>
+  .hero-section-veiculos {
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
+    padding: 80px 0;
+    margin-top: -2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section-veiculos::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
+    opacity: 0.1;
+  }
+
+  .text-orange {
+    color: #ff6b00;
+  }
+
+  .btn-outline-orange {
+    color: #ff6b00;
+    border-color: #ff6b00;
+  }
+
+  .btn-outline-orange:hover {
+    background-color: #ff6b00;
+    color: white;
+  }
+
+  .card-view {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #ff6b00;
+  }
+
+  .card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .card-label {
+    font-weight: bold;
+    color: #666;
+  }
+
+  .card-value {
+    color: #333;
+  }
+
+  .modal-content {
+    border-radius: 15px;
+  }
+
+  .modal-header {
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .btn-close {
+    filter: brightness(0) invert(1);
+  }
+
+  .table thead th {
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
+    color: white;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #ff8533 0%, #ff6b00 100%);
+  }
+</style>
