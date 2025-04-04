@@ -54,7 +54,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 
 // Arquivos estáticos
-app.use(express.static(path.join(__dirname, "..")));
+app.use("/static", express.static(path.join(__dirname, "../static")));
 
 // Middleware para processar dados do formulário
 app.use(express.urlencoded({ extended: true }));
@@ -66,21 +66,27 @@ const router = express.Router();
 router.get("/", (req, res) => {
   res.render("index", {
     cartas: [...cartasVeiculos, ...cartasImoveis],
-    formatCurrency: formatCurrency,
+    formatCurrency,
+    layout: "layouts/main",
+    body: "index",
   });
 });
 
 router.get("/imoveis", (req, res) => {
   res.render("imoveis", {
     cartas: cartasImoveis,
-    formatCurrency: formatCurrency,
+    formatCurrency,
+    layout: "layouts/main",
+    body: "imoveis",
   });
 });
 
 router.get("/veiculos", (req, res) => {
   res.render("veiculos", {
     cartas: cartasVeiculos,
-    formatCurrency: formatCurrency,
+    formatCurrency,
+    layout: "layouts/main",
+    body: "veiculos",
   });
 });
 
