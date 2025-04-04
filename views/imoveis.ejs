@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <% if (typeof cartas !== 'undefined' && cartas && cartas.length > 0) {
-        %> <% cartas.forEach(function(carta) { %>
+        %> <% cartas.forEach(function(carta, index) { %>
         <tr>
           <% colunas.forEach(function(coluna) { %>
           <td>
@@ -32,7 +32,7 @@
             <button
               class="btn btn-primary btn-sm"
               data-bs-toggle="modal"
-              data-bs-target="#saibaMaisModal"
+              data-bs-target="#cartaModal<%= index %>"
             >
               Saiba Mais
             </button>
@@ -52,7 +52,7 @@
   <!-- Visualização em cards para dispositivos móveis -->
   <div class="d-block d-sm-none">
     <% if (typeof cartas !== 'undefined' && cartas && cartas.length > 0) { %> <%
-    cartas.forEach(function(carta) { %>
+    cartas.forEach(function(carta, index) { %>
     <div class="card-view mb-4">
       <% colunas.forEach(function(coluna) { %>
       <div class="card-row">
@@ -73,7 +73,7 @@
         <button
           class="btn btn-primary"
           data-bs-toggle="modal"
-          data-bs-target="#saibaMaisModal"
+          data-bs-target="#cartaModal<%= index %>"
         >
           Saiba Mais
         </button>
@@ -83,4 +83,150 @@
     <div class="alert alert-info">Nenhuma carta disponível no momento</div>
     <% } %>
   </div>
+
+  <!-- Modais para cada carta -->
+  <% if (typeof cartas !== 'undefined' && cartas && cartas.length > 0) { %> <%
+  cartas.forEach(function(carta, index) { %>
+  <div
+    class="modal fade"
+    id="cartaModal<%= index %>"
+    tabindex="-1"
+    aria-labelledby="cartaModalLabel<%= index %>"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartaModalLabel<%= index %>">
+            Carta de Crédito - <%= carta["Consórcio"] || "Imóveis" %>
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Detalhes da Carta</h5>
+            </div>
+            <div class="card-body">
+              <% colunas.forEach(function(coluna) { %>
+              <div class="row mb-2">
+                <div class="col-5 fw-bold"><%= coluna %>:</div>
+                <div class="col-7">
+                  <% if (coluna === "Valor da carta" || coluna === "Entrada") {
+                  %> <%= formatCurrency(carta[coluna + "_num"]) %> <% } else if
+                  (coluna === "Fluxo de Pagamento" && carta[coluna]) { %> <% var
+                  partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
+                  partes = partes.filter(p =>
+                  p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
+                  partes.forEach(function(parte, pIndex) { %> <%= parte.trim()
+                  %><% if (pIndex < partes.length - 1) { %><br /><% } %> <% });
+                  %> <% } else { %> <%= carta[coluna] || "Não informado" %> <% }
+                  %>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+
+          <form id="interesseForm<%= index %>" class="interesse-form">
+            <div class="mb-3">
+              <label for="nome<%= index %>" class="form-label">Nome *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nome<%= index %>"
+                name="nome"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="telefone<%= index %>" class="form-label"
+                >Telefone *</label
+              >
+              <input
+                type="tel"
+                class="form-control"
+                id="telefone<%= index %>"
+                name="telefone"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="email<%= index %>" class="form-label">E-mail</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email<%= index %>"
+                name="email"
+              />
+            </div>
+            <button
+              type="button"
+              class="btn btn-success w-100 enviar-whatsapp"
+              data-index="<%= index %>"
+            >
+              <i class="fab fa-whatsapp me-2"></i> Tenho Interesse (WhatsApp)
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }); %> <% } %>
 </div>
+
+<!-- Script para enviar para WhatsApp -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botoes = document.querySelectorAll(".enviar-whatsapp");
+
+    botoes.forEach((botao) => {
+      botao.addEventListener("click", function () {
+        const index = this.getAttribute("data-index");
+        const form = document.getElementById("interesseForm" + index);
+
+        // Verifica validação do formulário
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const nome = document.getElementById("nome" + index).value;
+        const telefone = document.getElementById("telefone" + index).value;
+        const email =
+          document.getElementById("email" + index).value || "Não informado";
+
+        // Obter detalhes do modal atual
+        const modalBody = form.closest(".modal-body");
+        const detalhes = modalBody.querySelectorAll(".row.mb-2");
+
+        // Montar a mensagem
+        let mensagem = `*Olá! Tenho interesse nesta carta de crédito:*\n\n`;
+        mensagem += `*Dados do Cliente:*\n`;
+        mensagem += `Nome: ${nome}\n`;
+        mensagem += `Telefone: ${telefone}\n`;
+        mensagem += `Email: ${email}\n\n`;
+
+        mensagem += `*Dados da Carta:*\n`;
+
+        // Adicionar todos os detalhes da carta
+        detalhes.forEach((detalhe) => {
+          const label = detalhe.querySelector(".fw-bold").innerText;
+          const valor = detalhe.querySelector(".col-7").innerText;
+          mensagem += `${label} ${valor}\n`;
+        });
+
+        // Converter para URL
+        const whatsappUrl = `https://wa.me/5511952283170?text=${encodeURIComponent(
+          mensagem
+        )}`;
+        window.open(whatsappUrl, "_blank");
+      });
+    });
+  });
+</script>
