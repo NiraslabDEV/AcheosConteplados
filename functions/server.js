@@ -5,18 +5,21 @@ const app = express();
 
 // Configurações do Express
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "../../views"));
-app.use(express.static(path.join(__dirname, "../../static")));
+app.set("views", path.join(__dirname, "../public/views"));
+app.use(express.static(path.join(__dirname, "../public/static")));
 
-// Importar rotas
-const indexRouter = require("../../routes/index");
-const imoveisRouter = require("../../routes/imoveis");
-const veiculosRouter = require("../../routes/veiculos");
+// Rotas
+app.get("/", (req, res) => {
+  res.render("index");
+});
 
-// Usar rotas
-app.use("/", indexRouter);
-app.use("/imoveis", imoveisRouter);
-app.use("/veiculos", veiculosRouter);
+app.get("/imoveis", (req, res) => {
+  res.render("imoveis");
+});
+
+app.get("/veiculos", (req, res) => {
+  res.render("veiculos");
+});
 
 // Exportar handler para o Netlify
 module.exports.handler = serverless(app);

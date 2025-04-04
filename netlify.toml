@@ -5,7 +5,8 @@
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["express", "ejs"]
+  external_node_modules = ["express", "ejs", "xlsx", "serverless-http"]
+  included_files = ["views/**/*", "static/**/*"]
 
 [[redirects]]
   from = "/*"

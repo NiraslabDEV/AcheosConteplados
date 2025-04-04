@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "netlify dev",
     "start": "node functions/server.js",
-    "build": "npm install"
+    "prebuild": "rm -rf functions-build public/static public/views",
+    "build": "npm ci && mkdir -p public/static public/views && cp -r static/* public/static/ && cp -r views/* public/views/"
   },
   "dependencies": {
     "ejs": "^3.1.9",
