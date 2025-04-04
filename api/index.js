@@ -38,9 +38,12 @@ const lerDadosExcel = () => {
       }
     }
 
-    // Filtrar colunas - excluindo Vencimento e Origem
+    // Filtrar colunas - excluindo Vencimento, Origem e Observações
     const colunas = todasColunas.filter(
-      (coluna) => coluna !== "Vencimento" && coluna !== "Origem"
+      (coluna) =>
+        coluna !== "Vencimento" &&
+        coluna !== "Origem" &&
+        coluna !== "Observações"
     );
 
     console.log("Colunas filtradas:", colunas);
