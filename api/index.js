@@ -4,10 +4,10 @@ const app = express();
 
 // Configuração do EJS
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "public/views"));
+app.set("views", path.join(__dirname, "../views"));
 
 // Arquivos estáticos
-app.use(express.static(path.join(__dirname, "public")));
+app.use("/static", express.static(path.join(__dirname, "../static")));
 
 // Middleware para processar dados do formulário
 app.use(express.urlencoded({ extended: true }));
@@ -52,13 +52,4 @@ app.use((err, req, res, next) => {
   res.status(500).send("Algo deu errado!");
 });
 
-// Vercel requer que exportemos o app
 module.exports = app;
-
-// Se estivermos rodando localmente
-if (require.main === module) {
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-  });
-}
