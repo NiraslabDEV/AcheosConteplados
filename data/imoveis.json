@@ -1,0 +1,36 @@
+{
+  "cartas": [
+    {
+      "Consórcio": "Imóvel Residencial",
+      "Valor da carta": 200000,
+      "Entrada": 60000,
+      "Parcela": 1800,
+      "Prazo": "120x",
+      "Administradora": "Caixa"
+    },
+    {
+      "Consórcio": "Imóvel Comercial",
+      "Valor da carta": 500000,
+      "Entrada": 100000,
+      "Parcela": 4500,
+      "Prazo": "180x",
+      "Administradora": "Bradesco"
+    },
+    {
+      "Consórcio": "Terreno",
+      "Valor da carta": 150000,
+      "Entrada": 45000,
+      "Parcela": 1200,
+      "Prazo": "150x",
+      "Administradora": "Porto Seguro"
+    },
+    {
+      "Consórcio": "Casa de Praia",
+      "Valor da carta": 350000,
+      "Entrada": 70000,
+      "Parcela": 2800,
+      "Prazo": "200x",
+      "Administradora": "Itaú"
+    }
+  ]
+}

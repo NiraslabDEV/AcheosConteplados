@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
+const fs = require("fs");
 const app = express();
 
 // Função auxiliar para formatar moeda
@@ -11,44 +12,16 @@ const formatCurrency = (value) => {
   }).format(value);
 };
 
-// Dados mockados para exemplo
-const cartasVeiculos = [
-  {
-    Consórcio: "Veículos Leves",
-    "Valor da carta": 50000,
-    Entrada: 25000,
-    Parcela: 980,
-    Prazo: "48x",
-    Administradora: "Porto Seguro",
-  },
-  {
-    Consórcio: "Veículos Pesados",
-    "Valor da carta": 150000,
-    Entrada: 45000,
-    Parcela: 2200,
-    Prazo: "60x",
-    Administradora: "Volkswagen",
-  },
-];
-
-const cartasImoveis = [
-  {
-    Consórcio: "Imóvel Residencial",
-    "Valor da carta": 200000,
-    Entrada: 60000,
-    Parcela: 1800,
-    Prazo: "120x",
-    Administradora: "Caixa",
-  },
-  {
-    Consórcio: "Imóvel Comercial",
-    "Valor da carta": 500000,
-    Entrada: 100000,
-    Parcela: 4500,
-    Prazo: "180x",
-    Administradora: "Bradesco",
-  },
-];
+// Função para ler dados dos arquivos JSON
+const lerDados = (arquivo) => {
+  try {
+    const dados = fs.readFileSync(path.join(__dirname, "../data", arquivo));
+    return JSON.parse(dados);
+  } catch (erro) {
+    console.error(`Erro ao ler arquivo ${arquivo}:`, erro);
+    return { cartas: [] };
+  }
+};
 
 // Configuração do EJS
 app.set("view engine", "ejs");
@@ -67,22 +40,26 @@ app.use(express.json());
 const router = express.Router();
 
 router.get("/", (req, res) => {
+  const dadosImoveis = lerDados("imoveis.json");
+  const dadosVeiculos = lerDados("veiculos.json");
   res.render("index", {
-    cartas: [...cartasVeiculos, ...cartasImoveis],
+    cartas: [...dadosVeiculos.cartas, ...dadosImoveis.cartas],
     formatCurrency,
   });
 });
 
 router.get("/imoveis", (req, res) => {
+  const dados = lerDados("imoveis.json");
   res.render("imoveis", {
-    cartas: cartasImoveis,
+    cartas: dados.cartas,
     formatCurrency,
   });
 });
 
 router.get("/veiculos", (req, res) => {
+  const dados = lerDados("veiculos.json");
   res.render("veiculos", {
-    cartas: cartasVeiculos,
+    cartas: dados.cartas,
     formatCurrency,
   });
 });

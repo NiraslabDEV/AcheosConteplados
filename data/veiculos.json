@@ -1,0 +1,36 @@
+{
+  "cartas": [
+    {
+      "Consórcio": "Veículos Leves",
+      "Valor da carta": 50000,
+      "Entrada": 25000,
+      "Parcela": 980,
+      "Prazo": "48x",
+      "Administradora": "Porto Seguro"
+    },
+    {
+      "Consórcio": "Veículos Pesados",
+      "Valor da carta": 150000,
+      "Entrada": 45000,
+      "Parcela": 2200,
+      "Prazo": "60x",
+      "Administradora": "Volkswagen"
+    },
+    {
+      "Consórcio": "Motos",
+      "Valor da carta": 25000,
+      "Entrada": 8000,
+      "Parcela": 450,
+      "Prazo": "36x",
+      "Administradora": "Honda"
+    },
+    {
+      "Consórcio": "Caminhões",
+      "Valor da carta": 300000,
+      "Entrada": 90000,
+      "Parcela": 3500,
+      "Prazo": "72x",
+      "Administradora": "Mercedes-Benz"
+    }
+  ]
+}
