@@ -1,4 +1,4 @@
-<%- include('layouts/main', { body: `
+<%- include('layouts/main', { content: `
 <div class="container mt-5">
   <h2 class="mb-4">Cartas de Crédito para Veículos</h2>
   <div class="table-responsive">
@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <% cartas.forEach(carta => { %>
+        <% cartas.forEach(function(carta) { %>
         <tr>
           <td><%= carta.Consórcio %></td>
           <td><%= formatCurrency(carta['Valor da carta']) %></td>
@@ -38,4 +38,4 @@
     </table>
   </div>
 </div>
-`) %>
+` }) %>
