@@ -15,7 +15,6 @@ const formatCurrency = (value) => {
 // Função para ler dados do Excel
 const lerDadosExcel = () => {
   try {
-    // Encontra o arquivo mais recente que começa com 'consolidado'
     const arquivoExcel = path.join(
       __dirname,
       "../data/consolidado_20250403_1640.xlsx"
@@ -26,39 +25,40 @@ const lerDadosExcel = () => {
     const dados = XLSX.utils.sheet_to_json(worksheet);
 
     // Separar dados em imóveis e veículos
-    const imoveis = dados.filter((item) =>
-      item.Tipo?.toLowerCase().includes("imóveis")
+    const imoveis = dados.filter(
+      (item) => item.Tipo?.toLowerCase() === "imóveis"
     );
-    const veiculos = dados.filter((item) =>
-      item.Tipo?.toLowerCase().includes("veículos")
+    const veiculos = dados.filter(
+      (item) => item.Tipo?.toLowerCase() === "veículos"
     );
+
+    // Função para limpar e converter valores monetários
+    const limparValor = (valor) => {
+      if (!valor) return 0;
+      if (typeof valor === "number") return valor;
+      return parseFloat(valor.toString().replace(/[^\d,.-]/g, "")) || 0;
+    };
+
+    // Função para extrair número do prazo
+    const extrairPrazo = (fluxo) => {
+      if (!fluxo) return "";
+      const match = fluxo.match(/(\d+)/);
+      return match ? match[1] + "x" : "";
+    };
 
     // Formatar dados para o formato esperado
     const formatarDados = (items) => {
       return items.map((item) => ({
         Consórcio: item.Tipo || "Não especificado",
-        "Valor da carta": parseFloat(
-          item["Valor da carta"]?.toString().replace(/[^\d,.-]/g, "") || "0"
-        ),
-        Entrada: parseFloat(
-          item["Entrada"]?.toString().replace(/[^\d,.-]/g, "") || "0"
-        ),
-        Parcela: parseFloat(
-          item["Total de Parcelas"]?.toString().replace(/[^\d,.-]/g, "") || "0"
-        ),
-        Prazo: item["Consórcio"]
-          ? item["Consórcio"].toString() + "x"
-          : "Não especificado",
-        Administradora: item["Administradora"] || "Não especificada",
+        "Valor da Carta": limparValor(item["Valor da carta"]),
+        Entrada: limparValor(item["Entrada"]),
+        Parcela: limparValor(item["Fluxo de Pagamento"]?.split("R$")[1]) || 0,
+        Prazo: extrairPrazo(item["Consórcio"]),
+        Administradora:
+          item["Administradora"]?.replace(/x$/, "") || "Não especificada",
         Status: item["Status"] || "Não especificado",
-        Fluxo: item["Fluxo de Pagamento"] || "Não especificado",
       }));
     };
-
-    // Log para debug
-    console.log("Total de registros:", dados.length);
-    console.log("Imóveis encontrados:", imoveis.length);
-    console.log("Veículos encontrados:", veiculos.length);
 
     return {
       imoveis: formatarDados(imoveis),
