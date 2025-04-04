@@ -7,43 +7,32 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 
 // Arquivos estáticos
-app.use("/static", express.static(path.join(__dirname, "../static")));
+app.use(express.static(path.join(__dirname, "..")));
 
 // Middleware para processar dados do formulário
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Rotas
-app.get("/", (req, res) => {
-  try {
-    res.render("index");
-  } catch (error) {
-    console.error("Erro ao renderizar index:", error);
-    res.status(500).send("Erro interno do servidor");
-  }
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.render("index");
 });
 
-app.get("/imoveis", (req, res) => {
-  try {
-    res.render("imoveis");
-  } catch (error) {
-    console.error("Erro ao renderizar imoveis:", error);
-    res.status(500).send("Erro interno do servidor");
-  }
+router.get("/imoveis", (req, res) => {
+  res.render("imoveis");
 });
 
-app.get("/veiculos", (req, res) => {
-  try {
-    res.render("veiculos");
-  } catch (error) {
-    console.error("Erro ao renderizar veiculos:", error);
-    res.status(500).send("Erro interno do servidor");
-  }
+router.get("/veiculos", (req, res) => {
+  res.render("veiculos");
 });
+
+app.use(router);
 
 // Handler para erros 404
 app.use((req, res) => {
-  res.status(404).render("404");
+  res.status(404).send("Página não encontrada");
 });
 
 // Handler para erros gerais
@@ -52,4 +41,5 @@ app.use((err, req, res, next) => {
   res.status(500).send("Algo deu errado!");
 });
 
+// Exporta a função handler para o Vercel
 module.exports = app;
