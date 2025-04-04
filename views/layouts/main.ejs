@@ -19,6 +19,51 @@
         white-space: pre-line;
         vertical-align: middle;
       }
+
+      /* Responsividade para tabelas */
+      @media (max-width: 768px) {
+        .table-responsive {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .table th,
+        .table td {
+          min-width: 120px;
+          font-size: 0.9rem;
+        }
+
+        /* Alternativa para telas muito pequenas */
+        @media (max-width: 576px) {
+          .card-view {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            padding: 1rem;
+          }
+
+          .card-view .card-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 0.5rem 0;
+          }
+
+          .card-view .card-label {
+            font-weight: bold;
+            flex: 0 0 40%;
+          }
+
+          .card-view .card-value {
+            flex: 0 0 60%;
+          }
+
+          /* Esconder tabela original em telas muito pequenas */
+          .hide-on-small {
+            display: none;
+          }
+        }
+      }
     </style>
   </head>
   <body>
@@ -92,11 +137,11 @@
     <footer class="footer bg-dark text-white py-4">
       <div class="container">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4 mb-3 mb-md-0">
             <h4>Consórcios Balsa</h4>
             <p>Sua melhor opção em consórcios contemplados</p>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 mb-3 mb-md-0">
             <h4>Links Úteis</h4>
             <ul class="list-unstyled">
               <li>

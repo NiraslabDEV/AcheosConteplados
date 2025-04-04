@@ -1,6 +1,8 @@
 <div class="container mt-5">
   <h2 class="mb-4">Cartas de Crédito para Imóveis</h2>
-  <div class="table-responsive">
+
+  <!-- Tabela para telas médias e grandes -->
+  <div class="table-responsive hide-on-small d-none d-sm-block">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -45,5 +47,40 @@
         <% } %>
       </tbody>
     </table>
+  </div>
+
+  <!-- Visualização em cards para dispositivos móveis -->
+  <div class="d-block d-sm-none">
+    <% if (typeof cartas !== 'undefined' && cartas && cartas.length > 0) { %> <%
+    cartas.forEach(function(carta) { %>
+    <div class="card-view mb-4">
+      <% colunas.forEach(function(coluna) { %>
+      <div class="card-row">
+        <div class="card-label"><%= coluna %></div>
+        <div class="card-value">
+          <% if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
+          formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna ===
+          "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
+          carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
+          partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
+          partes.forEach(function(parte, index) { %> <%= parte.trim() %><% if
+          (index < partes.length - 1) { %><br /><% } %> <% }); %> <% } else { %>
+          <%= carta[coluna] || "" %> <% } %>
+        </div>
+      </div>
+      <% }); %>
+      <div class="text-center mt-3">
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#saibaMaisModal"
+        >
+          Saiba Mais
+        </button>
+      </div>
+    </div>
+    <% }); %> <% } else { %>
+    <div class="alert alert-info">Nenhuma carta disponível no momento</div>
+    <% } %>
   </div>
 </div>
