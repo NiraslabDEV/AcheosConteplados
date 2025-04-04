@@ -6,6 +6,7 @@ const app = express();
 
 // Função auxiliar para formatar moeda
 const formatCurrency = (value) => {
+  if (value === undefined || value === null) return "";
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
@@ -22,7 +23,22 @@ const lerDadosExcel = () => {
     const workbook = XLSX.readFile(arquivoExcel);
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const dados = XLSX.utils.sheet_to_json(worksheet);
+    const dados = XLSX.utils.sheet_to_json(worksheet, { raw: false });
+
+    // Obter os nomes das colunas
+    const ref = worksheet["!ref"];
+    const range = XLSX.utils.decode_range(ref);
+    const colunas = [];
+
+    // Extrair cabeçalhos
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      const cellAddress = XLSX.utils.encode_cell({ r: range.s.r, c: C });
+      if (worksheet[cellAddress] && worksheet[cellAddress].v) {
+        colunas.push(worksheet[cellAddress].v);
+      }
+    }
+
+    console.log("Colunas encontradas:", colunas);
 
     // Separar dados em imóveis e veículos
     const imoveis = dados.filter(
@@ -32,53 +48,63 @@ const lerDadosExcel = () => {
       (item) => item.Tipo?.toLowerCase() === "veículos"
     );
 
-    // Log para debug
-    console.log("Amostra de item:", veiculos[0]);
-
-    // Função para limpar e converter valores monetários
-    const limparValor = (valor) => {
-      if (!valor && valor !== 0) return 0;
+    // Função para converter valores monetários
+    const converterValorMonetario = (valor) => {
+      if (!valor) return 0;
       if (typeof valor === "number") return valor;
-      return parseFloat(valor.toString().replace(/[^\d,.-]/g, "")) || 0;
+
+      // Remove R$, espaços e converte vírgula para ponto
+      const valorLimpo = valor
+        .toString()
+        .replace(/R\$\s*/g, "")
+        .replace(/\./g, "")
+        .replace(/,/g, ".")
+        .trim();
+
+      return parseFloat(valorLimpo) || 0;
     };
 
-    // Função para extrair número do prazo e administradora
-    const extrairInfoFluxo = (fluxo) => {
-      if (!fluxo) return { prazo: "", valor: 0 };
-
-      const match = fluxo.match(/(\d+)\s*x\s*R\$\s*([\d,.]+)/);
-      if (!match) return { prazo: "", valor: 0 };
-
-      return {
-        prazo: match[1] + "x",
-        valor: parseFloat(match[2].replace(",", ".")) || 0,
-      };
-    };
-
-    // Formatar dados para o formato esperado
-    const formatarDados = (items) => {
+    // Processa e preserva todas as colunas
+    const processarItens = (items) => {
       return items.map((item) => {
-        const infoFluxo = extrairInfoFluxo(item["Fluxo de Pagamento"]);
+        const resultado = {};
 
-        return {
-          Consórcio: item.Tipo || "Não especificado",
-          "Valor da Carta": limparValor(item["Valor da carta"]),
-          Entrada: limparValor(item["Entrada"]),
-          Parcela: infoFluxo.valor,
-          Prazo: infoFluxo.prazo,
-          Administradora: item["Administradora"] || "Não especificada",
-          Status: item["Status"] || "Não especificado",
-        };
+        // Preservar todas as colunas originais
+        Object.keys(item).forEach((chave) => {
+          resultado[chave] = item[chave];
+        });
+
+        // Converter colunas numéricas para valores que podem ser formatados
+        if (item["Valor da carta"]) {
+          resultado["Valor da carta_num"] = converterValorMonetario(
+            item["Valor da carta"]
+          );
+        }
+
+        if (item["Entrada"]) {
+          resultado["Entrada_num"] = converterValorMonetario(item["Entrada"]);
+        }
+
+        // Extrair valor da parcela do fluxo de pagamento
+        if (item["Fluxo de Pagamento"]) {
+          const match = item["Fluxo de Pagamento"].match(/R\$\s*([\d,.]+)/);
+          if (match) {
+            resultado["Parcela_num"] = converterValorMonetario(match[0]);
+          }
+        }
+
+        return resultado;
       });
     };
 
     return {
-      imoveis: formatarDados(imoveis),
-      veiculos: formatarDados(veiculos),
+      imoveis: processarItens(imoveis),
+      veiculos: processarItens(veiculos),
+      colunas: colunas,
     };
   } catch (erro) {
     console.error("Erro ao ler arquivo Excel:", erro);
-    return { imoveis: [], veiculos: [] };
+    return { imoveis: [], veiculos: [], colunas: [] };
   }
 };
 
@@ -99,25 +125,28 @@ app.use(express.json());
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const { imoveis, veiculos } = lerDadosExcel();
+  const { imoveis, veiculos, colunas } = lerDadosExcel();
   res.render("index", {
     cartas: [...veiculos, ...imoveis],
+    colunas: colunas,
     formatCurrency,
   });
 });
 
 router.get("/imoveis", (req, res) => {
-  const { imoveis } = lerDadosExcel();
+  const { imoveis, colunas } = lerDadosExcel();
   res.render("imoveis", {
     cartas: imoveis,
+    colunas: colunas,
     formatCurrency,
   });
 });
 
 router.get("/veiculos", (req, res) => {
-  const { veiculos } = lerDadosExcel();
+  const { veiculos, colunas } = lerDadosExcel();
   res.render("veiculos", {
     cartas: veiculos,
+    colunas: colunas,
     formatCurrency,
   });
 });
