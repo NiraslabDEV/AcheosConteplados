@@ -26,33 +26,39 @@ const lerDadosExcel = () => {
     const dados = XLSX.utils.sheet_to_json(worksheet);
 
     // Separar dados em imóveis e veículos
-    const imoveis = dados.filter(
-      (item) =>
-        item.Tipo?.toLowerCase().includes("imóvel") ||
-        item.Tipo?.toLowerCase().includes("casa") ||
-        item.Tipo?.toLowerCase().includes("terreno")
+    const imoveis = dados.filter((item) =>
+      item.Tipo?.toLowerCase().includes("imóveis")
     );
-    const veiculos = dados.filter((item) => !imoveis.includes(item));
+    const veiculos = dados.filter((item) =>
+      item.Tipo?.toLowerCase().includes("veículos")
+    );
 
     // Formatar dados para o formato esperado
     const formatarDados = (items) => {
       return items.map((item) => ({
         Consórcio: item.Tipo || "Não especificado",
         "Valor da carta": parseFloat(
-          item["Valor Carta"]?.toString().replace(/[^\d,.-]/g, "") || "0"
+          item["Valor da carta"]?.toString().replace(/[^\d,.-]/g, "") || "0"
         ),
         Entrada: parseFloat(
           item["Entrada"]?.toString().replace(/[^\d,.-]/g, "") || "0"
         ),
         Parcela: parseFloat(
-          item["Parcela"]?.toString().replace(/[^\d,.-]/g, "") || "0"
+          item["Total de Parcelas"]?.toString().replace(/[^\d,.-]/g, "") || "0"
         ),
-        Prazo: item["Prazo"]
-          ? item["Prazo"].toString() + "x"
+        Prazo: item["Consórcio"]
+          ? item["Consórcio"].toString() + "x"
           : "Não especificado",
         Administradora: item["Administradora"] || "Não especificada",
+        Status: item["Status"] || "Não especificado",
+        Fluxo: item["Fluxo de Pagamento"] || "Não especificado",
       }));
     };
+
+    // Log para debug
+    console.log("Total de registros:", dados.length);
+    console.log("Imóveis encontrados:", imoveis.length);
+    console.log("Veículos encontrados:", veiculos.length);
 
     return {
       imoveis: formatarDados(imoveis),
