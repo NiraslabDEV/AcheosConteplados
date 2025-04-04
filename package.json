@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "netlify dev",
     "start": "node functions/server.js",
-    "build": "mkdir -p functions-build && netlify-lambda build functions --config ./functions/webpack.config.js"
+    "build": "npm install"
   },
   "dependencies": {
     "ejs": "^3.1.9",
@@ -15,14 +15,8 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@babel/preset-env": "^7.23.9",
-    "babel-loader": "^8.1.0",
     "netlify-cli": "^17.38.1",
-    "netlify-lambda": "^2.0.16",
-    "nodemon": "^3.0.2",
-    "webpack": "^4.46.0",
-    "webpack-node-externals": "^1.7.2"
+    "nodemon": "^3.0.2"
   },
   "author": "Gabriel Balsarin",
   "license": "MIT"
