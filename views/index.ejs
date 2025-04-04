@@ -130,7 +130,7 @@
       </div>
       <div class="col-lg-6 fade-in" style="transition-delay: 0.2s">
         <img
-          src="https://placehold.co/600x400"
+          src="/static/images/casa-moderna.jpg"
           alt="Consórcio Contemplado"
           class="img-fluid rounded-3 shadow"
         />
@@ -222,12 +222,56 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6 fade-in mb-4 mb-lg-0">
-        <img
-          src="/static/images/casa-familia-feliz.jpg"
-          alt="Casa própria dos sonhos"
-          class="img-fluid rounded-3 shadow-lg"
-          style="max-height: 400px; object-fit: cover; width: 100%"
-        />
+        <div
+          id="imoveisCarousel"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner rounded-3 shadow-lg">
+            <div class="carousel-item active">
+              <img
+                src="/static/images/casa-familia.jpg"
+                class="d-block w-100"
+                alt="Casa familiar"
+                style="max-height: 400px; object-fit: cover"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="/static/images/casa-moderna.jpg"
+                class="d-block w-100"
+                alt="Casa moderna"
+                style="max-height: 400px; object-fit: cover"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="/static/images/casa-familia-feliz.jpg"
+                class="d-block w-100"
+                alt="Família feliz em casa"
+                style="max-height: 400px; object-fit: cover"
+              />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#imoveisCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#imoveisCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próximo</span>
+          </button>
+        </div>
       </div>
       <div class="col-lg-6 fade-in">
         <div class="ps-lg-4">
@@ -286,12 +330,52 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6 fade-in mb-4 mb-lg-0 order-lg-2">
-        <img
-          src="/static/images/carro-novo-familia.jpg"
-          alt="Carro novo dos sonhos"
-          class="img-fluid rounded-3 shadow-lg"
-          style="max-height: 400px; object-fit: cover; width: 100%"
-        />
+        <div id="carrosCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner rounded-3 shadow-lg">
+            <div class="carousel-item active">
+              <img
+                src="/static/images/carro-novo.jpg"
+                class="d-block w-100"
+                alt="Carro novo"
+                style="max-height: 400px; object-fit: cover"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="/static/images/carro-luxo.jpg"
+                class="d-block w-100"
+                alt="Carro de luxo"
+                style="max-height: 400px; object-fit: cover"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="/static/images/carro-novo-familia.jpg"
+                class="d-block w-100"
+                alt="Família com carro novo"
+                style="max-height: 400px; object-fit: cover"
+              />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carrosCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carrosCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próximo</span>
+          </button>
+        </div>
       </div>
       <div class="col-lg-6 fade-in order-lg-1">
         <div class="pe-lg-4">
