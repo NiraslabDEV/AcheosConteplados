@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Modal -->
+    <div id="contatoModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Carta de Crédito Contemplada</h2>
+
+        <div class="modal-info">
+          <div class="info-row">
+            <label>Cota para</label>
+            <span id="modalTipo"></span>
+          </div>
+          <div class="info-row">
+            <label>Crédito</label>
+            <span id="modalCredito"></span>
+          </div>
+          <div class="info-row">
+            <label>Entrada</label>
+            <span id="modalEntrada"></span>
+          </div>
+          <div class="info-row">
+            <label>Parcelas</label>
+            <span id="modalParcelas"></span>
+          </div>
+          <div class="info-row">
+            <label>Administradora</label>
+            <span id="modalAdmin"></span>
+          </div>
+        </div>
+
+        <form id="contatoForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome *</label>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                required
+                placeholder="Seu nome"
+              />
+            </div>
+            <div class="form-group">
+              <label>Telefone *</label>
+              <input
+                type="tel"
+                id="telefone"
+                name="telefone"
+                required
+                placeholder="DDD + Telefone"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>E-mail *</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="exemplo@email.com.br"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Observações</label>
+            <textarea
+              id="observacao"
+              name="observacao"
+              placeholder="Digite sua mensagem..."
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">Tenho Interesse</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="/" class="logo"> Consórcios <span>Premium</span> </a>
+        <nav>
+          <a href="/imoveis">Imóveis</a>
+          <a href="/veiculos">Veículos</a>
+          <a
+            href="https://wa.me/5511952283170"
+            class="btn-whatsapp"
+            target="_blank"
+          >
+            <i class="fab fa-whatsapp"></i>
+            Fale Conosco
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="main"><%- body %></main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-info">
+            <h3>Consórcios Premium</h3>
+            <p>Sua melhor opção em consórcios contemplados</p>
+          </div>
+          <div class="footer-contact">
+            <h4>Entre em Contato</h4>
+            <a href="https://wa.me/5511952283170" target="_blank">
+              <i class="fab fa-whatsapp"></i>
+              (11) 95228-3170
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>

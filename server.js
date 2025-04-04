@@ -4,10 +4,10 @@ const app = express();
 
 // Configuração do EJS
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "public/views"));
 
 // Arquivos estáticos
-app.use("/static", express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware para processar dados do formulário
 app.use(express.urlencoded({ extended: true }));

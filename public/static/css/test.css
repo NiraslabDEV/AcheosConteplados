@@ -1,0 +1,25 @@
+/* Arquivo de teste para verificar se o CSS está sendo carregado corretamente */
+body {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.header {
+  background-color: #2563eb;
+  color: white;
+  padding: 20px;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.btn-whatsapp {
+  background-color: #25d366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
