@@ -1,165 +1,289 @@
+<!-- Adiciona estilos personalizados -->
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #363636 100%);
+    color: white;
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
+    opacity: 0.1;
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #007bff 0%, #00bfff 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .feature-icon i {
+    font-size: 24px;
+    color: white;
+  }
+
+  .btn-custom {
+    background: linear-gradient(135deg, #007bff 0%, #00bfff 100%);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+  }
+
+  .stats-section {
+    background: #f8f9fa;
+    padding: 80px 0;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #007bff 0%, #00bfff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
+
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero-section">
   <div class="container">
-    <div class="hero-content">
-      <h1 class="animate">
-        Realize Seu Sonho <span class="highlight">Agora Mesmo!</span>
-      </h1>
-      <p class="animate">
-        Consórcios contemplados com as melhores administradoras do Brasil.
-        Crédito imediato, sem análise e com parcelas que cabem no seu bolso.
-      </p>
-      <div class="hero-buttons animate">
-        <a href="#oportunidades" class="btn btn-primary">
-          <i class="fas fa-search"></i>
-          Ver Oportunidades
-        </a>
+    <div class="row align-items-center">
+      <div class="col-lg-6 fade-in">
+        <h1 class="display-4 fw-bold mb-4">SomenteContemplados.com.br</h1>
+        <p class="lead mb-4">
+          Realize seus sonhos com as melhores oportunidades em consórcios
+          contemplados. Taxas imbatíveis e crédito imediato para você conquistar
+          seu imóvel ou veículo.
+        </p>
+        <div class="d-flex gap-3">
+          <a href="/imoveis" class="btn btn-custom">
+            <i class="fas fa-home me-2"></i>Imóveis
+          </a>
+          <a href="/veiculos" class="btn btn-custom">
+            <i class="fas fa-car me-2"></i>Veículos
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-in" style="transition-delay: 0.2s">
+        <img
+          src="https://placehold.co/600x400"
+          alt="Consórcio Contemplado"
+          class="img-fluid rounded-3 shadow"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-6 fade-in">
+        <div class="stat-item">
+          <div class="stat-number" data-target="1500">0</div>
+          <p>Clientes Satisfeitos</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6 fade-in">
+        <div class="stat-item">
+          <div class="stat-number" data-target="20">0</div>
+          <p>Anos de Experiência</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6 fade-in">
+        <div class="stat-item">
+          <div class="stat-number" data-target="100">0</div>
+          <p>Cartas Disponíveis</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6 fade-in">
+        <div class="stat-item">
+          <div class="stat-number" data-target="98">0</div>
+          <p>% de Aprovação</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4 fade-in">
+        <div class="card h-100 p-4">
+          <div class="feature-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Crédito Imediato</h3>
+          <p>
+            Seu crédito liberado em até 48 horas após a aprovação. Sem
+            burocracia, sem espera.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in">
+        <div class="card h-100 p-4">
+          <div class="feature-icon">
+            <i class="fas fa-percentage"></i>
+          </div>
+          <h3>Menor Taxa</h3>
+          <p>
+            As menores taxas do mercado, com parcelas que cabem no seu bolso.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in">
+        <div class="card h-100 p-4">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>100% Seguro</h3>
+          <p>
+            Processo totalmente seguro e transparente, com suporte
+            especializado.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center text-center fade-in">
+      <div class="col-lg-8">
+        <h2 class="mb-4">Pronto para Realizar seu Sonho?</h2>
+        <p class="lead mb-4">
+          Entre em contato conosco agora mesmo e garanta as melhores condições
+          para seu consórcio contemplado.
+        </p>
         <a
-          href="https://wa.me/5511952283170"
-          class="btn btn-whatsapp"
+          href="https://wa.me/5511963241530"
+          class="btn btn-custom btn-lg"
           target="_blank"
         >
-          <i class="fab fa-whatsapp"></i>
-          Falar com Especialista
+          <i class="fab fa-whatsapp me-2"></i>Falar com Especialista
         </a>
       </div>
     </div>
-    <div class="hero-stats animate">
-      <div class="stat-card">
-        <i class="fas fa-check-circle"></i>
-        <h3>+1000</h3>
-        <p>Clientes Satisfeitos</p>
-      </div>
-      <div class="stat-card">
-        <i class="fas fa-star"></i>
-        <h3>15 Anos</h3>
-        <p>de Experiência</p>
-      </div>
-      <div class="stat-card">
-        <i class="fas fa-handshake"></i>
-        <h3>100%</h3>
-        <p>Seguro e Legal</p>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- Seção de Benefícios -->
-<section class="benefits">
+<!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-5">
   <div class="container">
-    <h2 class="section-title">Por que escolher consórcio contemplado?</h2>
-    <div class="benefits-grid">
-      <div class="benefit-card animate">
-        <div class="benefit-icon">
-          <i class="fas fa-bolt"></i>
-        </div>
-        <h3>Crédito Imediato</h3>
-        <p>
-          Sem análise de crédito, sem comprovação de renda. Use seu FGTS como
-          entrada!
-        </p>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>SomenteContemplados.com.br</h5>
+        <p>© 2025 - Todos os direitos reservados</p>
       </div>
-      <div class="benefit-card animate">
-        <div class="benefit-icon">
-          <i class="fas fa-percentage"></i>
-        </div>
-        <h3>Menor Taxa</h3>
-        <p>
-          Até 50% menor que financiamento bancário tradicional. Parcelas que
-          cabem no seu bolso.
-        </p>
-      </div>
-      <div class="benefit-card animate">
-        <div class="benefit-icon">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3>100% Seguro</h3>
-        <p>
-          Trabalhamos apenas com as maiores administradoras: Porto Seguro,
-          Bradesco e Itaú.
-        </p>
+      <div class="col-md-6 text-md-end">
+        <p>Contato: (11) 96324-1530</p>
+        <p>contato@somentecontemplados.com.br</p>
       </div>
     </div>
   </div>
-</section>
+</footer>
 
-<!-- Seção de Oportunidades -->
-<section id="oportunidades" class="opportunities">
-  <div class="container">
-    <h2 class="section-title">Oportunidades Disponíveis</h2>
-    <div class="opportunities-grid">
-      <div class="opportunity-card animate">
-        <div class="opportunity-header">
-          <i class="fas fa-home"></i>
-          <h3>Imóveis</h3>
-        </div>
-        <div class="opportunity-content">
-          <ul>
-            <li><i class="fas fa-check"></i> Casas e Apartamentos</li>
-            <li><i class="fas fa-check"></i> Terrenos</li>
-            <li><i class="fas fa-check"></i> Imóveis Comerciais</li>
-          </ul>
-          <p class="price">A partir de R$ 100.000</p>
-          <a href="/imoveis" class="btn btn-primary">Ver Cartas</a>
-        </div>
-      </div>
-      <div class="opportunity-card animate">
-        <div class="opportunity-header">
-          <i class="fas fa-car"></i>
-          <h3>Veículos</h3>
-        </div>
-        <div class="opportunity-content">
-          <ul>
-            <li><i class="fas fa-check"></i> Carros Novos e Usados</li>
-            <li><i class="fas fa-check"></i> Motos</li>
-            <li><i class="fas fa-check"></i> Utilitários</li>
-          </ul>
-          <p class="price">A partir de R$ 30.000</p>
-          <a href="/veiculos" class="btn btn-primary">Ver Cartas</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Seção CTA -->
-<section class="cta">
-  <div class="container">
-    <div class="cta-content animate">
-      <h2>Pronto para realizar seu sonho?</h2>
-      <p>
-        Fale com um de nossos especialistas e encontre a melhor opção para você!
-      </p>
-      <a
-        href="https://wa.me/5511952283170"
-        class="btn btn-whatsapp"
-        target="_blank"
-      >
-        <i class="fab fa-whatsapp"></i>
-        Começar Agora
-      </a>
-    </div>
-  </div>
-</section>
-
+<!-- Scripts para animações -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Adiciona classe de animação aos elementos quando eles entram na viewport
+    // Animação de fade-in nos elementos
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("animate");
+            entry.target.classList.add("visible");
           }
         });
       },
-      {
-        threshold: 0.1,
-      }
+      { threshold: 0.1 }
     );
 
-    document.querySelectorAll(".animate").forEach((element) => {
+    document.querySelectorAll(".fade-in").forEach((element) => {
       observer.observe(element);
+    });
+
+    // Animação dos números
+    const animateNumber = (element, target) => {
+      let current = 0;
+      const increment = target / 100;
+      const duration = 2000;
+      const interval = duration / (target / increment);
+
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          element.textContent = Math.round(target);
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.round(current);
+        }
+      }, interval);
+    };
+
+    const statsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = parseInt(entry.target.getAttribute("data-target"));
+            animateNumber(entry.target, target);
+            statsObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    document.querySelectorAll(".stat-number").forEach((element) => {
+      statsObserver.observe(element);
     });
   });
 </script>
