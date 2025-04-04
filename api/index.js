@@ -32,32 +32,44 @@ const lerDadosExcel = () => {
       (item) => item.Tipo?.toLowerCase() === "veículos"
     );
 
+    // Log para debug
+    console.log("Amostra de item:", veiculos[0]);
+
     // Função para limpar e converter valores monetários
     const limparValor = (valor) => {
-      if (!valor) return 0;
+      if (!valor && valor !== 0) return 0;
       if (typeof valor === "number") return valor;
       return parseFloat(valor.toString().replace(/[^\d,.-]/g, "")) || 0;
     };
 
-    // Função para extrair número do prazo
-    const extrairPrazo = (fluxo) => {
-      if (!fluxo) return "";
-      const match = fluxo.match(/(\d+)/);
-      return match ? match[1] + "x" : "";
+    // Função para extrair número do prazo e administradora
+    const extrairInfoFluxo = (fluxo) => {
+      if (!fluxo) return { prazo: "", valor: 0 };
+
+      const match = fluxo.match(/(\d+)\s*x\s*R\$\s*([\d,.]+)/);
+      if (!match) return { prazo: "", valor: 0 };
+
+      return {
+        prazo: match[1] + "x",
+        valor: parseFloat(match[2].replace(",", ".")) || 0,
+      };
     };
 
     // Formatar dados para o formato esperado
     const formatarDados = (items) => {
-      return items.map((item) => ({
-        Consórcio: item.Tipo || "Não especificado",
-        "Valor da Carta": limparValor(item["Valor da carta"]),
-        Entrada: limparValor(item["Entrada"]),
-        Parcela: limparValor(item["Fluxo de Pagamento"]?.split("R$")[1]) || 0,
-        Prazo: extrairPrazo(item["Consórcio"]),
-        Administradora:
-          item["Administradora"]?.replace(/x$/, "") || "Não especificada",
-        Status: item["Status"] || "Não especificado",
-      }));
+      return items.map((item) => {
+        const infoFluxo = extrairInfoFluxo(item["Fluxo de Pagamento"]);
+
+        return {
+          Consórcio: item.Tipo || "Não especificado",
+          "Valor da Carta": limparValor(item["Valor da carta"]),
+          Entrada: limparValor(item["Entrada"]),
+          Parcela: infoFluxo.valor,
+          Prazo: infoFluxo.prazo,
+          Administradora: item["Administradora"] || "Não especificada",
+          Status: item["Status"] || "Não especificado",
+        };
+      });
     };
 
     return {
