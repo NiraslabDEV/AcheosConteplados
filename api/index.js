@@ -2,6 +2,34 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
+// Função auxiliar para formatar moeda
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+};
+
+// Dados mockados para exemplo
+const cartasVeiculos = [
+  {
+    Consórcio: "Veículos Leves",
+    "Valor da carta": 50000,
+    Entrada: 25000,
+    Parcela: 980,
+    Prazo: "48x",
+    Administradora: "Porto Seguro",
+  },
+  {
+    Consórcio: "Veículos Pesados",
+    "Valor da carta": 150000,
+    Entrada: 45000,
+    Parcela: 2200,
+    Prazo: "60x",
+    Administradora: "Volkswagen",
+  },
+];
+
 // Configuração do EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
@@ -25,7 +53,10 @@ router.get("/imoveis", (req, res) => {
 });
 
 router.get("/veiculos", (req, res) => {
-  res.render("veiculos");
+  res.render("veiculos", {
+    cartas: cartasVeiculos,
+    formatCurrency: formatCurrency,
+  });
 });
 
 app.use(router);

@@ -1,16 +1,17 @@
-<div class="container">
-  <h1 class="section-title">Cartas de Consórcio para Veículos</h1>
-
-  <!-- Tabela de Cartas -->
-  <div class="table-container">
-    <table class="data-table">
+<%- include('layouts/main', { body: `
+<div class="container mt-5">
+  <h2 class="mb-4">Cartas de Crédito para Veículos</h2>
+  <div class="table-responsive">
+    <table class="table table-striped">
       <thead>
         <tr>
-          <th>Administradora</th>
-          <th>Crédito</th>
+          <th>Consórcio</th>
+          <th>Valor da Carta</th>
           <th>Entrada</th>
-          <th>Parcelas</th>
-          <th>Ações</th>
+          <th>Parcela</th>
+          <th>Prazo</th>
+          <th>Administradora</th>
+          <th>Ação</th>
         </tr>
       </thead>
       <tbody>
@@ -19,21 +20,17 @@
           <td><%= carta.Consórcio %></td>
           <td><%= formatCurrency(carta['Valor da carta']) %></td>
           <td><%= formatCurrency(carta.Entrada) %></td>
-          <td><%= carta['Fluxo de Pagamento'] %></td>
+          <td><%= formatCurrency(carta.Parcela) %></td>
+          <td><%= carta.Prazo %></td>
+          <td><%= carta.Administradora %></td>
           <td>
-            <a
-              href="https://wa.me/5511952283170?text=<%= carta.whatsapp_msg %>"
-              class="btn btn-whatsapp"
-              data-tipo="Veículos"
-              data-credito="<%= formatCurrency(carta['Valor da carta']) %>"
-              data-entrada="<%= formatCurrency(carta.Entrada) %>"
-              data-parcelas="<%= carta['Fluxo de Pagamento'] %>"
-              data-admin="<%= carta.Consórcio %>"
-              target="_blank"
+            <button
+              class="btn btn-primary btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#saibaMaisModal"
             >
-              <i class="fab fa-whatsapp"></i>
-              Contatar
-            </a>
+              Saiba Mais
+            </button>
           </td>
         </tr>
         <% }); %>
@@ -41,3 +38,4 @@
     </table>
   </div>
 </div>
+`) %>
