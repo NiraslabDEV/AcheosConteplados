@@ -28,17 +28,22 @@ const lerDadosExcel = () => {
     // Obter os nomes das colunas
     const ref = worksheet["!ref"];
     const range = XLSX.utils.decode_range(ref);
-    const colunas = [];
+    const todasColunas = [];
 
     // Extrair cabeçalhos
     for (let C = range.s.c; C <= range.e.c; ++C) {
       const cellAddress = XLSX.utils.encode_cell({ r: range.s.r, c: C });
       if (worksheet[cellAddress] && worksheet[cellAddress].v) {
-        colunas.push(worksheet[cellAddress].v);
+        todasColunas.push(worksheet[cellAddress].v);
       }
     }
 
-    console.log("Colunas encontradas:", colunas);
+    // Filtrar colunas - excluindo Vencimento e Origem
+    const colunas = todasColunas.filter(
+      (coluna) => coluna !== "Vencimento" && coluna !== "Origem"
+    );
+
+    console.log("Colunas filtradas:", colunas);
 
     // Separar dados em imóveis e veículos
     const imoveis = dados.filter(
@@ -64,14 +69,14 @@ const lerDadosExcel = () => {
       return parseFloat(valorLimpo) || 0;
     };
 
-    // Processa e preserva todas as colunas
+    // Processa e preserva todas as colunas (exceto as excluídas)
     const processarItens = (items) => {
       return items.map((item) => {
         const resultado = {};
 
-        // Preservar todas as colunas originais
-        Object.keys(item).forEach((chave) => {
-          resultado[chave] = item[chave];
+        // Preservar apenas as colunas que queremos mostrar
+        colunas.forEach((coluna) => {
+          resultado[coluna] = item[coluna];
         });
 
         // Converter colunas numéricas para valores que podem ser formatados
