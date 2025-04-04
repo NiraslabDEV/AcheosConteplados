@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      <%- typeof title !== 'undefined' ? title : 'Consórcios Premium' %>
+    </title>
+    <link rel="stylesheet" href="/css/style-fixed.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header com gradiente moderno -->
+    <header class="header">
+      <nav class="navbar container">
+        <div class="logo">
+          <a href="/">
+            <span class="logo-text">Consórcios</span>
+            <span class="logo-highlight">Premium</span>
+          </a>
+        </div>
+
+        <!-- Menu mobile -->
+        <button class="mobile-menu-btn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="nav-menu">
+          <a href="/imoveis" class="nav-link">
+            <i class="fas fa-home"></i>
+            Imóveis
+          </a>
+          <a href="/veiculos" class="nav-link">
+            <i class="fas fa-car"></i>
+            Veículos
+          </a>
+          <a
+            href="https://wa.me/5511952283170"
+            class="nav-link contact-btn"
+            target="_blank"
+          >
+            <i class="fab fa-whatsapp"></i>
+            Fale Conosco
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="main"><%- body %></main>
+
+    <!-- Footer moderno -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-section">
+            <h3>Sobre Nós</h3>
+            <p>
+              Especialistas em consórcios contemplados, oferecendo as melhores
+              oportunidades com as maiores administradoras do Brasil.
+            </p>
+          </div>
+
+          <div class="footer-section">
+            <h3>Administradoras Parceiras</h3>
+            <div class="partners-grid">
+              <div class="partner">
+                <i class="fas fa-shield-alt"></i>
+                <span>Porto Seguro</span>
+              </div>
+              <div class="partner">
+                <i class="fas fa-university"></i>
+                <span>Bradesco</span>
+              </div>
+              <div class="partner">
+                <i class="fas fa-landmark"></i>
+                <span>Itaú</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h3>Contato</h3>
+            <div class="contact-info">
+              <p>
+                <i class="fab fa-whatsapp"></i>
+                <a href="https://wa.me/5511952283170" target="_blank"
+                  >(11) 95228-3170</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>
