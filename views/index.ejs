@@ -6,6 +6,7 @@
     padding: 120px 0;
     position: relative;
     overflow: hidden;
+    min-height: 500px;
   }
 
   .hero-section::before {
@@ -17,6 +18,16 @@
     bottom: 0;
     background: url('data:image/svg+xml,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
     opacity: 0.1;
+  }
+
+  .hero-section .lead {
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .hero-section .img-fluid {
+    max-height: 400px;
+    object-fit: cover;
   }
 
   .fade-in {
