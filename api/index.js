@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const expressLayouts = require("express-ejs-layouts");
 const app = express();
 
 // Função auxiliar para formatar moeda
@@ -52,6 +53,8 @@ const cartasImoveis = [
 // Configuração do EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
+app.use(expressLayouts);
+app.set("layout", "layouts/main");
 
 // Arquivos estáticos
 app.use("/static", express.static(path.join(__dirname, "../static")));
@@ -67,8 +70,6 @@ router.get("/", (req, res) => {
   res.render("index", {
     cartas: [...cartasVeiculos, ...cartasImoveis],
     formatCurrency,
-    layout: "layouts/main",
-    body: "index",
   });
 });
 
@@ -76,8 +77,6 @@ router.get("/imoveis", (req, res) => {
   res.render("imoveis", {
     cartas: cartasImoveis,
     formatCurrency,
-    layout: "layouts/main",
-    body: "imoveis",
   });
 });
 
@@ -85,8 +84,6 @@ router.get("/veiculos", (req, res) => {
   res.render("veiculos", {
     cartas: cartasVeiculos,
     formatCurrency,
-    layout: "layouts/main",
-    body: "veiculos",
   });
 });
 
