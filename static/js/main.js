@@ -80,6 +80,50 @@ const animateOnScroll = () => {
 window.addEventListener("scroll", animateOnScroll);
 window.addEventListener("load", animateOnScroll);
 
+// Inicialização dos tooltips do Bootstrap
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+// Inicialização dos popovers do Bootstrap
+var popoverTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="popover"]')
+);
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+  return new bootstrap.Popover(popoverTriggerEl);
+});
+
+// Função para abrir o modal com os dados da carta
+function openModal(carta) {
+  const modal = new bootstrap.Modal(document.getElementById("saibaMaisModal"));
+  modal.show();
+}
+
+// Função para formatar valores monetários
+function formatCurrency(value) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+}
+
+// Função para enviar mensagem no WhatsApp
+function sendWhatsAppMessage(carta) {
+  const message = `Olá! Vi no site uma carta de consórcio contemplado com as seguintes características:
+📍 Administradora: ${carta.Consórcio}
+💰 Valor: ${formatCurrency(
+    parseFloat(carta["Valor da carta"].replace(",", "."))
+  )}
+💵 Entrada: ${formatCurrency(parseFloat(carta.Entrada.replace(",", ".")))}
+📋 Parcelas: ${carta["Total de Parcelas"]}`;
+
+  const url = `https://wa.me/5511952283170?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+}
+
 // Formatação de valores monetários
 const formatCurrency = (value) => {
   return new Intl.NumberFormat("pt-BR", {

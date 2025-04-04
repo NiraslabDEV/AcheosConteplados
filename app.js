@@ -17,6 +17,13 @@ app.use(express.static("static"));
 
 // Funções auxiliares
 function formatCurrency(value) {
+  if (!value) return "R$ 0,00";
+
+  // Se for string, converte para número
+  if (typeof value === "string") {
+    value = parseFloat(value.replace(/[^\d,]/g, "").replace(",", "."));
+  }
+
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
@@ -92,11 +99,25 @@ app.get("/imoveis", async (req, res) => {
   const data = await loadData();
   const imoveis = data.filter((row) => row.Tipo === "Imóveis");
   console.log("Dados de imóveis:", imoveis);
+
+  const colunas = [
+    "Código",
+    "Tipo",
+    "Valor da carta",
+    "Entrada",
+    "Total de Parcelas",
+    "Consórcio",
+    "Status",
+    "Fluxo de Pagamento",
+    "Vencimento",
+    "Observações",
+  ];
+
   res.render("imoveis", {
     title: "Consórcios Premium - Imóveis",
     cartas: imoveis,
-    formatCurrency: (value) =>
-      formatCurrency(parseFloat(value.replace(",", "."))),
+    colunas: colunas,
+    formatCurrency: formatCurrency,
   });
 });
 
@@ -104,11 +125,25 @@ app.get("/veiculos", async (req, res) => {
   const data = await loadData();
   const veiculos = data.filter((row) => row.Tipo === "Veículos");
   console.log("Dados de veículos:", veiculos);
+
+  const colunas = [
+    "Código",
+    "Tipo",
+    "Valor da carta",
+    "Entrada",
+    "Total de Parcelas",
+    "Consórcio",
+    "Status",
+    "Fluxo de Pagamento",
+    "Vencimento",
+    "Observações",
+  ];
+
   res.render("veiculos", {
     title: "Consórcios Premium - Veículos",
     cartas: veiculos,
-    formatCurrency: (value) =>
-      formatCurrency(parseFloat(value.replace(",", "."))),
+    colunas: colunas,
+    formatCurrency: formatCurrency,
   });
 });
 
