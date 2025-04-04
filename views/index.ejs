@@ -1,11 +1,11 @@
 <!-- Adiciona estilos personalizados -->
 <style>
   .hero-section {
-    background: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%);
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
     color: white;
-    padding: 100px 0;
+    padding: 120px 0;
     position: relative;
-    z-index: 1;
+    overflow: hidden;
   }
 
   .hero-section::before {
@@ -17,13 +17,6 @@
     bottom: 0;
     background: url('data:image/svg+xml,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
     opacity: 0.1;
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .hero-section .container {
-    position: relative;
-    z-index: 2;
   }
 
   .fade-in {
@@ -40,8 +33,6 @@
   .card {
     border: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background: #ffffff;
-    border-radius: 1rem;
   }
 
   .card:hover {
@@ -52,7 +43,7 @@
   .feature-icon {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #ff6b35 0%, #ff8c61 100%);
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -66,71 +57,34 @@
   }
 
   .btn-custom {
-    background: white;
-    color: #FF6B35;
-    border: 2px solid #FF6B35;
-    padding: 12px 24px;
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
+    border: none;
+    padding: 12px 30px;
     border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .btn-custom:hover {
-    background: #FF6B35;
-    color: white;
     transform: translateY(-2px);
-    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.4);
   }
 
   .stats-section {
-    background-color: #f8f9fa;
+    background: #f5f5f5;
+    padding: 80px 0;
   }
 
   .stat-item {
-    padding: 30px;
-    border-radius: 10px;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-
-  .stat-item:hover {
-    transform: translateY(-5px);
+    text-align: center;
+    padding: 20px;
   }
 
   .stat-number {
-    color: #FF6B35;
     font-size: 2.5rem;
     font-weight: bold;
-  }
-
-  .feature-card {
-    text-align: center;
-    padding: 30px;
-    border-radius: 10px;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    transition: transform 0.3s ease;
-  }
-
-  .feature-card:hover {
-    transform: translateY(-5px);
-  }
-
-  .feature-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-
-  .cta-section {
-    background: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%);
-    color: white;
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 </style>
 
@@ -138,60 +92,59 @@
 <section class="hero-section">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-lg-6">
-        <h1 class="display-4 fw-bold mb-4">AcheiOsComtenplados</h1>
+      <div class="col-lg-6 fade-in">
+        <h1 class="display-4 fw-bold mb-4">SomenteContemplados.com.br</h1>
         <p class="lead mb-4">
-          Seu sonho de ter uma casa própria ou um carro novo está mais próximo do que você imagina! 
-          Encontre as melhores cartas de crédito contempladas do Brasil.
+          Realize seus sonhos com as melhores oportunidades em consórcios
+          contemplados. Taxas imbatíveis e crédito imediato para você conquistar
+          seu imóvel ou veículo.
         </p>
         <div class="d-flex gap-3">
-          <a href="/imoveis" class="btn btn-custom btn-lg">
-            <i class="fas fa-home me-2"></i>Casas e Apartamentos
+          <a href="/imoveis" class="btn btn-custom">
+            <i class="fas fa-home me-2"></i>Imóveis
           </a>
-          <a href="/veiculos" class="btn btn-custom btn-lg">
-            <i class="fas fa-car me-2"></i>Carros e Motos
+          <a href="/veiculos" class="btn btn-custom">
+            <i class="fas fa-car me-2"></i>Veículos
           </a>
         </div>
       </div>
-      <div class="col-lg-6">
-        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1073&q=80" 
-             alt="Família feliz em frente à casa" 
-             class="img-fluid rounded-3 shadow-lg">
+      <div class="col-lg-6 fade-in" style="transition-delay: 0.2s">
+        <img
+          src="https://placehold.co/600x400"
+          alt="Consórcio Contemplado"
+          class="img-fluid rounded-3 shadow"
+        />
       </div>
     </div>
   </div>
 </section>
 
 <!-- Stats Section -->
-<section class="stats-section py-5">
+<section class="stats-section">
   <div class="container">
-    <div class="row text-center">
-      <div class="col-md-3">
+    <div class="row">
+      <div class="col-md-3 col-6 fade-in">
         <div class="stat-item">
-          <i class="fas fa-home fa-3x mb-3"></i>
-          <h3 class="stat-number">2000+</h3>
-          <p class="stat-label">Sonhos Realizados</p>
+          <div class="stat-number" data-target="1500">0</div>
+          <p>Clientes Satisfeitos</p>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 col-6 fade-in">
         <div class="stat-item">
-          <i class="fas fa-car fa-3x mb-3"></i>
-          <h3 class="stat-number">15</h3>
-          <p class="stat-label">Anos no Mercado</p>
+          <div class="stat-number" data-target="20">0</div>
+          <p>Anos de Experiência</p>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 col-6 fade-in">
         <div class="stat-item">
-          <i class="fas fa-file-contract fa-3x mb-3"></i>
-          <h3 class="stat-number">500+</h3>
-          <p class="stat-label">Cartas Disponíveis</p>
+          <div class="stat-number" data-target="100">0</div>
+          <p>Cartas Disponíveis</p>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 col-6 fade-in">
         <div class="stat-item">
-          <i class="fas fa-smile fa-3x mb-3"></i>
-          <h3 class="stat-number">99%</h3>
-          <p class="stat-label">Satisfação</p>
+          <div class="stat-number" data-target="98">0</div>
+          <p>% de Aprovação</p>
         </div>
       </div>
     </div>
@@ -199,34 +152,42 @@
 </section>
 
 <!-- Features Section -->
-<section class="features-section py-5">
+<section class="py-5">
   <div class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <div class="feature-card">
-          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1073&q=80" 
-               alt="Processo Rápido" 
-               class="feature-img">
-          <h3>Processo Rápido</h3>
-          <p>Encontre a carta ideal em minutos e realize seu sonho em tempo recorde.</p>
+    <div class="row g-4">
+      <div class="col-md-4 fade-in">
+        <div class="card h-100 p-4">
+          <div class="feature-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Crédito Imediato</h3>
+          <p>
+            Seu crédito liberado em até 48 horas após a aprovação. Sem
+            burocracia, sem espera.
+          </p>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="feature-card">
-          <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-               alt="Taxas Imbatíveis" 
-               class="feature-img">
-          <h3>Taxas Imbatíveis</h3>
-          <p>As melhores condições do mercado para você realizar seu sonho.</p>
+      <div class="col-md-4 fade-in">
+        <div class="card h-100 p-4">
+          <div class="feature-icon">
+            <i class="fas fa-percentage"></i>
+          </div>
+          <h3>Menor Taxa</h3>
+          <p>
+            As menores taxas do mercado, com parcelas que cabem no seu bolso.
+          </p>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="feature-card">
-          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-               alt="100% Garantido" 
-               class="feature-img">
-          <h3>100% Garantido</h3>
-          <p>Segurança e transparência em todas as etapas do processo.</p>
+      <div class="col-md-4 fade-in">
+        <div class="card h-100 p-4">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>100% Seguro</h3>
+          <p>
+            Processo totalmente seguro e transparente, com suporte
+            especializado.
+          </p>
         </div>
       </div>
     </div>
@@ -234,18 +195,21 @@
 </section>
 
 <!-- CTA Section -->
-<section class="cta-section py-5">
+<section class="py-5 bg-light">
   <div class="container">
-    <div class="row align-items-center">
+    <div class="row justify-content-center text-center fade-in">
       <div class="col-lg-8">
-        <h2>Pronto para realizar seu sonho?</h2>
-        <p class="lead">
-          Entre em contato conosco e descubra as melhores oportunidades em consórcios contemplados.
+        <h2 class="mb-4">Pronto para Realizar seu Sonho?</h2>
+        <p class="lead mb-4">
+          Entre em contato conosco agora mesmo e garanta as melhores condições
+          para seu consórcio contemplado.
         </p>
-      </div>
-      <div class="col-lg-4 text-end">
-        <a href="https://wa.me/5511952283170" class="btn btn-custom btn-lg">
-          <i class="fab fa-whatsapp me-2"></i>Fale Conosco
+        <a
+          href="https://wa.me/5511963241530"
+          class="btn btn-custom btn-lg"
+          target="_blank"
+        >
+          <i class="fab fa-whatsapp me-2"></i>Falar com Especialista
         </a>
       </div>
     </div>
@@ -257,12 +221,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <h5>AcheiOsComtenplados</h5>
-        <p>© 2024 - Todos os direitos reservados</p>
+        <h5>SomenteContemplados.com.br</h5>
+        <p>© 2025 - Todos os direitos reservados</p>
       </div>
       <div class="col-md-6 text-md-end">
-        <p>Contato: (11) 95228-3170</p>
-        <p>contato@acheioscomtenplados.com.br</p>
+        <p>Contato: (11) 96324-1530</p>
+        <p>contato@somentecontemplados.com.br</p>
       </div>
     </div>
   </div>
@@ -322,6 +286,4 @@
       statsObserver.observe(element);
     });
   });
-</script>
-
 </script>
