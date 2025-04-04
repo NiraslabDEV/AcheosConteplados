@@ -30,6 +30,25 @@ const cartasVeiculos = [
   },
 ];
 
+const cartasImoveis = [
+  {
+    Consórcio: "Imóvel Residencial",
+    "Valor da carta": 200000,
+    Entrada: 60000,
+    Parcela: 1800,
+    Prazo: "120x",
+    Administradora: "Caixa",
+  },
+  {
+    Consórcio: "Imóvel Comercial",
+    "Valor da carta": 500000,
+    Entrada: 100000,
+    Parcela: 4500,
+    Prazo: "180x",
+    Administradora: "Bradesco",
+  },
+];
+
 // Configuração do EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
@@ -45,11 +64,17 @@ app.use(express.json());
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", {
+    cartas: [...cartasVeiculos, ...cartasImoveis],
+    formatCurrency: formatCurrency,
+  });
 });
 
 router.get("/imoveis", (req, res) => {
-  res.render("imoveis");
+  res.render("imoveis", {
+    cartas: cartasImoveis,
+    formatCurrency: formatCurrency,
+  });
 });
 
 router.get("/veiculos", (req, res) => {
