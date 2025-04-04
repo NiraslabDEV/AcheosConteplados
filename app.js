@@ -14,6 +14,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
 app.set("layout", "layouts/main");
 app.use(express.static("public"));
+app.use(express.static("static"));
 
 // Funções auxiliares
 function formatCurrency(value) {
