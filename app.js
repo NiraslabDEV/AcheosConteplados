@@ -258,18 +258,49 @@ app.get("/", (req, res) => {
 app.get("/imoveis", async (req, res) => {
   try {
     const data = await loadData();
-    console.log("Dados carregados:", data);
+    console.log("Dados carregados:", JSON.stringify(data, null, 2));
 
-    const imoveis = data.filter((row) => row.Tipo === "Imóveis");
-    console.log("Dados de imóveis filtrados:", imoveis);
+    const imoveis = data.filter((row) => {
+      console.log("Verificando linha:", row);
+      return (
+        row.Tipo?.toLowerCase() === "imóveis" ||
+        row.Tipo?.toLowerCase() === "imoveis"
+      );
+    });
 
-    const colunas =
-      imoveis.length > 0
-        ? Object.keys(imoveis[0]).filter(
-            (col) =>
-              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
-          )
-        : [];
+    console.log(
+      "Dados de imóveis filtrados:",
+      JSON.stringify(imoveis, null, 2)
+    );
+
+    if (!imoveis || imoveis.length === 0) {
+      console.log("Nenhum imóvel encontrado, usando dados de exemplo");
+      const dadosExemplo = getDadosExemplo();
+      const imoveisExemplo = dadosExemplo.filter(
+        (row) => row.Tipo === "Imóveis"
+      );
+
+      const colunasExemplo =
+        imoveisExemplo.length > 0
+          ? Object.keys(imoveisExemplo[0]).filter(
+              (col) =>
+                col !== "whatsapp_msg" &&
+                col !== "Tipo" &&
+                !col.endsWith("_num")
+            )
+          : [];
+
+      return res.render("imoveis", {
+        title: "Sonhos à Vista - Imóveis",
+        cartas: imoveisExemplo,
+        colunas: colunasExemplo,
+        formatCurrency: formatCurrency,
+      });
+    }
+
+    const colunas = Object.keys(imoveis[0]).filter(
+      (col) => col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
+    );
 
     console.log("Colunas para exibição:", colunas);
 
@@ -281,6 +312,8 @@ app.get("/imoveis", async (req, res) => {
     });
   } catch (error) {
     console.error("Erro na rota /imoveis:", error);
+    console.error("Stack trace:", error.stack);
+
     const dadosExemplo = getDadosExemplo();
     const imoveisExemplo = dadosExemplo.filter((row) => row.Tipo === "Imóveis");
     const colunasExemplo =
@@ -303,18 +336,49 @@ app.get("/imoveis", async (req, res) => {
 app.get("/veiculos", async (req, res) => {
   try {
     const data = await loadData();
-    console.log("Dados carregados:", data);
+    console.log("Dados carregados:", JSON.stringify(data, null, 2));
 
-    const veiculos = data.filter((row) => row.Tipo === "Veículos");
-    console.log("Dados de veículos filtrados:", veiculos);
+    const veiculos = data.filter((row) => {
+      console.log("Verificando linha:", row);
+      return (
+        row.Tipo?.toLowerCase() === "veículos" ||
+        row.Tipo?.toLowerCase() === "veiculos"
+      );
+    });
 
-    const colunas =
-      veiculos.length > 0
-        ? Object.keys(veiculos[0]).filter(
-            (col) =>
-              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
-          )
-        : [];
+    console.log(
+      "Dados de veículos filtrados:",
+      JSON.stringify(veiculos, null, 2)
+    );
+
+    if (!veiculos || veiculos.length === 0) {
+      console.log("Nenhum veículo encontrado, usando dados de exemplo");
+      const dadosExemplo = getDadosExemplo();
+      const veiculosExemplo = dadosExemplo.filter(
+        (row) => row.Tipo === "Veículos"
+      );
+
+      const colunasExemplo =
+        veiculosExemplo.length > 0
+          ? Object.keys(veiculosExemplo[0]).filter(
+              (col) =>
+                col !== "whatsapp_msg" &&
+                col !== "Tipo" &&
+                !col.endsWith("_num")
+            )
+          : [];
+
+      return res.render("veiculos", {
+        title: "Sonhos à Vista - Veículos",
+        cartas: veiculosExemplo,
+        colunas: colunasExemplo,
+        formatCurrency: formatCurrency,
+      });
+    }
+
+    const colunas = Object.keys(veiculos[0]).filter(
+      (col) => col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
+    );
 
     console.log("Colunas para exibição:", colunas);
 
@@ -326,6 +390,8 @@ app.get("/veiculos", async (req, res) => {
     });
   } catch (error) {
     console.error("Erro na rota /veiculos:", error);
+    console.error("Stack trace:", error.stack);
+
     const dadosExemplo = getDadosExemplo();
     const veiculosExemplo = dadosExemplo.filter(
       (row) => row.Tipo === "Veículos"
