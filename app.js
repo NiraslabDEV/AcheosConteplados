@@ -41,34 +41,22 @@ function formatCurrency(value) {
 
 async function getLatestExcel() {
   try {
-    // Procurar em diferentes diretórios possíveis
-    const possiblePaths = [
-      "data/consolidado_*.xlsx",
-      "scraper lista de excel consorcio a ser carregados todos os dias no sitew e atualizado/DADOS EXTRAIDOS/consolidado_*.xlsx",
-      "scraper lista de excel consorcio a ser carregados todos os dias no sitew e atualizado/DADOS EXTRAIDOS/*.xlsx",
-    ];
+    // Caminho direto para o arquivo Excel na pasta data
+    const excelPath = path.join(
+      __dirname,
+      "data",
+      "consolidado_20250403_1640.xlsx"
+    );
 
-    for (const pattern of possiblePaths) {
-      const files = await glob(pattern);
-      if (files.length > 0) {
-        const stats = await Promise.all(
-          files.map(async (file) => ({
-            file,
-            mtime: (await fs.stat(file)).mtime,
-          }))
-        );
-
-        const latestFile = stats.reduce((latest, current) =>
-          current.mtime > latest.mtime ? current : latest
-        );
-
-        console.log("Arquivo Excel encontrado:", latestFile.file);
-        return latestFile.file;
-      }
+    // Verifica se o arquivo existe
+    try {
+      await fs.access(excelPath);
+      console.log("Arquivo Excel encontrado:", excelPath);
+      return excelPath;
+    } catch (error) {
+      console.error("Erro ao acessar arquivo Excel:", error);
+      return null;
     }
-
-    console.log("Nenhum arquivo Excel encontrado nos diretórios padrão");
-    return null;
   } catch (error) {
     console.error("Erro ao buscar arquivo Excel:", error);
     return null;
@@ -104,26 +92,38 @@ async function loadData() {
     const workbook = XLSX.readFile(excelFile);
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(worksheet);
+    const rawData = XLSX.utils.sheet_to_json(worksheet);
 
-    if (!data || data.length === 0) {
+    console.log("Dados brutos do Excel:", rawData);
+
+    if (!rawData || rawData.length === 0) {
       console.log("Arquivo Excel vazio, usando dados de exemplo");
       return getDadosExemplo();
     }
 
-    console.log(
-      `Dados carregados com sucesso: ${data.length} registros encontrados`
-    );
-
     // Processar e formatar os dados
-    const processedData = data.map((row) => {
+    const processedData = rawData.map((row) => {
       // Garantir que os campos numéricos sejam tratados corretamente
-      const valorCarta = row["Valor da carta"] || row["Valor"] || "0";
-      const entrada = row["Entrada"] || "0";
+      const valorCarta =
+        row["Valor da carta"] || row["Valor"] || row["valor"] || "0";
+      const entrada = row["Entrada"] || row["entrada"] || "0";
+      const parcelas =
+        row["Total de Parcelas"] || row["Parcelas"] || row["parcelas"] || "0";
+      const fluxo =
+        row["Fluxo de Pagamento"] ||
+        row["Parcelas Mensais"] ||
+        row["parcelas_mensais"] ||
+        "";
+      const tipo = row["Tipo"] || row["tipo"] || "Imóveis";
+      const consorcio =
+        row["Consórcio"] ||
+        row["Administradora"] ||
+        row["administradora"] ||
+        "Não informado";
 
       return {
-        Tipo: row["Tipo"] || "Imóveis", // Valor padrão se não especificado
-        Consórcio: row["Consórcio"] || row["Administradora"] || "Não informado",
+        Tipo: tipo,
+        Consórcio: consorcio,
         "Valor da carta": valorCarta.toString(),
         "Valor da carta_num": parseFloat(
           valorCarta
@@ -138,16 +138,12 @@ async function loadData() {
             .replace(/[^\d,.-]/g, "")
             .replace(",", ".")
         ),
-        "Total de Parcelas":
-          row["Total de Parcelas"]?.toString() ||
-          row["Parcelas"]?.toString() ||
-          "0",
-        "Fluxo de Pagamento":
-          row["Fluxo de Pagamento"] ||
-          row["Parcelas Mensais"] ||
-          "Não informado",
+        "Total de Parcelas": parcelas.toString(),
+        "Fluxo de Pagamento": fluxo,
       };
     });
+
+    console.log("Dados processados:", processedData);
 
     // Adicionar mensagem de WhatsApp para cada registro
     return processedData.map((row) => ({
