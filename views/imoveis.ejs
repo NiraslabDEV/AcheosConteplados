@@ -704,6 +704,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const todasCartas = <%- JSON.stringify(cartas) %>;
+    const colunas = <%- JSON.stringify(colunas) %>;
     let cartasFiltradas = [...todasCartas];
 
     function formatarMoeda(valor) {
@@ -757,7 +758,12 @@
               ${colunas.map(coluna => `
                 <td>
                   ${coluna === "Valor da carta" || coluna === "Entrada"
-                    ? formatarMoeda(carta[coluna + "_num"])
+                    ? formatarMoeda(carta[coluna])
+                    : coluna === "Fluxo de Pagamento" && carta[coluna]
+                    ? carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g)
+                        .filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/))
+                        .map(p => p.trim())
+                        .join('<br>')
                     : carta[coluna] || ""}
                 </td>
               `).join('')}
@@ -781,7 +787,12 @@
                   <div class="card-label">${coluna}</div>
                   <div class="card-value">
                     ${coluna === "Valor da carta" || coluna === "Entrada"
-                      ? formatarMoeda(carta[coluna + "_num"])
+                      ? formatarMoeda(carta[coluna])
+                      : coluna === "Fluxo de Pagamento" && carta[coluna]
+                      ? carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g)
+                          .filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/))
+                          .map(p => p.trim())
+                          .join('<br>')
                       : carta[coluna] || ""}
                   </div>
                 </div>
