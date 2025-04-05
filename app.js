@@ -18,6 +18,7 @@ app.set("layout", "layouts/main");
 app.use("/static", express.static(path.join(__dirname, "static")));
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "static")));
 
 // Tratamento de erros global
 app.use((err, req, res, next) => {
