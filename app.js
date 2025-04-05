@@ -41,28 +41,34 @@ function formatCurrency(value) {
 
 async function getLatestExcel() {
   try {
-    // Na Vercel, os arquivos podem não estar disponíveis
-    // Retornar dados de exemplo se estivermos em produção
-    if (process.env.NODE_ENV === "production") {
-      console.log("Ambiente de produção: usando dados de exemplo");
-      return null;
+    // Procurar em diferentes diretórios possíveis
+    const possiblePaths = [
+      "data/consolidado_*.xlsx",
+      "scraper lista de excel consorcio a ser carregados todos os dias no sitew e atualizado/DADOS EXTRAIDOS/consolidado_*.xlsx",
+      "scraper lista de excel consorcio a ser carregados todos os dias no sitew e atualizado/DADOS EXTRAIDOS/*.xlsx",
+    ];
+
+    for (const pattern of possiblePaths) {
+      const files = await glob(pattern);
+      if (files.length > 0) {
+        const stats = await Promise.all(
+          files.map(async (file) => ({
+            file,
+            mtime: (await fs.stat(file)).mtime,
+          }))
+        );
+
+        const latestFile = stats.reduce((latest, current) =>
+          current.mtime > latest.mtime ? current : latest
+        );
+
+        console.log("Arquivo Excel encontrado:", latestFile.file);
+        return latestFile.file;
+      }
     }
 
-    const files = await glob("data/consolidado_*.xlsx");
-    if (!files.length) return null;
-
-    const stats = await Promise.all(
-      files.map(async (file) => ({
-        file,
-        mtime: (await fs.stat(file)).mtime,
-      }))
-    );
-
-    const latestFile = stats.reduce((latest, current) =>
-      current.mtime > latest.mtime ? current : latest
-    );
-
-    return latestFile.file;
+    console.log("Nenhum arquivo Excel encontrado nos diretórios padrão");
+    return null;
   } catch (error) {
     console.error("Erro ao buscar arquivo Excel:", error);
     return null;
@@ -90,24 +96,67 @@ async function loadData() {
   try {
     const excelFile = await getLatestExcel();
     if (!excelFile) {
-      console.log("Nenhum arquivo Excel encontrado ou ambiente de produção");
-      // Dados de exemplo para produção
+      console.log("Nenhum arquivo Excel encontrado, usando dados de exemplo");
       return getDadosExemplo();
     }
 
-    console.log("Arquivo Excel encontrado:", excelFile);
+    console.log("Carregando dados do arquivo:", excelFile);
     const workbook = XLSX.readFile(excelFile);
     const sheetName = workbook.SheetNames[0];
-    const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+    const worksheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(worksheet);
 
-    console.log("Dados carregados:", data);
+    if (!data || data.length === 0) {
+      console.log("Arquivo Excel vazio, usando dados de exemplo");
+      return getDadosExemplo();
+    }
 
-    return data.map((row) => ({
+    console.log(
+      `Dados carregados com sucesso: ${data.length} registros encontrados`
+    );
+
+    // Processar e formatar os dados
+    const processedData = data.map((row) => {
+      // Garantir que os campos numéricos sejam tratados corretamente
+      const valorCarta = row["Valor da carta"] || row["Valor"] || "0";
+      const entrada = row["Entrada"] || "0";
+
+      return {
+        Tipo: row["Tipo"] || "Imóveis", // Valor padrão se não especificado
+        Consórcio: row["Consórcio"] || row["Administradora"] || "Não informado",
+        "Valor da carta": valorCarta.toString(),
+        "Valor da carta_num": parseFloat(
+          valorCarta
+            .toString()
+            .replace(/[^\d,.-]/g, "")
+            .replace(",", ".")
+        ),
+        Entrada: entrada.toString(),
+        Entrada_num: parseFloat(
+          entrada
+            .toString()
+            .replace(/[^\d,.-]/g, "")
+            .replace(",", ".")
+        ),
+        "Total de Parcelas":
+          row["Total de Parcelas"]?.toString() ||
+          row["Parcelas"]?.toString() ||
+          "0",
+        "Fluxo de Pagamento":
+          row["Fluxo de Pagamento"] ||
+          row["Parcelas Mensais"] ||
+          "Não informado",
+      };
+    });
+
+    // Adicionar mensagem de WhatsApp para cada registro
+    return processedData.map((row) => ({
       ...row,
       whatsapp_msg: prepareWhatsappMessage(row),
     }));
   } catch (error) {
     console.error("Erro ao carregar dados:", error);
+    console.error("Stack trace:", error.stack);
     return getDadosExemplo();
   }
 }
