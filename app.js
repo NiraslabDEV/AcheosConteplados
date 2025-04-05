@@ -117,7 +117,23 @@ function getDadosExemplo() {
   return [
     {
       Tipo: "Imóveis",
-      Consórcio: "Consórcio Exemplo",
+      Consórcio: "Consórcio Premium",
+      "Valor da carta": "250000",
+      "Valor da carta_num": 250000,
+      Entrada: "25000",
+      Entrada_num: 25000,
+      "Total de Parcelas": "180",
+      "Fluxo de Pagamento": "180 x R$ 1.500,00",
+      whatsapp_msg: prepareWhatsappMessage({
+        Consórcio: "Consórcio Premium",
+        "Valor da carta": "250000",
+        Entrada: "25000",
+        "Total de Parcelas": "180",
+      }),
+    },
+    {
+      Tipo: "Imóveis",
+      Consórcio: "Consórcio Fácil",
       "Valor da carta": "150000",
       "Valor da carta_num": 150000,
       Entrada: "15000",
@@ -125,7 +141,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "120",
       "Fluxo de Pagamento": "120 x R$ 1.200,00",
       whatsapp_msg: prepareWhatsappMessage({
-        Consórcio: "Consórcio Exemplo",
+        Consórcio: "Consórcio Fácil",
         "Valor da carta": "150000",
         Entrada: "15000",
         "Total de Parcelas": "120",
@@ -133,18 +149,34 @@ function getDadosExemplo() {
     },
     {
       Tipo: "Veículos",
-      Consórcio: "Consórcio Exemplo",
+      Consórcio: "Consórcio Auto Premium",
+      "Valor da carta": "80000",
+      "Valor da carta_num": 80000,
+      Entrada: "8000",
+      Entrada_num: 8000,
+      "Total de Parcelas": "60",
+      "Fluxo de Pagamento": "60 x R$ 1.450,00",
+      whatsapp_msg: prepareWhatsappMessage({
+        Consórcio: "Consórcio Auto Premium",
+        "Valor da carta": "80000",
+        Entrada: "8000",
+        "Total de Parcelas": "60",
+      }),
+    },
+    {
+      Tipo: "Veículos",
+      Consórcio: "Consórcio Auto Fácil",
       "Valor da carta": "50000",
       "Valor da carta_num": 50000,
       Entrada: "5000",
       Entrada_num: 5000,
-      "Total de Parcelas": "60",
-      "Fluxo de Pagamento": "60 x R$ 850,00",
+      "Total de Parcelas": "48",
+      "Fluxo de Pagamento": "48 x R$ 1.150,00",
       whatsapp_msg: prepareWhatsappMessage({
-        Consórcio: "Consórcio Exemplo",
+        Consórcio: "Consórcio Auto Fácil",
         "Valor da carta": "50000",
         Entrada: "5000",
-        "Total de Parcelas": "60",
+        "Total de Parcelas": "48",
       }),
     },
   ];
@@ -153,9 +185,20 @@ function getDadosExemplo() {
 // Rotas
 app.get("/", (req, res) => {
   try {
+    const data = getDadosExemplo();
     res.render("index", {
       title: "Sonhos à Vista - Realize seu sonho agora!",
-      colunas: [],
+      cartas: data,
+      colunas:
+        data.length > 0
+          ? Object.keys(data[0]).filter(
+              (col) =>
+                col !== "whatsapp_msg" &&
+                col !== "Tipo" &&
+                !col.endsWith("_num")
+            )
+          : [],
+      formatCurrency,
     });
   } catch (error) {
     console.error("Erro na rota /:", error);
@@ -166,28 +209,43 @@ app.get("/", (req, res) => {
 app.get("/imoveis", async (req, res) => {
   try {
     const data = await loadData();
+    console.log("Dados carregados:", data);
+
     const imoveis = data.filter((row) => row.Tipo === "Imóveis");
-    console.log("Dados de imóveis:", imoveis);
+    console.log("Dados de imóveis filtrados:", imoveis);
+
+    const colunas =
+      imoveis.length > 0
+        ? Object.keys(imoveis[0]).filter(
+            (col) =>
+              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
+          )
+        : [];
+
+    console.log("Colunas para exibição:", colunas);
+
     res.render("imoveis", {
       title: "Sonhos à Vista - Imóveis",
       cartas: imoveis,
-      colunas:
-        imoveis.length > 0
-          ? Object.keys(imoveis[0]).filter(
-              (col) =>
-                col !== "whatsapp_msg" &&
-                col !== "Tipo" &&
-                !col.endsWith("_num")
-            )
-          : [],
+      colunas: colunas,
       formatCurrency: formatCurrency,
     });
   } catch (error) {
     console.error("Erro na rota /imoveis:", error);
+    const dadosExemplo = getDadosExemplo();
+    const imoveisExemplo = dadosExemplo.filter((row) => row.Tipo === "Imóveis");
+    const colunasExemplo =
+      imoveisExemplo.length > 0
+        ? Object.keys(imoveisExemplo[0]).filter(
+            (col) =>
+              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
+          )
+        : [];
+
     res.render("imoveis", {
       title: "Sonhos à Vista - Imóveis",
-      cartas: [],
-      colunas: [],
+      cartas: imoveisExemplo,
+      colunas: colunasExemplo,
       formatCurrency: formatCurrency,
     });
   }
@@ -196,28 +254,45 @@ app.get("/imoveis", async (req, res) => {
 app.get("/veiculos", async (req, res) => {
   try {
     const data = await loadData();
+    console.log("Dados carregados:", data);
+
     const veiculos = data.filter((row) => row.Tipo === "Veículos");
-    console.log("Dados de veículos:", veiculos);
+    console.log("Dados de veículos filtrados:", veiculos);
+
+    const colunas =
+      veiculos.length > 0
+        ? Object.keys(veiculos[0]).filter(
+            (col) =>
+              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
+          )
+        : [];
+
+    console.log("Colunas para exibição:", colunas);
+
     res.render("veiculos", {
       title: "Sonhos à Vista - Veículos",
       cartas: veiculos,
-      colunas:
-        veiculos.length > 0
-          ? Object.keys(veiculos[0]).filter(
-              (col) =>
-                col !== "whatsapp_msg" &&
-                col !== "Tipo" &&
-                !col.endsWith("_num")
-            )
-          : [],
+      colunas: colunas,
       formatCurrency: formatCurrency,
     });
   } catch (error) {
     console.error("Erro na rota /veiculos:", error);
+    const dadosExemplo = getDadosExemplo();
+    const veiculosExemplo = dadosExemplo.filter(
+      (row) => row.Tipo === "Veículos"
+    );
+    const colunasExemplo =
+      veiculosExemplo.length > 0
+        ? Object.keys(veiculosExemplo[0]).filter(
+            (col) =>
+              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
+          )
+        : [];
+
     res.render("veiculos", {
       title: "Sonhos à Vista - Veículos",
-      cartas: [],
-      colunas: [],
+      cartas: veiculosExemplo,
+      colunas: colunasExemplo,
       formatCurrency: formatCurrency,
     });
   }
