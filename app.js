@@ -26,20 +26,54 @@ app.use((err, req, res, next) => {
   res.status(500).send("Erro interno do servidor");
 });
 
-// Funções auxiliares
+// Função para formatar moeda
 function formatCurrency(value) {
-  try {
-    if (!value || isNaN(parseFloat(value.toString().replace(",", ".")))) {
-      return "R$ 0,00";
-    }
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(parseFloat(value.toString().replace(",", ".")));
-  } catch (error) {
-    console.error("Erro ao formatar moeda:", error);
-    return "R$ 0,00";
+  if (!value || isNaN(value)) return "R$ 0,00";
+
+  // Se o valor for uma string, tenta converter para número
+  if (typeof value === "string") {
+    // Remove R$, pontos e substitui vírgula por ponto
+    value = value
+      .replace(/R\$\s*/g, "")
+      .replace(/\./g, "")
+      .replace(/,/g, ".")
+      .trim();
+    value = parseFloat(value);
   }
+
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+}
+
+// Função para preparar os dados das cartas
+function prepararDadosCartas(cartas) {
+  return cartas.map((carta) => {
+    // Trata o valor da carta
+    if (carta["Valor da carta"]) {
+      const valorCarta = carta["Valor da carta"]
+        .toString()
+        .replace(/R\$\s*/g, "")
+        .replace(/\./g, "")
+        .replace(/,/g, ".")
+        .trim();
+      carta["Valor da carta"] = parseFloat(valorCarta) || 0;
+    }
+
+    // Trata o valor da entrada
+    if (carta["Entrada"]) {
+      const valorEntrada = carta["Entrada"]
+        .toString()
+        .replace(/R\$\s*/g, "")
+        .replace(/\./g, "")
+        .replace(/,/g, ".")
+        .trim();
+      carta["Entrada"] = parseFloat(valorEntrada) || 0;
+    }
+
+    return carta;
+  });
 }
 
 async function getLatestExcel() {
@@ -256,158 +290,78 @@ app.get("/", (req, res) => {
 
 app.get("/imoveis", async (req, res) => {
   try {
-    const data = await loadData();
-    console.log("Dados carregados:", JSON.stringify(data, null, 2));
-
-    const imoveis = data.filter((row) => {
-      console.log("Verificando linha:", row);
-      return (
-        row.Tipo?.toLowerCase() === "imóveis" ||
-        row.Tipo?.toLowerCase() === "imoveis"
-      );
-    });
-
-    console.log(
-      "Dados de imóveis filtrados:",
-      JSON.stringify(imoveis, null, 2)
+    const dados = await loadData();
+    const cartasImoveis = dados.filter(
+      (carta) =>
+        carta.Tipo?.toLowerCase() === "imóveis" ||
+        carta.Tipo?.toLowerCase() === "imovel" ||
+        carta.Tipo?.toLowerCase() === "imóvel"
     );
 
-    if (!imoveis || imoveis.length === 0) {
-      console.log("Nenhum imóvel encontrado, usando dados de exemplo");
-      const dadosExemplo = getDadosExemplo();
-      const imoveisExemplo = dadosExemplo.filter(
-        (row) => row.Tipo === "Imóveis"
-      );
-
-      const colunasExemplo =
-        imoveisExemplo.length > 0
-          ? Object.keys(imoveisExemplo[0]).filter(
-              (col) =>
-                col !== "whatsapp_msg" &&
-                col !== "Tipo" &&
-                !col.endsWith("_num")
-            )
-          : [];
-
-      return res.render("imoveis", {
-        title: "Sonhos à Vista - Imóveis",
-        cartas: imoveisExemplo,
-        colunas: colunasExemplo,
-        formatCurrency: formatCurrency,
-      });
-    }
-
-    const colunas = Object.keys(imoveis[0]).filter(
-      (col) => col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
-    );
-
-    console.log("Colunas para exibição:", colunas);
+    const cartasTratadas = prepararDadosCartas(cartasImoveis);
 
     res.render("imoveis", {
-      title: "Sonhos à Vista - Imóveis",
-      cartas: imoveis,
-      colunas: colunas,
-      formatCurrency: formatCurrency,
+      cartas: cartasTratadas,
+      colunas: [
+        "Consórcio",
+        "Valor da carta",
+        "Entrada",
+        "Total de Parcelas",
+        "Fluxo de Pagamento",
+      ],
+      formatCurrency,
     });
   } catch (error) {
-    console.error("Erro na rota /imoveis:", error);
-    console.error("Stack trace:", error.stack);
-
-    const dadosExemplo = getDadosExemplo();
-    const imoveisExemplo = dadosExemplo.filter((row) => row.Tipo === "Imóveis");
-    const colunasExemplo =
-      imoveisExemplo.length > 0
-        ? Object.keys(imoveisExemplo[0]).filter(
-            (col) =>
-              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
-          )
-        : [];
-
+    console.error("Erro ao carregar dados de imóveis:", error);
     res.render("imoveis", {
-      title: "Sonhos à Vista - Imóveis",
-      cartas: imoveisExemplo,
-      colunas: colunasExemplo,
-      formatCurrency: formatCurrency,
+      cartas: [],
+      colunas: [
+        "Consórcio",
+        "Valor da carta",
+        "Entrada",
+        "Total de Parcelas",
+        "Fluxo de Pagamento",
+      ],
+      formatCurrency,
     });
   }
 });
 
 app.get("/veiculos", async (req, res) => {
   try {
-    const data = await loadData();
-    console.log("Dados carregados:", JSON.stringify(data, null, 2));
-
-    const veiculos = data.filter((row) => {
-      console.log("Verificando linha:", row);
-      return (
-        row.Tipo?.toLowerCase() === "veículos" ||
-        row.Tipo?.toLowerCase() === "veiculos"
-      );
-    });
-
-    console.log(
-      "Dados de veículos filtrados:",
-      JSON.stringify(veiculos, null, 2)
+    const dados = await loadData();
+    const cartasVeiculos = dados.filter(
+      (carta) =>
+        carta.Tipo?.toLowerCase() === "veículos" ||
+        carta.Tipo?.toLowerCase() === "veiculo" ||
+        carta.Tipo?.toLowerCase() === "veículo"
     );
 
-    if (!veiculos || veiculos.length === 0) {
-      console.log("Nenhum veículo encontrado, usando dados de exemplo");
-      const dadosExemplo = getDadosExemplo();
-      const veiculosExemplo = dadosExemplo.filter(
-        (row) => row.Tipo === "Veículos"
-      );
-
-      const colunasExemplo =
-        veiculosExemplo.length > 0
-          ? Object.keys(veiculosExemplo[0]).filter(
-              (col) =>
-                col !== "whatsapp_msg" &&
-                col !== "Tipo" &&
-                !col.endsWith("_num")
-            )
-          : [];
-
-      return res.render("veiculos", {
-        title: "Sonhos à Vista - Veículos",
-        cartas: veiculosExemplo,
-        colunas: colunasExemplo,
-        formatCurrency: formatCurrency,
-      });
-    }
-
-    const colunas = Object.keys(veiculos[0]).filter(
-      (col) => col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
-    );
-
-    console.log("Colunas para exibição:", colunas);
+    const cartasTratadas = prepararDadosCartas(cartasVeiculos);
 
     res.render("veiculos", {
-      title: "Sonhos à Vista - Veículos",
-      cartas: veiculos,
-      colunas: colunas,
-      formatCurrency: formatCurrency,
+      cartas: cartasTratadas,
+      colunas: [
+        "Consórcio",
+        "Valor da carta",
+        "Entrada",
+        "Total de Parcelas",
+        "Fluxo de Pagamento",
+      ],
+      formatCurrency,
     });
   } catch (error) {
-    console.error("Erro na rota /veiculos:", error);
-    console.error("Stack trace:", error.stack);
-
-    const dadosExemplo = getDadosExemplo();
-    const veiculosExemplo = dadosExemplo.filter(
-      (row) => row.Tipo === "Veículos"
-    );
-    const colunasExemplo =
-      veiculosExemplo.length > 0
-        ? Object.keys(veiculosExemplo[0]).filter(
-            (col) =>
-              col !== "whatsapp_msg" && col !== "Tipo" && !col.endsWith("_num")
-          )
-        : [];
-
+    console.error("Erro ao carregar dados de veículos:", error);
     res.render("veiculos", {
-      title: "Sonhos à Vista - Veículos",
-      cartas: veiculosExemplo,
-      colunas: colunasExemplo,
-      formatCurrency: formatCurrency,
+      cartas: [],
+      colunas: [
+        "Consórcio",
+        "Valor da carta",
+        "Entrada",
+        "Total de Parcelas",
+        "Fluxo de Pagamento",
+      ],
+      formatCurrency,
     });
   }
 });

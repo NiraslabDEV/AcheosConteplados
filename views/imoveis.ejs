@@ -139,8 +139,8 @@
           <% colunas.forEach(function(coluna) { %>
           <td>
             <% if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
-            formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna ===
-            "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
+            formatCurrency(carta[coluna]) %> <% } else if (coluna === "Fluxo de
+            Pagamento" && carta[coluna]) { %> <% var partes =
             carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
             partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
             partes.forEach(function(parte, index) { %> <%= parte.trim() %><% if
@@ -179,8 +179,8 @@
         <div class="card-label"><%= coluna %></div>
         <div class="card-value">
           <% if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
-          formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna ===
-          "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
+          formatCurrency(carta[coluna]) %> <% } else if (coluna === "Fluxo de
+          Pagamento" && carta[coluna]) { %> <% var partes =
           carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
           partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
           partes.forEach(function(parte, index) { %> <%= parte.trim() %><% if
@@ -238,15 +238,14 @@
                 <div class="col-5 fw-bold"><%= coluna %>:</div>
                 <div class="col-7">
                   <% if (coluna === "Valor da carta" || coluna === "Entrada") {
-                  %> <%= formatCurrency(carta[coluna + "_num"]) %> <% } else if
-                  (coluna === "Fluxo de Pagamento" && carta[coluna]) { %> <% var
-                  partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
-                  partes = partes.filter(p =>
-                  p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
-                  partes.forEach(function(parte, pIndex) { %> <%= parte.trim()
-                  %><% if (pIndex < partes.length - 1) { %><br /><% } %> <% });
-                  %> <% } else { %> <%= carta[coluna] || "Não informado" %> <% }
-                  %>
+                  %> <%= formatCurrency(carta[coluna]) %> <% } else if (coluna
+                  === "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes
+                  = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
+                  partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/));
+                  %> <% partes.forEach(function(parte, pIndex) { %> <%=
+                  parte.trim() %><% if (pIndex < partes.length - 1) { %><br /><%
+                  } %> <% }); %> <% } else { %> <%= carta[coluna] || "Não
+                  informado" %> <% } %>
                 </div>
               </div>
               <% }); %>
