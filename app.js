@@ -13,9 +13,11 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
 app.set("layout", "layouts/main");
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "static")));
+
+// Configuração dos diretórios estáticos
 app.use("/static", express.static(path.join(__dirname, "static")));
+app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Tratamento de erros global
 app.use((err, req, res, next) => {
