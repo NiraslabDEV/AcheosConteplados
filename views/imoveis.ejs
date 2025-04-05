@@ -41,6 +41,86 @@
     </div>
   </div>
 
+  <!-- Painel de Filtros -->
+  <div class="card mb-4 filter-panel">
+    <div class="card-body">
+      <form id="filterForm" class="row g-3">
+        <div class="col-md-6 col-lg-3">
+          <label class="form-label">Valor da Carta</label>
+          <div class="input-group">
+            <span class="input-group-text">De</span>
+            <input
+              type="number"
+              class="form-control"
+              id="valorCartaMin"
+              placeholder="R$ Min"
+            />
+            <span class="input-group-text">Até</span>
+            <input
+              type="number"
+              class="form-control"
+              id="valorCartaMax"
+              placeholder="R$ Max"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <label class="form-label">Valor da Entrada</label>
+          <div class="input-group">
+            <span class="input-group-text">De</span>
+            <input
+              type="number"
+              class="form-control"
+              id="entradaMin"
+              placeholder="R$ Min"
+            />
+            <span class="input-group-text">Até</span>
+            <input
+              type="number"
+              class="form-control"
+              id="entradaMax"
+              placeholder="R$ Max"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <label class="form-label">Administradora</label>
+          <select class="form-select" id="administradora">
+            <option value="">Todas</option>
+            <% const administradoras = [...new Set(cartas.map(carta =>
+            carta.Consórcio))]; administradoras.forEach(function(adm) { %>
+            <option value="<%= adm %>"><%= adm %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <label class="form-label">Parcelas</label>
+          <div class="input-group">
+            <span class="input-group-text">Até</span>
+            <input
+              type="number"
+              class="form-control"
+              id="parcelasMax"
+              placeholder="Nº máx"
+            />
+          </div>
+        </div>
+        <div class="col-12 text-end">
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-2"
+            id="limparFiltros"
+          >
+            <i class="fas fa-eraser me-2"></i>Limpar Filtros
+          </button>
+          <button type="button" class="btn btn-custom" id="aplicarFiltros">
+            <i class="fas fa-filter me-2"></i>Aplicar Filtros
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Tabela para telas médias e grandes -->
   <div class="table-responsive hide-on-small d-none d-sm-block">
     <table class="table table-striped">
@@ -575,4 +655,165 @@
   .accordion-item:hover {
     transform: translateY(-2px);
   }
+
+  .filter-panel {
+    background: #fff;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+  }
+
+  .filter-panel .form-label {
+    color: #666;
+    font-weight: 500;
+  }
+
+  .filter-panel .input-group-text {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+    color: #666;
+  }
+
+  .filter-panel .form-control,
+  .filter-panel .form-select {
+    border-color: #dee2e6;
+  }
+
+  .filter-panel .form-control:focus,
+  .filter-panel .form-select:focus {
+    border-color: #ff6b00;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 0, 0.25);
+  }
+
+  .btn-custom {
+    background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 107, 0, 0.3);
+    color: white;
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const todasCartas = <%- JSON.stringify(cartas) %>;
+    let cartasFiltradas = [...todasCartas];
+
+    function formatarMoeda(valor) {
+      return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(valor);
+    }
+
+    function extrairNumero(valor) {
+      if (typeof valor === 'number') return valor;
+      if (!valor) return 0;
+      return parseFloat(valor.toString().replace(/[^\d,.-]/g, '').replace(',', '.')) || 0;
+    }
+
+    function aplicarFiltros() {
+      const valorCartaMin = extrairNumero(document.getElementById('valorCartaMin').value);
+      const valorCartaMax = extrairNumero(document.getElementById('valorCartaMax').value);
+      const entradaMin = extrairNumero(document.getElementById('entradaMin').value);
+      const entradaMax = extrairNumero(document.getElementById('entradaMax').value);
+      const administradora = document.getElementById('administradora').value;
+      const parcelasMax = document.getElementById('parcelasMax').value;
+
+      cartasFiltradas = todasCartas.filter(carta => {
+        const valorCarta = extrairNumero(carta['Valor da carta']);
+        const entrada = extrairNumero(carta['Entrada']);
+        const parcelas = parseInt(carta['Total de Parcelas']) || 0;
+
+        return (
+          (!valorCartaMin || valorCarta >= valorCartaMin) &&
+          (!valorCartaMax || valorCarta <= valorCartaMax) &&
+          (!entradaMin || entrada >= entradaMin) &&
+          (!entradaMax || entrada <= entradaMax) &&
+          (!administradora || carta.Consórcio === administradora) &&
+          (!parcelasMax || parcelas <= parseInt(parcelasMax))
+        );
+      });
+
+      atualizarTabela();
+    }
+
+    function atualizarTabela() {
+      const tbody = document.querySelector('tbody');
+      const containerMobile = document.querySelector('.d-block.d-sm-none');
+
+      // Atualiza a tabela desktop
+      if (tbody) {
+        tbody.innerHTML = cartasFiltradas.length > 0
+          ? cartasFiltradas.map((carta, index) => `
+            <tr>
+              ${colunas.map(coluna => `
+                <td>
+                  ${coluna === "Valor da carta" || coluna === "Entrada"
+                    ? formatarMoeda(carta[coluna + "_num"])
+                    : carta[coluna] || ""}
+                </td>
+              `).join('')}
+              <td>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#cartaModal${index}">
+                  Saiba Mais
+                </button>
+              </td>
+            </tr>
+          `).join('')
+          : `<tr><td colspan="${colunas.length + 1}" class="text-center">Nenhuma carta encontrada com os filtros selecionados</td></tr>`;
+      }
+
+      // Atualiza a visualização mobile
+      if (containerMobile) {
+        containerMobile.innerHTML = cartasFiltradas.length > 0
+          ? cartasFiltradas.map((carta, index) => `
+            <div class="card-view mb-4">
+              ${colunas.map(coluna => `
+                <div class="card-row">
+                  <div class="card-label">${coluna}</div>
+                  <div class="card-value">
+                    ${coluna === "Valor da carta" || coluna === "Entrada"
+                      ? formatarMoeda(carta[coluna + "_num"])
+                      : carta[coluna] || ""}
+                  </div>
+                </div>
+              `).join('')}
+              <div class="text-center mt-3">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cartaModal${index}">
+                  Saiba Mais
+                </button>
+              </div>
+            </div>
+          `).join('')
+          : '<div class="alert alert-info">Nenhuma carta encontrada com os filtros selecionados</div>';
+      }
+    }
+
+    function limparFiltros() {
+      document.getElementById('filterForm').reset();
+      cartasFiltradas = [...todasCartas];
+      atualizarTabela();
+    }
+
+    document.getElementById('aplicarFiltros').addEventListener('click', aplicarFiltros);
+    document.getElementById('limparFiltros').addEventListener('click', limparFiltros);
+
+    // Aplicar filtros ao digitar (com debounce)
+    let timeoutId;
+    const inputs = document.querySelectorAll('#filterForm input, #filterForm select');
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(aplicarFiltros, 500);
+      });
+    });
+  });
+</script>
