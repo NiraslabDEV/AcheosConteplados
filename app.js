@@ -81,6 +81,7 @@ function prepareWhatsappMessage(row) {
     if (!row) return "";
 
     const message = `Olá! Vi no site uma carta de consórcio contemplado com as seguintes características:
+🔢 Código: ${row.Codigo || row.CODIGO || row.código || "Não informado"}
 📍 Administradora: ${row.Consórcio || "Não informado"}
 💰 Valor: ${formatCurrency(row["Valor da carta"] || "0")}
 💵 Entrada: ${formatCurrency(row.Entrada || "0")}
@@ -133,8 +134,16 @@ async function loadData() {
         row["Administradora"] ||
         row["administradora"] ||
         "Não informado";
+      const codigo =
+        row["Código"] ||
+        row["CODIGO"] ||
+        row["código"] ||
+        row["Cod"] ||
+        row["COD"] ||
+        "Não informado";
 
       return {
+        Codigo: codigo,
         Tipo: tipo,
         Consórcio: consorcio,
         "Valor da carta": valorCarta.toString(),
@@ -174,6 +183,7 @@ async function loadData() {
 function getDadosExemplo() {
   return [
     {
+      Codigo: "IM001",
       Tipo: "Imóveis",
       Consórcio: "Consórcio Premium",
       "Valor da carta": "250000",
@@ -183,6 +193,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "180",
       "Fluxo de Pagamento": "180 x R$ 1.500,00",
       whatsapp_msg: prepareWhatsappMessage({
+        Codigo: "IM001",
         Consórcio: "Consórcio Premium",
         "Valor da carta": "250000",
         Entrada: "25000",
@@ -190,6 +201,7 @@ function getDadosExemplo() {
       }),
     },
     {
+      Codigo: "IM002",
       Tipo: "Imóveis",
       Consórcio: "Consórcio Fácil",
       "Valor da carta": "150000",
@@ -199,6 +211,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "120",
       "Fluxo de Pagamento": "120 x R$ 1.200,00",
       whatsapp_msg: prepareWhatsappMessage({
+        Codigo: "IM002",
         Consórcio: "Consórcio Fácil",
         "Valor da carta": "150000",
         Entrada: "15000",
@@ -206,6 +219,7 @@ function getDadosExemplo() {
       }),
     },
     {
+      Codigo: "VE001",
       Tipo: "Veículos",
       Consórcio: "Consórcio Auto Premium",
       "Valor da carta": "80000",
@@ -215,6 +229,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "60",
       "Fluxo de Pagamento": "60 x R$ 1.450,00",
       whatsapp_msg: prepareWhatsappMessage({
+        Codigo: "VE001",
         Consórcio: "Consórcio Auto Premium",
         "Valor da carta": "80000",
         Entrada: "8000",
@@ -222,6 +237,7 @@ function getDadosExemplo() {
       }),
     },
     {
+      Codigo: "VE002",
       Tipo: "Veículos",
       Consórcio: "Consórcio Auto Fácil",
       "Valor da carta": "50000",
@@ -231,6 +247,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "48",
       "Fluxo de Pagamento": "48 x R$ 1.150,00",
       whatsapp_msg: prepareWhatsappMessage({
+        Codigo: "VE002",
         Consórcio: "Consórcio Auto Fácil",
         "Valor da carta": "50000",
         Entrada: "5000",
