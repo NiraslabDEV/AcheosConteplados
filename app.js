@@ -46,30 +46,30 @@ async function getLatestExcel() {
   try {
     const dataDir = path.join(__dirname, "data");
 
-    // Lista todos os arquivos na pasta data
-    const files = await fs.readdir(dataDir);
+    // Lista todos os arquivos que começam com 'consolidado' e terminam com '.xlsx'
+    const files = await glob("consolidado*.xlsx", {
+      cwd: dataDir,
+      absolute: true,
+    });
 
-    // Filtra apenas arquivos .xlsx
-    const excelFiles = files.filter((file) => file.endsWith(".xlsx"));
-
-    if (excelFiles.length === 0) {
-      console.log("Nenhum arquivo Excel encontrado na pasta data");
+    if (files.length === 0) {
+      console.log("Nenhum arquivo consolidado*.xlsx encontrado na pasta data");
       return null;
     }
 
-    // Obtém o arquivo mais recente baseado no nome (que contém timestamp)
-    const latestFile = excelFiles.sort().reverse()[0];
-    const excelPath = path.join(dataDir, latestFile);
+    // Ordena os arquivos por data de modificação (mais recente primeiro)
+    const sortedFiles = await Promise.all(
+      files.map(async (file) => {
+        const stats = await fs.stat(file);
+        return { file, mtime: stats.mtime };
+      })
+    );
+    sortedFiles.sort((a, b) => b.mtime - a.mtime);
 
-    // Verifica se o arquivo existe
-    try {
-      await fs.access(excelPath);
-      console.log("Arquivo Excel mais recente encontrado:", excelPath);
-      return excelPath;
-    } catch (error) {
-      console.error("Erro ao acessar arquivo Excel:", error);
-      return null;
-    }
+    // Retorna o caminho do arquivo mais recente
+    const latestFile = sortedFiles[0].file;
+    console.log("Arquivo Excel mais recente encontrado:", latestFile);
+    return latestFile;
   } catch (error) {
     console.error("Erro ao buscar arquivo Excel:", error);
     return null;
