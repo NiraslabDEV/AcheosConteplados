@@ -44,17 +44,27 @@ function formatCurrency(value) {
 
 async function getLatestExcel() {
   try {
-    // Caminho direto para o arquivo Excel na pasta data
-    const excelPath = path.join(
-      __dirname,
-      "data",
-      "consolidado_20250403_1640.xlsx"
-    );
+    const dataDir = path.join(__dirname, "data");
+
+    // Lista todos os arquivos na pasta data
+    const files = await fs.readdir(dataDir);
+
+    // Filtra apenas arquivos .xlsx
+    const excelFiles = files.filter((file) => file.endsWith(".xlsx"));
+
+    if (excelFiles.length === 0) {
+      console.log("Nenhum arquivo Excel encontrado na pasta data");
+      return null;
+    }
+
+    // Obtém o arquivo mais recente baseado no nome (que contém timestamp)
+    const latestFile = excelFiles.sort().reverse()[0];
+    const excelPath = path.join(dataDir, latestFile);
 
     // Verifica se o arquivo existe
     try {
       await fs.access(excelPath);
-      console.log("Arquivo Excel encontrado:", excelPath);
+      console.log("Arquivo Excel mais recente encontrado:", excelPath);
       return excelPath;
     } catch (error) {
       console.error("Erro ao acessar arquivo Excel:", error);
