@@ -58,7 +58,11 @@
         <tr>
           <% colunas.forEach(function(coluna) { %>
           <td>
-            <% if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
+            <% if (coluna === "Status") { %>
+              <span class="badge <%= carta[coluna].toLowerCase() === 'disponível' ? 'bg-success' : 'bg-danger' %>">
+                <%= carta[coluna] %>
+              </span>
+            <% } else if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
             formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna ===
             "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
             carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
@@ -73,6 +77,7 @@
               class="btn btn-primary btn-sm"
               data-bs-toggle="modal"
               data-bs-target="#cartaModal<%= index %>"
+              <%= carta.Status.toLowerCase() === 'indisponível' ? 'disabled' : '' %>
             >
               Saiba Mais
             </button>
@@ -98,7 +103,11 @@
       <div class="card-row">
         <div class="card-label"><%= coluna %></div>
         <div class="card-value">
-          <% if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
+          <% if (coluna === "Status") { %>
+            <span class="badge <%= carta[coluna].toLowerCase() === 'disponível' ? 'bg-success' : 'bg-danger' %>">
+              <%= carta[coluna] %>
+            </span>
+          <% } else if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
           formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna ===
           "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
           carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
@@ -114,6 +123,7 @@
           class="btn btn-primary"
           data-bs-toggle="modal"
           data-bs-target="#cartaModal<%= index %>"
+          <%= carta.Status.toLowerCase() === 'indisponível' ? 'disabled' : '' %>
         >
           Saiba Mais
         </button>
@@ -139,6 +149,9 @@
         <div class="modal-header">
           <h5 class="modal-title" id="cartaModalLabel<%= index %>">
             Carta de Crédito - <%= carta["Consórcio"] || "Imóveis" %>
+            <span class="badge <%= carta.Status.toLowerCase() === 'disponível' ? 'bg-success' : 'bg-danger' %> ms-2">
+              <%= carta.Status %>
+            </span>
           </h5>
           <button
             type="button"
@@ -157,7 +170,11 @@
               <div class="row mb-2">
                 <div class="col-5 fw-bold"><%= coluna %>:</div>
                 <div class="col-7">
-                  <% if (coluna === "Valor da carta" || coluna === "Entrada") {
+                  <% if (coluna === "Status") { %>
+                    <span class="badge <%= carta[coluna].toLowerCase() === 'disponível' ? 'bg-success' : 'bg-danger' %>">
+                      <%= carta[coluna] %>
+                    </span>
+                  <% } else if (coluna === "Valor da carta" || coluna === "Entrada") {
                   %> <%= formatCurrency(carta[coluna + "_num"]) %> <% } else if
                   (coluna === "Fluxo de Pagamento" && carta[coluna]) { %> <% var
                   partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
@@ -173,6 +190,7 @@
             </div>
           </div>
 
+          <% if (carta.Status.toLowerCase() === 'disponível') { %>
           <form id="interesseForm<%= index %>" class="interesse-form">
             <div class="mb-3">
               <label for="nome<%= index %>" class="form-label">Nome *</label>
@@ -210,9 +228,15 @@
               class="btn btn-success w-100 enviar-whatsapp"
               data-index="<%= index %>"
             >
-              <i class="fab fa-whatsapp me-2"></i> Tenho Interesse (WhatsApp)w
+              <i class="fab fa-whatsapp me-2"></i> Tenho Interesse (WhatsApp)
             </button>
           </form>
+          <% } else { %>
+          <div class="alert alert-danger text-center">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            Esta carta não está mais disponível
+          </div>
+          <% } %>
         </div>
       </div>
     </div>

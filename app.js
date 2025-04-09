@@ -85,7 +85,8 @@ function prepareWhatsappMessage(row) {
 📍 Administradora: ${row.Consórcio || "Não informado"}
 💰 Valor: ${formatCurrency(row["Valor da carta"] || "0")}
 💵 Entrada: ${formatCurrency(row.Entrada || "0")}
-📋 Parcelas: ${row["Total de Parcelas"] || "Não informado"}`;
+📋 Parcelas: ${row["Total de Parcelas"] || "Não informado"}
+🔄 Status: ${row.Status || "Não informado"}`;
 
     return encodeURIComponent(message);
   } catch (error) {
@@ -141,6 +142,8 @@ async function loadData() {
         row["Cod"] ||
         row["COD"] ||
         "Não informado";
+      const status =
+        row["Status"] || row["STATUS"] || row["status"] || "Disponível";
 
       return {
         Codigo: codigo,
@@ -162,6 +165,7 @@ async function loadData() {
         ),
         "Total de Parcelas": parcelas.toString(),
         "Fluxo de Pagamento": fluxo,
+        Status: status,
       };
     });
 
@@ -192,12 +196,14 @@ function getDadosExemplo() {
       Entrada_num: 25000,
       "Total de Parcelas": "180",
       "Fluxo de Pagamento": "180 x R$ 1.500,00",
+      Status: "Disponível",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "IM001",
         Consórcio: "Consórcio Premium",
         "Valor da carta": "250000",
         Entrada: "25000",
         "Total de Parcelas": "180",
+        Status: "Disponível",
       }),
     },
     {
@@ -210,12 +216,14 @@ function getDadosExemplo() {
       Entrada_num: 15000,
       "Total de Parcelas": "120",
       "Fluxo de Pagamento": "120 x R$ 1.200,00",
+      Status: "Indisponível",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "IM002",
         Consórcio: "Consórcio Fácil",
         "Valor da carta": "150000",
         Entrada: "15000",
         "Total de Parcelas": "120",
+        Status: "Indisponível",
       }),
     },
     {
@@ -228,12 +236,14 @@ function getDadosExemplo() {
       Entrada_num: 8000,
       "Total de Parcelas": "60",
       "Fluxo de Pagamento": "60 x R$ 1.450,00",
+      Status: "Disponível",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "VE001",
         Consórcio: "Consórcio Auto Premium",
         "Valor da carta": "80000",
         Entrada: "8000",
         "Total de Parcelas": "60",
+        Status: "Disponível",
       }),
     },
     {
@@ -246,12 +256,14 @@ function getDadosExemplo() {
       Entrada_num: 5000,
       "Total de Parcelas": "48",
       "Fluxo de Pagamento": "48 x R$ 1.150,00",
+      Status: "Indisponível",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "VE002",
         Consórcio: "Consórcio Auto Fácil",
         "Valor da carta": "50000",
         Entrada: "5000",
         "Total de Parcelas": "48",
+        Status: "Indisponível",
       }),
     },
   ];
