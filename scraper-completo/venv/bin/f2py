@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/home/gabriel-balsarin/Projetos/MARÇO 2025/Site - AcheiOsComtenplados/scraper lista de excel consorcio a ser carregados todos os dias no sitew e atualizado/venv/bin/python3" "$0" "$@"
+'''exec' "/home/gabriel-balsarin/Projetos/Site - AcheiOsComtenplados/scraper-completo/venv/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
