@@ -1,0 +1,69 @@
+[33ma23f2e28[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Adiciona tabelas para exibir os 100 primeiros imóveis e veículos na página inicial
+[33m5a08bc39[m Move a seção de Melhores Oportunidades para o topo da página inicial
+[33m8f36a585[m Atualização automática - 2025-04-28 23:16:43
+[33m54368ca6[m Atualiza planilha de dados consolidados
+[33mf48e8a7d[m Adiciona status das cartas (disponível/indisponível) em todas as visualizações
+[33mea5a3a82[m Adiciona tag do Google Analytics
+[33m974cf63c[m Adiciona campo CÓDIGO nas informações do consórcio e mensagem do WhatsApp
+[33m4e96314f[m Modifica função getLatestExcel para ler automaticamente o arquivo mais recente
+[33mf94a7893[m Atualiza função getLatestExcel para buscar arquivo mais recente automaticamente
+[33ma0db98a8[m Atualiza arquivo de dados consolidados
+[33m53c0411a[m Corrige sintaxe do arquivo veiculos.ejs
+[33m143566d9[m Corrige formatação de valores monetários e tratamento de dados numéricos
+[33m51b43c90[m Corrige filtros nas páginas de imóveis e veículos
+[33m41bec91d[m Adiciona filtros nas páginas de imóveis e veículos
+[33m94033c75[m Corrige caminhos das imagens e configuração de arquivos estáticos
+[33me1906a0b[m Corrige caminhos das imagens e configuração dos diretórios estáticos
+[33mc261a204[m Corrige carregamento do arquivo Excel da pasta data
+[33ma9c27f4a[m Melhora o tratamento de dados nas rotas de imóveis e veículos
+[33m3b73a713[m Melhora a lógica de carregamento dos dados do Excel
+[33mfd248ef2[m Melhora o tratamento de dados e adiciona mais exemplos de cartas
+[33m4022fc1c[m Corrige caminhos de imagens e configuração da Vercel
+[33m0c309ccf[m Corrige problema de imagens na Vercel com configuração de arquivos estáticos
+[33mbb4fa2f6[m Corrige configuração do vercel.json removendo propriedade analytics inválida
+[33m02674e87[m Adiciona Vercel Analytics ao site para rastreamento de visitantes
+[33m8130251a[m Corrige configuração de arquivos estáticos para exibir imagens corretamente
+[33m28f4b724[m Adiciona novas imagens de casas e carros e implementa carrossel nas seções principais
+[33mb58faed4[m Adiciona seções específicas para imóveis e automóveis na página inicial
+[33m98d339c0[m Adiciona seções FAQ para imóveis e automóveis
+[33mc98d12d9[m Corrige problema de layout onde texto estava sendo cortado nas seções hero
+[33m4119a6d7[m Corrige configuração do Express para servir arquivos estáticos da pasta public
+[33m7b912326[m Atualização dos textos para copy mais persuasiva e emocional
+[33ma86c8104[m Adiciona imagens e atualiza cores das páginas de imóveis e veículos
+[33m73a5f3dd[m Atualização do esquema de cores para tons de laranja e cinza em degradê
+[33mba60d4c4[m Atualização do layout e resolução de problemas de navegação
+[33me595ad34[m Primeiro commit: Estrutura inicial do site AcheiOsComtenplados
+[33mf4d7afb9[m Atualizando layout da home e adicionando botões de voltar
+[33m77e40443[m Adicionando modais com formulário para WhatsApp em ambas páginas
+[33mb8b420e1[m Removendo campo Observações das tabelas
+[33m2409651e[m Adicionando responsividade ao site e implementando visualização em cards para dispositivos móveis
+[33m27c49a64[m Formatando o Fluxo de Pagamento para mostrar cada parcela em uma nova linha
+[33m13a5bdda[m Removendo colunas Vencimento e Origem da exibição
+[33mdd1c4a0e[m Removendo include de layout redundante do template de imóveis
+[33m9687862c[m Mostrando todas as colunas da planilha no site de forma dinâmica
+[33m4cc6debb[m Corrigindo extração dos valores da planilha e nomes dos campos nos templates
+[33m2a4369e4[m Corrigindo mapeamento das colunas da planilha para as tabelas
+[33m0f0e3898[m Corrigindo duplicação do layout removendo HTML duplicado do header
+[33m2043cb4a[m Corrigindo filtro de imóveis e veículos e nomes das colunas
+[33m61b30561[m Adicionando sistema de leitura de dados do Excel
+[33mb98ddd6e[m Adicionando sistema de leitura de dados de arquivos JSON
+[33m93fd1660[m Removendo diretório views duplicado e corrigindo estrutura dos templates
+[33m633bd2ed[m Removendo arquivos duplicados e corrigindo estrutura dos templates
+[33m81bcaf9d[m Corrigindo estrutura dos templates e removendo duplicação
+[33mb373376b[m Adicionando página inicial e corrigindo templates
+[33m4976d844[m Corrigindo estrutura do layout com express-ejs-layouts
+[33mbd846697[m Corrigindo estrutura do layout e templates EJS
+[33m990533ee[m Corrigindo estrutura dos templates EJS e removendo template strings
+[33m67bf05c4[m Corrigindo estrutura dos templates EJS e layout
+[33mad20b199[m Adicionando dados para todas as views e corrigindo template de imóveis
+[33mcce8c0c0[m Corrigindo erro de variável não definida na view de veículos
+[33m0154cb70[m Corrigindo caminhos dos arquivos estáticos e atualizando configuração do Vercel
+[33mb7d8e74f[m Reorganizando projeto para estrutura serverless do Vercel
+[33m0c07bd2d[m Reorganizando estrutura de arquivos para o Vercel
+[33m15393441[m Corrigindo configuração do Vercel e adicionando tratamento de erros
+[33m676614dc[m Configurando para deploy no Vercel
+[33mda001221[m Ajustando configuração para o Netlify Functions
+[33mef8036e0[m Simplificando configuração do Netlify
+[33mafff521a[m Corrigindo configuração do build do Netlify
+[33m68e6ebef[m Configuração do Netlify
+[33mcec0a297[m Commit inicial

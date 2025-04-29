@@ -269,27 +269,63 @@ function getDadosExemplo() {
   ];
 }
 
-// Rotas
-app.get("/", (req, res) => {
+// Função para carregar as melhores oportunidades
+async function loadBestOpportunities() {
   try {
-    const data = getDadosExemplo();
-    res.render("index", {
-      title: "Sonhos à Vista - Realize seu sonho agora!",
-      cartas: data,
-      colunas:
-        data.length > 0
-          ? Object.keys(data[0]).filter(
-              (col) =>
-                col !== "whatsapp_msg" &&
-                col !== "Tipo" &&
-                !col.endsWith("_num")
-            )
-          : [],
-      formatCurrency,
-    });
+    const excelPath = await getLatestExcel();
+    console.log("Carregando melhores oportunidades do arquivo:", excelPath);
+
+    const workbook = XLSX.readFile(excelPath);
+    const sheet = workbook.Sheets["Melhores Oportunidades"];
+
+    if (!sheet) {
+      console.log("Aba 'Melhores Oportunidades' não encontrada");
+      return [];
+    }
+
+    const rawData = XLSX.utils.sheet_to_json(sheet);
+    console.log(
+      "Dados brutos das melhores oportunidades:",
+      JSON.stringify(rawData, null, 2)
+    );
+
+    const processedData = rawData.map((row) => ({
+      tipo: row.Tipo || "",
+      valorCarta: formatCurrency(
+        row["Valor da carta"] || row["Valor da Carta"] || 0
+      ),
+      entrada: formatCurrency(row.Entrada || 0),
+      totalParcelas: row["Total de Parcelas"] || row["Total de parcelas"] || 0,
+      fluxoPagamento:
+        row["Fluxo de Pagamento"] || row["Fluxo de pagamento"] || "",
+      consorcio: row.Consórcio || row.Consorcio || "",
+      codigo: row.Código || row.Codigo || "",
+      status: row.Status || "Disponível",
+    }));
+
+    console.log(
+      "Dados processados das melhores oportunidades:",
+      JSON.stringify(processedData, null, 2)
+    );
+    return processedData;
   } catch (error) {
-    console.error("Erro na rota /:", error);
-    res.status(500).send("Erro ao carregar a página inicial");
+    console.error("Erro ao carregar melhores oportunidades:", error);
+    return [];
+  }
+}
+
+// Rotas
+app.get("/", async (req, res) => {
+  try {
+    const bestOpportunities = await loadBestOpportunities();
+    console.log(
+      "Enviando melhores oportunidades para a página inicial:",
+      JSON.stringify(bestOpportunities, null, 2)
+    );
+    res.render("index", { bestOpportunities });
+  } catch (error) {
+    console.error("Erro na rota principal:", error);
+    res.render("index", { bestOpportunities: [] });
   }
 });
 

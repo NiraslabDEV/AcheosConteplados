@@ -205,14 +205,78 @@
           <div class="feature-icon">
             <i class="fas fa-shield-alt"></i>
           </div>
-          <h3>100% Seguro</h3>
+          <h3>Segurança Total</h3>
           <p>
-            Durma tranquilo! Seu sonho está protegido com as melhores
-            administradoras do mercado. Processo totalmente seguro e
-            transparente.
+            Todas as nossas oportunidades são 100% seguras e legalizadas. Seu
+            sonho está protegido do início ao fim.
           </p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Melhores Oportunidades Section -->
+<section class="py-5 bg-light-orange">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold text-orange">
+        Melhores Oportunidades do Momento
+      </h2>
+      <p class="lead">
+        Aproveite estas oportunidades exclusivas selecionadas especialmente para
+        você!
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <% if (bestOpportunities && bestOpportunities.length > 0) { %> <%
+      bestOpportunities.forEach(function(opportunity) { %>
+      <div class="col-md-6 col-lg-4 fade-in">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h5 class="card-title mb-0">
+                <i
+                  class="fas <%= opportunity.tipo.toLowerCase() === 'imóveis' ? 'fa-home' : 'fa-car' %> me-2"
+                ></i>
+                <%= opportunity.tipo %>
+              </h5>
+              <span class="badge bg-success">Disponível</span>
+            </div>
+            <div class="mb-3">
+              <p class="mb-1">
+                <strong>Valor da Carta:</strong> <%= opportunity.valorCarta %>
+              </p>
+              <p class="mb-1">
+                <strong>Entrada:</strong> <%= opportunity.entrada %>
+              </p>
+              <p class="mb-1">
+                <strong>Parcelas:</strong> <%= opportunity.totalParcelas %>x
+              </p>
+              <p class="mb-1">
+                <strong>Fluxo:</strong> <%= opportunity.fluxoPagamento %>
+              </p>
+              <p class="mb-1">
+                <strong>Consórcio:</strong> <%= opportunity.consorcio %>
+              </p>
+            </div>
+            <div class="d-grid">
+              <a
+                href="/<%= opportunity.tipo.toLowerCase() %>"
+                class="btn btn-custom"
+              >
+                Ver Mais Detalhes
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }); %> <% } else { %>
+      <div class="col-12 text-center">
+        <p class="lead">Em breve novas oportunidades estarão disponíveis!</p>
+      </div>
+      <% } %>
     </div>
   </div>
 </section>
