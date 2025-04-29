@@ -1,0 +1,22 @@
+[Unit]
+Description=Agendador de Extração de Consórcios
+After=network.target
+
+[Service]
+Type=simple
+User=gabriel-balsarin
+WorkingDirectory=/home/gabriel-balsarin/projetos_consorcio/scraper-completo
+Environment=PYTHONUNBUFFERED=1
+Environment=HOME=/home/gabriel-balsarin
+
+# Executar o script de inicialização
+ExecStart=/bin/bash /home/gabriel-balsarin/projetos_consorcio/scraper-completo/start_service.sh
+
+StandardOutput=append:/home/gabriel-balsarin/projetos_consorcio/scraper-completo/logs/service.log
+StandardError=append:/home/gabriel-balsarin/projetos_consorcio/scraper-completo/logs/service.log
+
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target 
