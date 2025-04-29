@@ -2,23 +2,6 @@ import subprocess
 import time
 import os
 from datetime import datetime
-import logging
-from CC_Cartas_Contempladas import extrair_cartas_contempladas
-from CT_Consorcio_Contemplado import extrair_consorcio_contemplado
-from SP_Extrator import extrair_contempladosp
-from VC_Extrator import extrair_venderseuconsorcio
-from CS_Consorcio_Contemplado import extrair_consorcio_contemplado_sp
-from consolidador import consolidar_dados
-
-# Configurar logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(f'logs/extracao_{datetime.now().strftime("%Y%m%d_%H%M")}.log'),
-        logging.StreamHandler()
-    ]
-)
 
 def executar_script(nome_script, arquivo_log):
     """
@@ -53,40 +36,54 @@ def executar_script(nome_script, arquivo_log):
     print(mensagem)
     return sucesso
 
-def executar_extracao():
-    """Executa a extração de dados de todos os sites."""
-    try:
-        logging.info("Iniciando processo de extração...")
+def main():
+    # Cria pasta de logs se não existir
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+    
+    # Nome do arquivo de log com timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_filename = f"logs/extracao_{timestamp}.log"
+    
+    scripts = [
+        "CC_Cartas_Contempladas.py",
+        "CT_Consorcio_Contemplado.py", 
+        "CS_Consorcio_Contemplado.py",
+        "SP_Extrator.py",
+        "VC_Extrator.py",
+        "consolidador.py"
+    ]
+    
+    sucessos = 0
+    falhas = 0
+    
+    print("Iniciando execução dos scripts...")
+    
+    with open(log_filename, "w") as log_file:
+        # Registra início da execução
+        log_file.write(f"=== Início da execução: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
         
-        # Criar diretórios necessários
-        os.makedirs("DADOS EXTRAIDOS", exist_ok=True)
-        os.makedirs("logs", exist_ok=True)
+        # Executa cada script
+        for script in scripts:
+            if executar_script(script, log_file):
+                sucessos += 1
+            else:
+                falhas += 1
+            
+            # Aguarda 5 segundos entre execuções
+            if script != scripts[-1]:  # Não espera após o último script
+                time.sleep(5)
         
-        # Executar extrações
-        logging.info("Extraindo dados do Cartas Contempladas...")
-        extrair_cartas_contempladas()
-        
-        logging.info("Extraindo dados do Consórcio Contemplado...")
-        extrair_consorcio_contemplado()
-        
-        logging.info("Extraindo dados do Contemplados SP...")
-        extrair_contempladosp()
-        
-        logging.info("Extraindo dados do Vender Seu Consórcio...")
-        extrair_venderseuconsorcio()
-        
-        logging.info("Extraindo dados do CS Consórcio Contemplado...")
-        extrair_consorcio_contemplado_sp()
-        
-        # Consolidar dados
-        logging.info("Consolidando dados...")
-        consolidar_dados()
-        
-        logging.info("Processo de extração concluído com sucesso!")
-        
-    except Exception as e:
-        logging.error(f"Erro durante a extração: {str(e)}")
-        sys.exit(1)
+        # Registra fim da execução
+        log_file.write(f"\n=== Fim da execução: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===\n")
+        log_file.write(f"\nResumo:\n")
+        log_file.write(f"Scripts executados com sucesso: {sucessos}\n")
+        log_file.write(f"Scripts com falha: {falhas}\n")
+    
+    print(f"\nResumo da execução:")
+    print(f"Scripts executados com sucesso: {sucessos}")
+    print(f"Scripts com falha: {falhas}")
+    print(f"\nLog completo salvo em: {log_filename}")
 
 if __name__ == "__main__":
-    executar_extracao() 
+    main() 

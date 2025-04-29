@@ -17,7 +17,8 @@ def encontrar_arquivos_recentes():
         'venderseuconsorcio': 'extracao_venderseuconsorcio.xlsx',
         'cartascontempladas': 'extracao_cartascontempladas.xlsx',
         'consorciocontemplado': 'extracao_consorciocontemplado.xlsx',
-        'contempladosp': 'extracao_SP_contemplados.xlsx'
+        'contempladosp': 'extracao_SP_contemplados.xlsx',
+        'consorciocontemplado_sp': 'consorcio_contemplado_base.xlsx'  # Adicionando o arquivo CS
     }
     
     arquivos_recentes = {}
@@ -59,10 +60,22 @@ def ler_e_padronizar_dados(arquivo, site):
     
     # Padroniza tipos de dados
     df['Total de Parcelas'] = pd.to_numeric(df['Total de Parcelas'], errors='coerce').fillna(0).astype(int)
-    df['Valor da carta'] = df['Valor da carta'].fillna('0')
-    df['Entrada'] = df['Entrada'].fillna('0')
+    df['Valor da carta'] = pd.to_numeric(df['Valor da carta'].astype(str).str.replace('R$', '').str.replace('.', '').str.replace(',', '.').str.strip(), errors='coerce').fillna(0)
+    df['Entrada'] = pd.to_numeric(df['Entrada'].astype(str).str.replace('R$', '').str.replace('.', '').str.replace(',', '.').str.strip(), errors='coerce').fillna(0)
     df['Fluxo de Pagamento'] = df['Fluxo de Pagamento'].fillna('')
     df['Observações'] = df['Observações'].fillna('')
+    
+    # Calcula a razão entre valor total e entrada (quanto maior, melhor o investimento)
+    df['Razão Investimento'] = df.apply(lambda row: 
+        row['Valor da carta'] / row['Entrada'] if row['Entrada'] > 0 else 0, 
+        axis=1
+    )
+    
+    # Adiciona coluna de percentual de entrada
+    df['Percentual Entrada'] = df.apply(lambda row:
+        (row['Entrada'] / row['Valor da carta'] * 100) if row['Valor da carta'] > 0 else 0,
+        axis=1
+    )
     
     print(f"Total de registros de {site}: {len(df)}")
     return df
@@ -88,8 +101,16 @@ def formatar_excel(writer, df):
             # Configurar quebra de linha para todas as células da coluna
             for cell in worksheet[chr(65 + idx)][1:]:
                 cell.alignment = Alignment(wrap_text=True, vertical='top')
-        elif col in ['Valor da carta', 'Entrada']:
+        elif col in ['Valor da carta', 'Entrada', 'Razão Investimento']:
             worksheet.column_dimensions[chr(65 + idx)].width = 20
+            # Formatar células numéricas
+            for cell in worksheet[chr(65 + idx)][1:]:
+                cell.number_format = '#,##0.00'
+        elif col == 'Percentual Entrada':
+            worksheet.column_dimensions[chr(65 + idx)].width = 20
+            # Formatar células de percentual
+            for cell in worksheet[chr(65 + idx)][1:]:
+                cell.number_format = '0.00%'
         else:
             max_length = max(
                 df[col].astype(str).apply(len).max(),
@@ -128,6 +149,9 @@ def consolidar_dados():
     # Concatenar todos os DataFrames
     print("\nConcatenando dados...")
     df_final = pd.concat(dfs, ignore_index=True)
+    
+    # Ordenar por Razão Investimento (decrescente)
+    df_final = df_final.sort_values('Razão Investimento', ascending=False)
     
     # Criar pasta de relatórios se não existir
     pasta_relatorios = "DADOS EXTRAIDOS"
@@ -168,6 +192,11 @@ def consolidar_dados():
     for status in df_final['Status'].unique():
         total = len(df_final[df_final['Status'] == status])
         print(f"- {status}: {total} registros")
+    
+    print("\nMelhores oportunidades (Top 5):")
+    top_5 = df_final.head(5)
+    for _, row in top_5.iterrows():
+        print(f"- {row['Tipo']} - Valor: R$ {row['Valor da carta']:,.2f} - Entrada: R$ {row['Entrada']:,.2f} ({row['Percentual Entrada']:.1f}%) - {row['Total de Parcelas']} parcelas")
     
     print(f"\nArquivo consolidado salvo com sucesso em: {arquivo_saida}")
 
