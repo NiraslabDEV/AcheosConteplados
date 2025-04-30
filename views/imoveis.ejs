@@ -3,26 +3,59 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6">
-        <h1 class="display-4 text-white mb-4">
+        <h1 class="display-4 text-white mb-4 fw-bold">
           Sua Casa dos Sonhos Está Esperando por Você
         </h1>
         <p class="lead text-white mb-4">
           Chegou a hora de parar de alugar e começar a viver! Encontre agora
           mesmo as melhores oportunidades de consórcio imobiliário. Sua casa
           própria pode estar mais próxima do que você imagina. Não deixe o medo
-          impedir seus sonhos - aproveite as taxas mais baixas do mercado e
-          realize seu sonho da casa própria!
+          impedir seus sonhos - aproveite as taxas mais baixas do mercado!
         </p>
-        <a href="#oportunidades" class="btn btn-custom btn-lg"
-          >Quero Minha Casa Agora!</a
-        >
+        <div class="d-flex gap-3">
+          <a href="#oportunidades" class="btn btn-light btn-lg fw-bold pulse-button">
+            <i class="fas fa-home me-2"></i>Quero Minha Casa Agora!
+          </a>
+          <a href="#como-comprar" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-info-circle me-2"></i>Como Funciona
+          </a>
+        </div>
       </div>
       <div class="col-md-6">
-        <img
-          src="/images/casa-moderna.jpg"
-          alt="Casa própria dos sonhos"
-          class="img-fluid rounded shadow-lg"
-        />
+        <div class="position-relative">
+          <img
+            src="/images/casa-moderna.jpg"
+            alt="Casa própria dos sonhos"
+            class="img-fluid rounded shadow-lg"
+          />
+          <div class="promo-badge">
+            <div class="promo-badge-content">
+              <span class="promo-title">OPORTUNIDADE</span>
+              <span class="promo-value">Entrada a partir de 20%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Explicação sobre classificação das oportunidades -->
+<div class="container mt-4 mb-4">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body py-4">
+      <div class="row align-items-center">
+        <div class="col-md-2 text-center mb-3 mb-md-0">
+          <i class="fas fa-calculator ranking-icon text-orange"></i>
+        </div>
+        <div class="col-md-10">
+          <h3 class="h4 text-orange mb-2">Ranking Inteligente de Oportunidades</h3>
+          <p class="mb-0">
+            Nossas cotas são classificadas por nossa <strong>calculadora com IA</strong> que analisa a relação entre valor, entrada e parcelas. 
+            As primeiras cotas são as <strong>melhores oportunidades</strong> de investimento, com menor percentual de entrada e
+            condições mais vantajosas.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -30,7 +63,7 @@
 
 <div class="container mt-5" id="oportunidades">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-orange">Oportunidades Imperdíveis para Sua Casa Própria</h2>
+    <h2 class="text-orange fw-bold">Oportunidades Imperdíveis para Sua Casa Própria</h2>
     <div>
       <a href="#faq-imoveis" class="btn btn-outline-orange me-2">
         <i class="fas fa-question-circle me-2"></i>Dúvidas Frequentes
@@ -243,6 +276,68 @@
   </div>
   <% }); %> <% } %>
 </div>
+
+<!-- Seção de como comprar -->
+<section class="py-5 bg-white" id="como-comprar">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold text-orange">Como Comprar uma Cota Contemplada</h2>
+      <p class="lead">É simples, rápido e seguro! Siga estes passos e realize seu sonho da casa própria</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm processo-card">
+          <div class="card-body text-center p-4">
+            <div class="step-number">1</div>
+            <i class="fas fa-search fa-3x text-orange mb-3"></i>
+            <h3 class="h5 mb-3">Escolha a Melhor Oportunidade</h3>
+            <p class="mb-0">Navegue em nossa lista ordenada das melhores ofertas e escolha a que melhor atende suas necessidades.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm processo-card">
+          <div class="card-body text-center p-4">
+            <div class="step-number">2</div>
+            <i class="fas fa-comments fa-3x text-orange mb-3"></i>
+            <h3 class="h5 mb-3">Entre em Contato</h3>
+            <p class="mb-0">Clique em "Saiba Mais", preencha seus dados e envie uma mensagem via WhatsApp. Responderemos rapidamente!</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm processo-card">
+          <div class="card-body text-center p-4">
+            <div class="step-number">3</div>
+            <i class="fas fa-check-circle fa-3x text-orange mb-3"></i>
+            <h3 class="h5 mb-3">Análise Rápida</h3>
+            <p class="mb-0">Fazemos uma análise rápida de crédito e confirmamos a disponibilidade da cota no momento.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm processo-card">
+          <div class="card-body text-center p-4">
+            <div class="step-number">4</div>
+            <i class="fas fa-home fa-3x text-orange mb-3"></i>
+            <h3 class="h5 mb-3">Reserva e Documentação</h3>
+            <p class="mb-0">Reservamos a carta para você e orientamos sobre toda a documentação necessária para concluir a compra.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="#oportunidades" class="btn btn-lg btn-orange pulse-button">
+        <i class="fas fa-search me-2"></i>Ver Melhores Oportunidades Agora
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- Seção FAQ para Imóveis -->
 <section class="py-5 bg-light" id="faq-imoveis">
@@ -487,6 +582,7 @@
     position: relative;
     overflow: hidden;
     min-height: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   }
 
   .hero-section-imoveis::before {
@@ -503,33 +599,85 @@
   .hero-section-imoveis .lead {
     max-width: 100%;
     margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
   }
 
   .hero-section-imoveis .img-fluid {
     max-height: 400px;
     object-fit: cover;
+    transition: transform 0.5s ease;
+    border: 5px solid white;
   }
 
   .text-orange {
     color: #ff6b00;
   }
 
+  .btn-orange {
+    background-color: #ff6b00;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-orange:hover {
+    background-color: #e65c00;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.4);
+  }
+
   .btn-outline-orange {
     color: #ff6b00;
     border-color: #ff6b00;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
   }
 
   .btn-outline-orange:hover {
     background-color: #ff6b00;
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
+  }
+  
+  /* Pulse animation for CTA buttons */
+  .pulse-button {
+    position: relative;
+    box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7);
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(255, 107, 0, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 107, 0, 0);
+    }
   }
 
   .card-view {
     background: white;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     border-left: 4px solid #ff6b00;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card-view:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   }
 
   .card-row {
@@ -550,12 +698,16 @@
 
   .modal-content {
     border-radius: 15px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 
   .modal-header {
     background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
     color: white;
     border-radius: 15px 15px 0 0;
+    padding: 20px;
   }
 
   .btn-close {
@@ -565,15 +717,174 @@
   .table thead th {
     background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
     color: white;
+    padding: 15px 10px;
+    font-weight: 600;
+    border: none;
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(255, 107, 0, 0.05);
   }
 
   .btn-primary {
     background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
     border: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
   }
 
   .btn-primary:hover {
     background: linear-gradient(135deg, #ff8533 0%, #ff6b00 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 107, 0, 0.3);
+  }
+  
+  .promo-badge {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: #ff6b00;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    transform: rotate(5deg);
+  }
+  
+  .promo-badge-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 15px;
+  }
+  
+  .promo-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  
+  .promo-value {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .ranking-icon {
+    font-size: 3rem;
+    padding: 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 107, 0, 0.1);
+  }
+  
+  /* Estilos para a seção Como Comprar */
+  .processo-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .processo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #ff6b00;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+  }
+  
+  /* Estilos para ofertas destacadas */
+  .featured-opportunity {
+    background-color: rgba(255, 235, 205, 0.3);
+    border-left: 4px solid #ff6b00;
+  }
+  
+  .featured-opportunity td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  
+  .table-opportunities {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .table-opportunities thead th {
+    border-bottom: 0;
+  }
+  
+  .featured-card {
+    border-left: 6px solid #ff6b00;
+    background-color: rgba(255, 235, 205, 0.3);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .top-opportunity-badge {
+    position: absolute;
+    top: 15px;
+    right: -35px;
+    background: #ff6b00;
+    color: white;
+    padding: 5px 40px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    transform: rotate(45deg);
+    z-index: 10;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Estilos para modal premium */
+  .premium-modal {
+    box-shadow: 0 15px 40px rgba(255, 107, 0, 0.3);
+  }
+  
+  .premium-modal .modal-header {
+    background: linear-gradient(135deg, #ff8500 0%, #ff6b00 100%);
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  
+  .premium-modal .card {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+  }
+  
+  .form-control {
+    border-left: none;
+  }
+  
+  .form-control:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+  }
+  
+  .input-group:focus-within .input-group-text {
+    border-color: #ff6b00;
+  }
+  
+  .input-group:focus-within .form-control {
+    border-color: #ff6b00;
   }
 
   /* Estilos para o FAQ */
@@ -581,6 +892,7 @@
     background: linear-gradient(135deg, #ff6b00 0%, #ff8533 100%);
     color: white;
     box-shadow: none;
+    font-weight: 600;
   }
 
   .accordion-button:focus {
@@ -594,9 +906,13 @@
 
   .accordion-item {
     transition: all 0.3s ease;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
   }
 
   .accordion-item:hover {
     transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
   }
 </style>
