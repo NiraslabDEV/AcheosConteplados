@@ -96,7 +96,7 @@ def formatar_excel(writer, df):
         cell.font = header_font
         
         # Configurar largura e alinhamento para cada coluna
-        if col in ['Observações', 'Fluxo de Pagamento']:
+        if col == 'Fluxo de Pagamento':
             worksheet.column_dimensions[chr(65 + idx)].width = 50
             # Configurar quebra de linha para todas as células da coluna
             for cell in worksheet[chr(65 + idx)][1:]:
@@ -158,16 +158,20 @@ def consolidar_dados():
     if not os.path.exists(pasta_relatorios):
         os.makedirs(pasta_relatorios)
     
+    # Remover colunas indesejadas antes de salvar
+    colunas_para_salvar = [col for col in df_final.columns if col not in ['Vencimento', 'Observações', 'Origem']]
+    df_salvar = df_final[colunas_para_salvar]
+    
     # Salvar arquivo consolidado
     data_hora = datetime.now().strftime("%Y%m%d_%H%M")
     arquivo_saida = os.path.join(pasta_relatorios, f'consolidado_{data_hora}.xlsx')
     
     print(f"\nSalvando arquivo consolidado: {arquivo_saida}")
     writer = pd.ExcelWriter(arquivo_saida, engine='openpyxl')
-    df_final.to_excel(writer, index=False, sheet_name='Consolidado')
+    df_salvar.to_excel(writer, index=False, sheet_name='Consolidado')
     
     # Aplicar formatação
-    formatar_excel(writer, df_final)
+    formatar_excel(writer, df_salvar)
     
     # Salvar e fechar
     writer.close()
