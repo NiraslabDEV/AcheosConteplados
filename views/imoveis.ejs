@@ -153,13 +153,15 @@
         %> <% cartas.forEach(function(carta, index) { %>
         <tr>
           <% colunas.forEach(function(coluna) { %>
-          <td>
+          <td class="<%= coluna === 'Entrada' || coluna === 'Valor da carta' || coluna === 'Razão Investimento' ? 'fw-bold' : '' %>">
             <% if (coluna === "Status") { %>
               <span class="badge <%= carta[coluna].toLowerCase() === 'disponível' ? 'bg-success' : 'bg-danger' %>">
                 <%= carta[coluna] %>
               </span>
             <% } else if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
-            formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna ===
+            formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna === "Razão Investimento") { %>
+            <span class="score-value"><%= carta[coluna] %></span>
+            <% } else if (coluna ===
             "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
             carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
             partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
@@ -204,7 +206,9 @@
               <%= carta[coluna] %>
             </span>
           <% } else if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
-          formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna ===
+          formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna === "Razão Investimento") { %>
+          <span class="score-value"><%= carta[coluna] %></span>
+          <% } else if (coluna ===
           "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
           carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
           partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
@@ -272,6 +276,7 @@
                     </span>
                   <% } else if (coluna === "Valor da carta" || coluna === "Entrada") {
                   %> <%= formatCurrency(carta[coluna + "_num"]) %> <% } else if
+                  (coluna === "Razão Investimento") { %> <span class="score-value"><%= carta[coluna] %></span> <% } else if
                   (coluna === "Fluxo de Pagamento" && carta[coluna]) { %> <% var
                   partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
                   partes = partes.filter(p =>
@@ -972,5 +977,17 @@
   
   .btn-voltar-topo:active {
     transform: translateY(1px);
+  }
+  
+  /* Estilo para o valor da Razão Investimento */
+  .score-value {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 60px;
   }
 </style>
