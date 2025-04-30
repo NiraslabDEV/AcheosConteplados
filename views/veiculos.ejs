@@ -3,24 +3,42 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6">
+        <div class="cta-badge mb-3">
+          <span>OPORTUNIDADE EXCLUSIVA</span>
+        </div>
         <h1 class="display-4 text-white mb-4 fw-bold">
           Dirija o Carro dos Seus Sonhos Hoje Mesmo!
         </h1>
         <p class="lead text-white mb-4">
-          Chega de sonhar com um carro novo! Encontre agora mesmo as melhores
-          oportunidades de consórcio automotivo. Seu carro dos sonhos pode estar
-          mais próximo do que você imagina. Não deixe a oportunidade passar!
+          Chega de sonhar com um carro novo! Nosso sistema exclusivo de IA
+          encontra as melhores oportunidades de consórcio automotivo ordenadas
+          pelo melhor custo-benefício.
+          <strong>Economize até 40% comparado a financiamentos!</strong>
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex flex-wrap gap-3">
           <a
             href="#oportunidades"
             class="btn btn-light btn-lg fw-bold pulse-button"
           >
-            <i class="fas fa-car me-2"></i>Quero Meu Carro Agora!
+            <i class="fas fa-car me-2"></i>Ver Oportunidades
           </a>
-          <a href="#como-comprar" class="btn btn-outline-light btn-lg">
-            <i class="fas fa-info-circle me-2"></i>Como Funciona
+          <a href="/imoveis" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-home me-2"></i>Buscar Imóveis
           </a>
+        </div>
+        <div class="hero-stats d-flex mt-4">
+          <div class="hero-stat-item">
+            <div class="stat-value">+500</div>
+            <div class="stat-label">Cartas</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="stat-value">+1200</div>
+            <div class="stat-label">Clientes</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Seguro</div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -32,11 +50,38 @@
           />
           <div class="promo-badge">
             <div class="promo-badge-content">
-              <span class="promo-title">OPORTUNIDADE</span>
+              <span class="promo-title">ECONOMIA</span>
               <span class="promo-value">Entrada a partir de 20%</span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Menu de navegação rápida -->
+<div class="bg-light py-3 sticky-nav">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="nav-left d-flex gap-3">
+        <a href="#oportunidades" class="nav-link-custom active">
+          <i class="fas fa-car me-1"></i> Oportunidades
+        </a>
+        <a href="#como-comprar" class="nav-link-custom">
+          <i class="fas fa-shopping-cart me-1"></i> Como Comprar
+        </a>
+        <a href="#faq-veiculos" class="nav-link-custom">
+          <i class="fas fa-question-circle me-1"></i> Dúvidas
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="/imoveis" class="btn btn-sm btn-orange">
+          <i class="fas fa-home me-1"></i> Ver Imóveis
+        </a>
+        <a href="/" class="btn btn-sm btn-outline-secondary">
+          <i class="fas fa-arrow-left me-1"></i> Página Inicial
+        </a>
       </div>
     </div>
   </div>
@@ -51,15 +96,16 @@
           <i class="fas fa-calculator ranking-icon text-orange"></i>
         </div>
         <div class="col-md-10">
-          <h3 class="h4 text-orange mb-2">
-            Ranking Inteligente de Oportunidades
-          </h3>
+          <h3 class="h4 text-orange mb-2">Ranking Inteligente por IA</h3>
           <p class="mb-0">
-            Nossas cotas são classificadas por nossa
+            <strong>ATENÇÃO:</strong> Nossas cotas são classificadas por nossa
             <strong>calculadora com IA</strong> que analisa a relação entre
-            valor, entrada e parcelas. As primeiras cotas são as
-            <strong>melhores oportunidades</strong> de investimento, com menor
-            percentual de entrada e condições mais vantajosas.
+            valor, entrada e parcelas.
+            <span class="highlight-text"
+              >As primeiras cotas são as
+              <strong>melhores oportunidades</strong> de investimento</span
+            >, com menor percentual de entrada e condições mais vantajosas.
+            Quanto mais ao topo da lista, melhor o custo-benefício!
           </p>
         </div>
       </div>
@@ -69,12 +115,17 @@
 
 <div class="container mt-4" id="oportunidades">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-orange fw-bold">
-      Oportunidades Imperdíveis para Seu Carro Novo
-    </h2>
     <div>
-      <a href="#faq-veiculos" class="btn btn-outline-orange me-2">
-        <i class="fas fa-question-circle me-2"></i>Dúvidas Frequentes
+      <span class="badge bg-orange mb-2">EXCLUSIVO</span>
+      <h2 class="text-orange fw-bold mb-0">Melhores Oportunidades de Carros</h2>
+      <p class="text-muted">
+        Organizadas por melhor custo-benefício -
+        <strong>Atualizado hoje</strong>
+      </p>
+    </div>
+    <div>
+      <a href="/imoveis" class="btn btn-outline-orange me-2">
+        <i class="fas fa-home me-2"></i>Ver Imóveis
       </a>
       <a href="/" class="btn btn-outline-orange">
         <i class="fas fa-arrow-left me-2"></i>Voltar
@@ -377,81 +428,346 @@
 <!-- Seção de como comprar -->
 <section class="py-5 bg-white" id="como-comprar">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="display-5 fw-bold text-orange">
-        Como Comprar um Veículo Contemplado
-      </h2>
-      <p class="lead">
-        É mais fácil do que você imagina! Siga estas etapas e tenha seu carro
-        novo em poucos dias
-      </p>
-    </div>
-
-    <div class="row g-4">
-      <div class="col-md-3">
-        <div class="card h-100 border-0 shadow-sm processo-card">
-          <div class="card-body text-center p-4">
-            <div class="step-number">1</div>
-            <i class="fas fa-search fa-3x text-orange mb-3"></i>
-            <h3 class="h5 mb-3">Escolha a Melhor Oportunidade</h3>
-            <p class="mb-0">
-              Navegue em nossa lista ordenada das melhores ofertas e escolha a
-              que melhor atende suas necessidades.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card h-100 border-0 shadow-sm processo-card">
-          <div class="card-body text-center p-4">
-            <div class="step-number">2</div>
-            <i class="fas fa-comments fa-3x text-orange mb-3"></i>
-            <h3 class="h5 mb-3">Entre em Contato</h3>
-            <p class="mb-0">
-              Clique em "Saiba Mais", preencha seus dados e envie uma mensagem
-              via WhatsApp. Responderemos rapidamente!
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card h-100 border-0 shadow-sm processo-card">
-          <div class="card-body text-center p-4">
-            <div class="step-number">3</div>
-            <i class="fas fa-check-circle fa-3x text-orange mb-3"></i>
-            <h3 class="h5 mb-3">Análise Rápida</h3>
-            <p class="mb-0">
-              Fazemos uma análise rápida de crédito e confirmamos a
-              disponibilidade da cota no momento.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card h-100 border-0 shadow-sm processo-card">
-          <div class="card-body text-center p-4">
-            <div class="step-number">4</div>
-            <i class="fas fa-car fa-3x text-orange mb-3"></i>
-            <h3 class="h5 mb-3">Reserva e Documentação</h3>
-            <p class="mb-0">
-              Reservamos a carta para você e orientamos sobre toda a
-              documentação necessária para concluir a compra.
-            </p>
-          </div>
-        </div>
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-8">
+        <h2 class="fw-bold mb-3">Como comprar um veículo contemplado</h2>
+        <p class="lead">
+          Adquirir um veículo através de carta contemplada é um processo simples
+          e facilitado
+        </p>
       </div>
     </div>
-
-    <div class="text-center mt-5">
-      <a href="#oportunidades" class="btn btn-lg btn-orange pulse-button">
-        <i class="fas fa-search me-2"></i>Ver Melhores Oportunidades Agora
-      </a>
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm text-center p-3">
+          <div class="py-3">
+            <span
+              class="badge rounded-circle bg-warning text-dark fs-3 mb-3"
+              style="width: 50px; height: 50px; line-height: 42px"
+              >1</span
+            >
+            <h5 class="card-title">Análise</h5>
+            <p class="card-text text-muted small">
+              Escolha a carta contemplada que melhor atende suas necessidades
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm text-center p-3">
+          <div class="py-3">
+            <span
+              class="badge rounded-circle bg-warning text-dark fs-3 mb-3"
+              style="width: 50px; height: 50px; line-height: 42px"
+              >2</span
+            >
+            <h5 class="card-title">Documentação</h5>
+            <p class="card-text text-muted small">
+              Envie seus documentos para análise e aprovação
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm text-center p-3">
+          <div class="py-3">
+            <span
+              class="badge rounded-circle bg-warning text-dark fs-3 mb-3"
+              style="width: 50px; height: 50px; line-height: 42px"
+              >3</span
+            >
+            <h5 class="card-title">Contrato</h5>
+            <p class="card-text text-muted small">
+              Assinatura de contrato e registro em cartório
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm text-center p-3">
+          <div class="py-3">
+            <span
+              class="badge rounded-circle bg-warning text-dark fs-3 mb-3"
+              style="width: 50px; height: 50px; line-height: 42px"
+              >4</span
+            >
+            <h5 class="card-title">Aquisição</h5>
+            <p class="card-text text-muted small">
+              Receba seu veículo após finalização do processo
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- SEÇÃO COMO COMPRAR -->
+<div class="container my-5" id="como-comprar">
+  <div class="row">
+    <div class="col-12 text-center mb-5">
+      <div class="d-inline-block mb-3">
+        <span
+          class="badge bg-warning text-dark px-3 py-2 rounded-pill fs-6 fw-normal shadow-sm"
+          >PROCESSO SIMPLIFICADO</span
+        >
+      </div>
+      <h2 class="display-5 fw-bold">Como Comprar um Veículo Contemplado</h2>
+      <p class="lead col-md-10 mx-auto text-muted">
+        Adquirir um veículo através de uma carta contemplada é um processo
+        simples e facilitado. Siga estes passos e realize seu sonho com
+        segurança e agilidade.
+      </p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Passo 1 -->
+    <div class="col-md-6 col-lg-3">
+      <div
+        class="card h-100 processo-card bg-white shadow-sm border-0 text-center position-relative pt-4"
+      >
+        <span class="step-number">1</span>
+        <div class="card-body px-3 py-4">
+          <div class="mb-4 text-warning">
+            <i class="fas fa-search fa-3x"></i>
+          </div>
+          <h4 class="card-title mb-3 fw-bold">Análise e Reserva</h4>
+          <p class="card-text text-muted">
+            Escolha a carta que melhor atende suas necessidades e faça uma
+            reserva de 24h sem compromisso para análise completa.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passo 2 -->
+    <div class="col-md-6 col-lg-3">
+      <div
+        class="card h-100 processo-card bg-white shadow-sm border-0 text-center position-relative pt-4"
+      >
+        <span class="step-number">2</span>
+        <div class="card-body px-3 py-4">
+          <div class="mb-4 text-warning">
+            <i class="fas fa-file-contract fa-3x"></i>
+          </div>
+          <h4 class="card-title mb-3 fw-bold">Documentação</h4>
+          <p class="card-text text-muted">
+            Envie seus documentos para análise. Nossa equipe verifica todos os
+            detalhes para garantir total segurança jurídica.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passo 3 -->
+    <div class="col-md-6 col-lg-3">
+      <div
+        class="card h-100 processo-card bg-white shadow-sm border-0 text-center position-relative pt-4"
+      >
+        <span class="step-number">3</span>
+        <div class="card-body px-3 py-4">
+          <div class="mb-4 text-warning">
+            <i class="fas fa-handshake fa-3x"></i>
+          </div>
+          <h4 class="card-title mb-3 fw-bold">Assinatura do Contrato</h4>
+          <p class="card-text text-muted">
+            Após aprovação, assinamos contrato com registro em cartório para
+            garantir sua segurança na transação.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passo 4 -->
+    <div class="col-md-6 col-lg-3">
+      <div
+        class="card h-100 processo-card bg-white shadow-sm border-0 text-center position-relative pt-4"
+      >
+        <span class="step-number">4</span>
+        <div class="card-body px-3 py-4">
+          <div class="mb-4 text-warning">
+            <i class="fas fa-key fa-3x"></i>
+          </div>
+          <h4 class="card-title mb-3 fw-bold">Posse do Bem</h4>
+          <p class="card-text text-muted">
+            Você recebe o seu veículo após a finalização do processo, geralmente
+            entre 30 a 45 dias.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Por que escolher -->
+  <div class="row mt-5 pt-4">
+    <div class="col-lg-6">
+      <h3 class="mb-4 fw-bold">Por Que Escolher Cartas Contempladas?</h3>
+      <ul class="check-list">
+        <li>
+          <strong>Economia significativa</strong> comparado a financiamentos
+          tradicionais
+        </li>
+        <li>
+          <strong>Taxas de juros mais baixas</strong> (geralmente metade do que
+          bancos oferecem)
+        </li>
+        <li><strong>Processo mais simples</strong> e com menos burocracia</li>
+        <li>
+          <strong>Prazos flexíveis</strong> para pagamento (até 180 meses)
+        </li>
+        <li>
+          <strong>Segurança jurídica</strong> com documentação completa e
+          registrada
+        </li>
+        <li>
+          <strong>Valor liberado rapidamente</strong> para aquisição do bem
+        </li>
+        <li>
+          Possibilidade de <strong>escolher o bem desejado</strong> sem
+          restrições de marca ou modelo
+        </li>
+      </ul>
+      <div class="mt-4">
+        <a href="#cards" class="btn btn-warning btn-lg pulse-button"
+          >Ver Oportunidades <i class="fas fa-arrow-right ms-2"></i
+        ></a>
+      </div>
+    </div>
+
+    <!-- Perguntas frequentes -->
+    <div class="col-lg-6 mt-5 mt-lg-0">
+      <h3 class="mb-4 fw-bold">Perguntas Frequentes Rápidas</h3>
+      <div class="accordion accordion-mini" id="accordionFAQ">
+        <!-- Questão 1 -->
+        <div class="accordion-item mb-3 border">
+          <h2 class="accordion-header" id="headingOne">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="false"
+              aria-controls="collapseOne"
+            >
+              Quanto preciso dar de entrada?
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingOne"
+            data-bs-parent="#accordionFAQ"
+          >
+            <div class="accordion-body">
+              A entrada geralmente varia entre 20% e 30% do valor da carta,
+              podendo ser negociada conforme sua capacidade financeira. Esta
+              entrada é o que garante sua contemplação imediata.
+            </div>
+          </div>
+        </div>
+
+        <!-- Questão 2 -->
+        <div class="accordion-item mb-3 border">
+          <h2 class="accordion-header" id="headingTwo">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              Quanto tempo leva todo o processo?
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingTwo"
+            data-bs-parent="#accordionFAQ"
+          >
+            <div class="accordion-body">
+              O processo completo geralmente leva de 30 a 45 dias, desde a
+              reserva da carta até a liberação do crédito para aquisição do
+              veículo. O tempo pode variar conforme a complexidade do caso.
+            </div>
+          </div>
+        </div>
+
+        <!-- Questão 3 -->
+        <div class="accordion-item mb-3 border">
+          <h2 class="accordion-header" id="headingThree">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              É seguro comprar uma carta contemplada?
+            </button>
+          </h2>
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingThree"
+            data-bs-parent="#accordionFAQ"
+          >
+            <div class="accordion-body">
+              Sim, é completamente seguro quando feito por intermediários
+              especializados. Todo o processo é formalizado com documentação
+              oficial, contratos registrados em cartório e acompanhamento
+              jurídico para garantir a segurança da transação.
+            </div>
+          </div>
+        </div>
+
+        <!-- Questão 4 -->
+        <div class="accordion-item border">
+          <h2 class="accordion-header" id="headingFour">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseFour"
+              aria-expanded="false"
+              aria-controls="collapseFour"
+            >
+              Posso usar para qualquer veículo?
+            </button>
+          </h2>
+          <div
+            id="collapseFour"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingFour"
+            data-bs-parent="#accordionFAQ"
+          >
+            <div class="accordion-body">
+              Sim, você pode utilizar o crédito para adquirir qualquer veículo
+              novo ou usado, desde que esteja dentro das condições da
+              administradora (geralmente veículos com até 5 anos de fabricação
+              para usados).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-light p-4 mt-4 rounded-3 border">
+        <p class="mb-2"><strong>Ainda tem dúvidas?</strong></p>
+        <p class="mb-0">
+          Nossa equipe está pronta para esclarecer todas as suas questões e
+          encontrar a melhor oportunidade para você.
+        </p>
+        <a href="#contato" class="btn btn-outline-warning mt-3"
+          >Falar com um consultor</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIM SEÇÃO COMO COMPRAR -->
 
 <!-- Seção FAQ para Automóveis -->
 <section class="py-5 bg-light" id="faq-veiculos">
@@ -564,8 +880,8 @@
                     dias
                   </li>
                   <li>
-                    <strong>Possibilidade de negociação:</strong> flexibilidade
-                    nos termos
+                    <strong>Possibilidade de negociação:</strong>
+                    flexibilidade nos termos
                   </li>
                 </ul>
               </div>
@@ -749,6 +1065,83 @@
     color: #ff6b00;
   }
 
+  .bg-orange {
+    background-color: #ff6b00;
+    color: white;
+  }
+
+  .cta-badge {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #ff6b00;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .hero-stat-item {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-link-custom {
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link-custom:hover {
+    background-color: rgba(255, 107, 0, 0.1);
+    color: #ff6b00;
+  }
+
+  .nav-link-custom.active {
+    background-color: rgba(255, 107, 0, 0.15);
+    color: #ff6b00;
+  }
+
+  .highlight-text {
+    background-color: rgba(255, 107, 0, 0.15);
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+
   .btn-orange {
     background-color: #ff6b00;
     color: white;
@@ -923,22 +1316,86 @@
   }
 
   .processo-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
   }
 
   .step-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: #ff6b00;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    background: linear-gradient(45deg, #ff6b00, #ff8800);
     color: white;
-    font-weight: bold;
-    font-size: 1.2rem;
     border-radius: 50%;
-    margin: 0 auto 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    border: 2px solid white;
+  }
+
+  .check-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .check-list li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 10px;
+  }
+
+  .check-list li:before {
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--bs-warning);
+  }
+
+  .accordion-mini .accordion-button {
+    background-color: #f8f9fa;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px !important;
+  }
+
+  .accordion-mini .accordion-button:not(.collapsed) {
+    background-color: #fff0e6;
+    color: #ff6b00;
+    box-shadow: none;
+  }
+
+  .accordion-mini .accordion-button:focus {
+    box-shadow: none;
+    border-color: #ffd1b3;
+  }
+
+  .accordion-mini .accordion-item {
+    background-color: transparent;
+    border-radius: 8px;
+  }
+
+  .pulse-button {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(255, 107, 0, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 107, 0, 0);
+    }
   }
 
   /* Estilos para ofertas destacadas */
