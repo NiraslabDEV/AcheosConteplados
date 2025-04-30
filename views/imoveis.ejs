@@ -160,7 +160,9 @@
               </span>
             <% } else if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
             formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna === "Razão Investimento") { %>
-            <span class="score-value"><%= carta[coluna] %></span>
+            <span class="score-value"><%= formatRatio(carta[coluna]) %></span>
+            <% } else if (coluna === "Percentual Entrada") { %>
+            <span><%= formatPercentage(carta[coluna]) %></span>
             <% } else if (coluna ===
             "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
             carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
@@ -207,7 +209,9 @@
             </span>
           <% } else if (coluna === "Valor da carta" || coluna === "Entrada") { %> <%=
           formatCurrency(carta[coluna + "_num"]) %> <% } else if (coluna === "Razão Investimento") { %>
-          <span class="score-value"><%= carta[coluna] %></span>
+          <span class="score-value"><%= formatRatio(carta[coluna]) %></span>
+          <% } else if (coluna === "Percentual Entrada") { %>
+          <span><%= formatPercentage(carta[coluna]) %></span>
           <% } else if (coluna ===
           "Fluxo de Pagamento" && carta[coluna]) { %> <% var partes =
           carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
@@ -276,7 +280,8 @@
                     </span>
                   <% } else if (coluna === "Valor da carta" || coluna === "Entrada") {
                   %> <%= formatCurrency(carta[coluna + "_num"]) %> <% } else if
-                  (coluna === "Razão Investimento") { %> <span class="score-value"><%= carta[coluna] %></span> <% } else if
+                  (coluna === "Razão Investimento") { %> <span class="score-value"><%= formatRatio(carta[coluna]) %></span> <% } else if
+                  (coluna === "Percentual Entrada") { %> <span><%= formatPercentage(carta[coluna]) %></span> <% } else if
                   (coluna === "Fluxo de Pagamento" && carta[coluna]) { %> <% var
                   partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
                   partes = partes.filter(p =>

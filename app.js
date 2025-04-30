@@ -29,16 +29,48 @@ app.use((err, req, res, next) => {
 // Funções auxiliares
 function formatCurrency(value) {
   try {
-    if (!value || isNaN(parseFloat(value.toString().replace(",", ".")))) {
+    if (value === null || value === undefined || isNaN(value)) {
+      console.error("Valor inválido para formatação de moeda:", value);
       return "R$ 0,00";
     }
+
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
-    }).format(parseFloat(value.toString().replace(",", ".")));
+    }).format(value);
   } catch (error) {
     console.error("Erro ao formatar moeda:", error);
     return "R$ 0,00";
+  }
+}
+
+// Função para formatar razão de investimento
+function formatRatio(value) {
+  try {
+    if (value === null || value === undefined || isNaN(value)) {
+      console.error("Valor inválido para formatação de razão:", value);
+      return "0.00";
+    }
+
+    return parseFloat(value).toFixed(2);
+  } catch (error) {
+    console.error("Erro ao formatar razão:", error);
+    return "0.00";
+  }
+}
+
+// Função para formatar percentual
+function formatPercentage(value) {
+  try {
+    if (value === null || value === undefined || isNaN(value)) {
+      console.error("Valor inválido para formatação de percentual:", value);
+      return "0.0%";
+    }
+
+    return parseFloat(value).toFixed(1) + "%";
+  } catch (error) {
+    console.error("Erro ao formatar percentual:", error);
+    return "0.0%";
   }
 }
 
@@ -425,6 +457,8 @@ app.get("/imoveis", async (req, res) => {
         cartas: imoveisExemplo,
         colunas: colunasExemplo,
         formatCurrency: formatCurrency,
+        formatRatio: formatRatio,
+        formatPercentage: formatPercentage,
       });
     }
 
@@ -439,6 +473,8 @@ app.get("/imoveis", async (req, res) => {
       cartas: imoveis,
       colunas: colunas,
       formatCurrency: formatCurrency,
+      formatRatio: formatRatio,
+      formatPercentage: formatPercentage,
     });
   } catch (error) {
     console.error("Erro na rota /imoveis:", error);
@@ -459,6 +495,8 @@ app.get("/imoveis", async (req, res) => {
       cartas: imoveisExemplo,
       colunas: colunasExemplo,
       formatCurrency: formatCurrency,
+      formatRatio: formatRatio,
+      formatPercentage: formatPercentage,
     });
   }
 });
@@ -503,6 +541,8 @@ app.get("/veiculos", async (req, res) => {
         cartas: veiculosExemplo,
         colunas: colunasExemplo,
         formatCurrency: formatCurrency,
+        formatRatio: formatRatio,
+        formatPercentage: formatPercentage,
       });
     }
 
@@ -517,6 +557,8 @@ app.get("/veiculos", async (req, res) => {
       cartas: veiculos,
       colunas: colunas,
       formatCurrency: formatCurrency,
+      formatRatio: formatRatio,
+      formatPercentage: formatPercentage,
     });
   } catch (error) {
     console.error("Erro na rota /veiculos:", error);
@@ -539,6 +581,8 @@ app.get("/veiculos", async (req, res) => {
       cartas: veiculosExemplo,
       colunas: colunasExemplo,
       formatCurrency: formatCurrency,
+      formatRatio: formatRatio,
+      formatPercentage: formatPercentage,
     });
   }
 });

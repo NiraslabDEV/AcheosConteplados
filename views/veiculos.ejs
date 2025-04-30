@@ -165,7 +165,9 @@
               >Melhor Custo/Benefício</span
             >
             <% } %> <% } else if (coluna === "Razão Investimento") { %>
-            <span class="score-value"><%= carta[coluna] %></span>
+            <span class="score-value"><%= formatRatio(carta[coluna]) %></span>
+            <% } else if (coluna === "Percentual Entrada") { %>
+            <span><%= formatPercentage(carta[coluna]) %></span>
             <% } else if (coluna === "Fluxo de Pagamento" && carta[coluna]) { %>
             <% var partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
             partes = partes.filter(p =>
@@ -225,7 +227,9 @@
             >
           </div>
           <% } %> <% } else if (coluna === "Razão Investimento") { %>
-          <span class="score-value"><%= carta[coluna] %></span>
+          <span class="score-value"><%= formatRatio(carta[coluna]) %></span>
+          <% } else if (coluna === "Percentual Entrada") { %>
+          <span><%= formatPercentage(carta[coluna]) %></span>
           <% } else if (coluna === "Fluxo de Pagamento" && carta[coluna]) { %>
           <% var partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
           partes = partes.filter(p =>
@@ -317,7 +321,11 @@
                         </div>
                         <% } %> <% } else if (coluna === "Razão Investimento") {
                         %>
-                        <span class="score-value"><%= carta[coluna] %></span>
+                        <span class="score-value"
+                          ><%= formatRatio(carta[coluna]) %></span
+                        >
+                        <% } else if (coluna === "Percentual Entrada") { %>
+                        <span><%= formatPercentage(carta[coluna]) %></span>
                         <% } else if (coluna === "Fluxo de Pagamento" &&
                         carta[coluna]) { %> <% var partes =
                         carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
