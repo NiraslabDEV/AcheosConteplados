@@ -685,8 +685,29 @@
         window.open(whatsappUrl, "_blank");
       });
     });
+
+    // Mostrar/esconder botão "Voltar ao topo" baseado no scroll
+    const btnVoltarTopo = document.getElementById("btn-voltar-topo");
+
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 300) {
+        btnVoltarTopo.classList.add("show");
+      } else {
+        btnVoltarTopo.classList.remove("show");
+      }
+    });
   });
 </script>
+
+<!-- Botão Voltar ao topo -->
+<a
+  href="#"
+  id="btn-voltar-topo"
+  class="btn-voltar-topo"
+  aria-label="Voltar ao topo"
+>
+  <i class="fas fa-arrow-up"></i>
+</a>
 
 <style>
   .hero-section-veiculos {
@@ -1027,5 +1048,45 @@
   .accordion-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Botão Voltar ao Topo */
+  .btn-voltar-topo {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #ff6b00;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+  }
+
+  .btn-voltar-topo.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .btn-voltar-topo:hover,
+  .btn-voltar-topo:focus {
+    background: #e65c00;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+  }
+
+  .btn-voltar-topo:active {
+    transform: translateY(1px);
   }
 </style>
