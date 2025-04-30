@@ -150,7 +150,7 @@
         <tr class="<%= index < 5 ? 'featured-opportunity' : '' %>">
           <% colunas.forEach(function(coluna) { %>
           <td
-            class="<%= coluna === 'Entrada' || coluna === 'Valor da carta' ? 'fw-bold' : '' %>"
+            class="<%= coluna === 'Entrada' || coluna === 'Valor da carta' || coluna === 'Razão Investimento' ? 'fw-bold' : '' %>"
           >
             <% if (coluna === "Status") { %>
             <span
@@ -164,10 +164,12 @@
             <span class="badge bg-warning text-dark"
               >Melhor Custo/Benefício</span
             >
-            <% } %> <% } else if (coluna === "Fluxo de Pagamento" &&
-            carta[coluna]) { %> <% var partes =
-            carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
-            partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
+            <% } %> <% } else if (coluna === "Razão Investimento") { %>
+            <span class="score-value"><%= carta[coluna] %></span>
+            <% } else if (coluna === "Fluxo de Pagamento" && carta[coluna]) { %>
+            <% var partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
+            partes = partes.filter(p =>
+            p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
             partes.forEach(function(parte, index) { %> <%= parte.trim() %><% if
             (index < partes.length - 1) { %><br /><% } %> <% }); %> <% } else {
             %> <%= carta[coluna] || "" %> <% } %>
@@ -222,10 +224,12 @@
               >Melhor Custo/Benefício</small
             >
           </div>
-          <% } %> <% } else if (coluna === "Fluxo de Pagamento" &&
-          carta[coluna]) { %> <% var partes =
-          carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g); partes =
-          partes.filter(p => p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
+          <% } %> <% } else if (coluna === "Razão Investimento") { %>
+          <span class="score-value"><%= carta[coluna] %></span>
+          <% } else if (coluna === "Fluxo de Pagamento" && carta[coluna]) { %>
+          <% var partes = carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
+          partes = partes.filter(p =>
+          p.trim().match(/\d+\s*x\s*R\$\s*[\d,.]+/)); %> <%
           partes.forEach(function(parte, index) { %> <%= parte.trim() %><% if
           (index < partes.length - 1) { %><br /><% } %> <% }); %> <% } else { %>
           <%= carta[coluna] || "" %> <% } %>
@@ -311,7 +315,10 @@
                             >Melhor Custo/Benefício</small
                           >
                         </div>
-                        <% } %> <% } else if (coluna === "Fluxo de Pagamento" &&
+                        <% } %> <% } else if (coluna === "Razão Investimento") {
+                        %>
+                        <span class="score-value"><%= carta[coluna] %></span>
+                        <% } else if (coluna === "Fluxo de Pagamento" &&
                         carta[coluna]) { %> <% var partes =
                         carta[coluna].split(/(\d+\s*x\s*R\$\s*[\d,.]+)/g);
                         partes = partes.filter(p =>
@@ -1545,5 +1552,17 @@
 
   .btn-voltar-topo:active {
     transform: translateY(1px);
+  }
+
+  /* Estilo para o valor da Razão Investimento */
+  .score-value {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 60px;
   }
 </style>

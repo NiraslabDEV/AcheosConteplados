@@ -97,85 +97,137 @@ function prepareWhatsappMessage(row) {
 
 async function loadData() {
   try {
-    const excelFile = await getLatestExcel();
-    if (!excelFile) {
-      console.log("Nenhum arquivo Excel encontrado, usando dados de exemplo");
+    const excelPath = await getLatestExcel();
+    console.log("Carregando dados do arquivo:", excelPath);
+
+    if (!excelPath) {
+      console.log("Arquivo Excel não encontrado, usando dados de exemplo");
       return getDadosExemplo();
     }
 
-    console.log("Carregando dados do arquivo:", excelFile);
-    const workbook = XLSX.readFile(excelFile);
+    const workbook = XLSX.readFile(excelPath);
+    console.log("Planilhas disponíveis:", workbook.SheetNames);
+
+    // Use a primeira aba por padrão
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const rawData = XLSX.utils.sheet_to_json(worksheet);
 
-    console.log("Dados brutos do Excel:", rawData);
+    console.log("Dados brutos carregados:", JSON.stringify(rawData, null, 2));
 
-    if (!rawData || rawData.length === 0) {
-      console.log("Arquivo Excel vazio, usando dados de exemplo");
+    if (rawData.length === 0) {
+      console.log("Nenhum dado encontrado no Excel, usando dados de exemplo");
       return getDadosExemplo();
     }
 
-    // Processar e formatar os dados
+    // Processar os dados para garantir que todos os campos numéricos sejam tratados corretamente
     const processedData = rawData.map((row) => {
-      // Garantir que os campos numéricos sejam tratados corretamente
-      const valorCarta =
-        row["Valor da carta"] || row["Valor"] || row["valor"] || "0";
-      const entrada = row["Entrada"] || row["entrada"] || "0";
-      const parcelas =
-        row["Total de Parcelas"] || row["Parcelas"] || row["parcelas"] || "0";
-      const fluxo =
-        row["Fluxo de Pagamento"] ||
-        row["Parcelas Mensais"] ||
-        row["parcelas_mensais"] ||
-        "";
-      const tipo = row["Tipo"] || row["tipo"] || "Imóveis";
-      const consorcio =
-        row["Consórcio"] ||
-        row["Administradora"] ||
-        row["administradora"] ||
-        "Não informado";
-      const codigo =
-        row["Código"] ||
-        row["CODIGO"] ||
-        row["código"] ||
-        row["Cod"] ||
-        row["COD"] ||
-        "Não informado";
-      const status =
-        row["Status"] || row["STATUS"] || row["status"] || "Disponível";
+      const newRow = { ...row };
 
-      return {
-        Codigo: codigo,
-        Tipo: tipo,
-        Consórcio: consorcio,
-        "Valor da carta": valorCarta.toString(),
-        "Valor da carta_num": parseFloat(
-          valorCarta
-            .toString()
-            .replace(/[^\d,.-]/g, "")
-            .replace(",", ".")
-        ),
-        Entrada: entrada.toString(),
-        Entrada_num: parseFloat(
-          entrada
-            .toString()
-            .replace(/[^\d,.-]/g, "")
-            .replace(",", ".")
-        ),
-        "Total de Parcelas": parcelas.toString(),
-        "Fluxo de Pagamento": fluxo,
-        Status: status,
-      };
+      // Tentar diferentes variações do nome das colunas
+      const valorCartaField =
+        row["Valor da carta"] !== undefined
+          ? "Valor da carta"
+          : row["Valor da Carta"] !== undefined
+          ? "Valor da Carta"
+          : "";
+
+      const entradaField = row["Entrada"] !== undefined ? "Entrada" : "";
+
+      const parcelasField =
+        row["Total de Parcelas"] !== undefined
+          ? "Total de Parcelas"
+          : row["Total de parcelas"] !== undefined
+          ? "Total de parcelas"
+          : "";
+
+      const fluxoField =
+        row["Fluxo de Pagamento"] !== undefined
+          ? "Fluxo de Pagamento"
+          : row["Fluxo de pagamento"] !== undefined
+          ? "Fluxo de pagamento"
+          : "";
+
+      const razaoField =
+        row["Razão Investimento"] !== undefined
+          ? "Razão Investimento"
+          : row["Razao Investimento"] !== undefined
+          ? "Razao Investimento"
+          : "";
+
+      // Garantir que temos o campo Tipo
+      if (!newRow.Tipo) {
+        newRow.Tipo = row.tipo || "";
+      }
+
+      // Processar o valor da carta
+      if (valorCartaField) {
+        newRow["Valor da carta"] = row[valorCartaField];
+        try {
+          newRow["Valor da carta_num"] = parseFloat(
+            String(row[valorCartaField])
+              .replace(/[^\d,.-]/g, "")
+              .replace(/\./g, "")
+              .replace(/,/g, ".")
+          );
+        } catch (e) {
+          console.error("Erro ao processar valor da carta:", e);
+          newRow["Valor da carta_num"] = 0;
+        }
+      } else {
+        newRow["Valor da carta"] = "";
+        newRow["Valor da carta_num"] = 0;
+      }
+
+      // Processar o valor da entrada
+      if (entradaField) {
+        newRow["Entrada"] = row[entradaField];
+        try {
+          newRow["Entrada_num"] = parseFloat(
+            String(row[entradaField])
+              .replace(/[^\d,.-]/g, "")
+              .replace(/\./g, "")
+              .replace(/,/g, ".")
+          );
+        } catch (e) {
+          console.error("Erro ao processar valor da entrada:", e);
+          newRow["Entrada_num"] = 0;
+        }
+      } else {
+        newRow["Entrada"] = "";
+        newRow["Entrada_num"] = 0;
+      }
+
+      // Incluir campo Razão Investimento se existir
+      if (razaoField) {
+        newRow["Razão Investimento"] = row[razaoField];
+      }
+
+      // Processar campos adicionais
+      if (fluxoField) {
+        newRow["Fluxo de Pagamento"] = row[fluxoField];
+      }
+
+      if (parcelasField) {
+        newRow["Total de Parcelas"] = row[parcelasField];
+      }
+
+      // Verificar e incluir campo Status
+      if (row.Status === undefined) {
+        newRow.Status = "Disponível";
+      } else {
+        newRow.Status = row.Status;
+      }
+
+      // Adicionar mensagem do WhatsApp
+      newRow.whatsapp_msg = prepareWhatsappMessage(newRow);
+
+      return newRow;
     });
 
-    console.log("Dados processados:", processedData);
-
-    // Adicionar mensagem de WhatsApp para cada registro
-    return processedData.map((row) => ({
-      ...row,
-      whatsapp_msg: prepareWhatsappMessage(row),
-    }));
+    // Validar dados processados
+    console.log("Dados processados:", JSON.stringify(processedData, null, 2));
+    return processedData;
   } catch (error) {
     console.error("Erro ao carregar dados:", error);
     console.error("Stack trace:", error.stack);
@@ -197,6 +249,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "180",
       "Fluxo de Pagamento": "180 x R$ 1.500,00",
       Status: "Disponível",
+      "Razão Investimento": "10.00",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "IM001",
         Consórcio: "Consórcio Premium",
@@ -217,6 +270,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "120",
       "Fluxo de Pagamento": "120 x R$ 1.200,00",
       Status: "Indisponível",
+      "Razão Investimento": "9.80",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "IM002",
         Consórcio: "Consórcio Fácil",
@@ -237,6 +291,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "60",
       "Fluxo de Pagamento": "60 x R$ 1.450,00",
       Status: "Disponível",
+      "Razão Investimento": "5.12",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "VE001",
         Consórcio: "Consórcio Auto Premium",
@@ -257,6 +312,7 @@ function getDadosExemplo() {
       "Total de Parcelas": "48",
       "Fluxo de Pagamento": "48 x R$ 1.150,00",
       Status: "Indisponível",
+      "Razão Investimento": "4.82",
       whatsapp_msg: prepareWhatsappMessage({
         Codigo: "VE002",
         Consórcio: "Consórcio Auto Fácil",
