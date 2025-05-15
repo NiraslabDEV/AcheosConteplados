@@ -558,7 +558,8 @@
 
         // Obter detalhes do modal atual
         const modalBody = form.closest(".modal-body");
-        const detalhes = modalBody.querySelectorAll(".row.mb-2");
+        const card = modalBody.querySelector(".card-body");
+        const todasLinhas = card.querySelectorAll(".row.mb-2");
 
         // Montar a mensagem
         let mensagem = `*Olá! Tenho interesse nesta carta de crédito:*\n\n`;
@@ -570,9 +571,9 @@
         mensagem += `*Dados da Carta:*\n`;
 
         // Adicionar todos os detalhes da carta
-        detalhes.forEach((detalhe) => {
-          const label = detalhe.querySelector(".fw-bold").innerText;
-          const valor = detalhe.querySelector(".col-7").innerText;
+        todasLinhas.forEach((linha) => {
+          const label = linha.querySelector(".fw-bold").textContent.trim();
+          const valor = linha.querySelector(".col-7").textContent.trim();
           mensagem += `${label} ${valor}\n`;
         });
 
