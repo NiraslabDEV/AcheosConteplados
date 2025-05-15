@@ -65,11 +65,28 @@ def ler_e_padronizar_dados(arquivo, site):
     df['Fluxo de Pagamento'] = df['Fluxo de Pagamento'].fillna('')
     df['Observações'] = df['Observações'].fillna('')
     
-    # Calcula a razão entre valor total e entrada (quanto maior, melhor o investimento)
-    df['Razão Investimento'] = df.apply(lambda row: 
-        row['Valor da carta'] / row['Entrada'] if row['Entrada'] > 0 else 0, 
+    # Extrair informações sobre juros a partir do fluxo de pagamento
+    df['Valor Parcela'] = df.apply(extrair_valor_parcela, axis=1)
+    
+    # Calcular juros implícitos (valor total a pagar - valor da carta)
+    df['Valor Total a Pagar'] = df.apply(
+        lambda row: row['Valor Parcela'] * row['Total de Parcelas'] if row['Valor Parcela'] > 0 and row['Total de Parcelas'] > 0 else 0,
         axis=1
     )
+    
+    df['Juros Implícitos'] = df.apply(
+        lambda row: max(0, row['Valor Total a Pagar'] - row['Valor da carta']) if row['Valor Total a Pagar'] > 0 else 0,
+        axis=1
+    )
+    
+    # Calcular percentual de juros em relação ao valor da carta
+    df['Percentual Juros'] = df.apply(
+        lambda row: (row['Juros Implícitos'] / row['Valor da carta'] * 100) if row['Valor da carta'] > 0 else 0,
+        axis=1
+    )
+    
+    # Calcular razão de investimento aprimorada considerando juros
+    df['Razão Investimento'] = df.apply(calcular_razao_investimento, axis=1)
     
     # Adiciona coluna de percentual de entrada
     df['Percentual Entrada'] = df.apply(lambda row:
@@ -79,6 +96,61 @@ def ler_e_padronizar_dados(arquivo, site):
     
     print(f"Total de registros de {site}: {len(df)}")
     return df
+
+def extrair_valor_parcela(row):
+    """Extrai o valor da parcela do fluxo de pagamento."""
+    fluxo = row['Fluxo de Pagamento']
+    if not fluxo or pd.isna(fluxo):
+        return 0
+    
+    try:
+        # Tentar extrair valores no formato "X x R$ Y,ZZ"
+        import re
+        matches = re.findall(r'(\d+)\s*x\s*R\$\s*([\d.,]+)', fluxo)
+        
+        if matches:
+            # Pegar a primeira correspondência
+            qtd_parcelas, valor_str = matches[0]
+            # Limpar e converter o valor
+            valor = float(valor_str.replace('.', '').replace(',', '.'))
+            return valor
+    except Exception as e:
+        print(f"Erro ao extrair valor da parcela: {e}")
+    
+    return 0
+
+def calcular_razao_investimento(row):
+    """Calcula a razão de investimento considerando valor da carta, entrada e juros."""
+    valor_carta = row['Valor da carta']
+    entrada = row['Entrada']
+    perc_juros = row['Percentual Juros']
+    
+    if entrada <= 0 or valor_carta <= 0:
+        return 0
+    
+    # Base: razão entre valor da carta e entrada
+    razao_base = valor_carta / entrada
+    
+    # Fator de ajuste para juros (quanto menor o percentual de juros, melhor)
+    # Limitar juros a um valor máximo razoável para evitar distorções
+    perc_juros_ajustado = min(perc_juros, 100.0)
+    
+    # O limite superior para juros é assumido como 40% (ajustável conforme necessário)
+    MAX_JUROS = 40.0
+    
+    # Se juros for zero ou muito baixo, favorece ao máximo
+    if perc_juros_ajustado <= 1.0:
+        fator_juros = 1.5  # Bonificação para juros muito baixos
+    else:
+        # Quanto mais próximo de MAX_JUROS, mais penalizado
+        # O fator varia de 1.5 (juros baixos) a 0.5 (juros altos)
+        fator_juros = max(0.5, 1.5 - (perc_juros_ajustado / MAX_JUROS))
+    
+    # Razão final ponderada pelos juros
+    razao_final = razao_base * fator_juros
+    
+    # Arredondar para duas casas decimais
+    return round(razao_final, 2)
 
 def formatar_excel(writer, df):
     """Aplica formatação ao arquivo Excel."""
@@ -150,6 +222,9 @@ def consolidar_dados():
     print("\nConcatenando dados...")
     df_final = pd.concat(dfs, ignore_index=True)
     
+    # Limitar valores extremos de juros para não distorcer a análise
+    df_final['Percentual Juros'] = df_final['Percentual Juros'].clip(upper=100.0)
+    
     # Ordenar por Razão Investimento (decrescente)
     df_final = df_final.sort_values('Razão Investimento', ascending=False)
     
@@ -158,8 +233,9 @@ def consolidar_dados():
     if not os.path.exists(pasta_relatorios):
         os.makedirs(pasta_relatorios)
     
-    # Remover colunas indesejadas antes de salvar
-    colunas_para_salvar = [col for col in df_final.columns if col not in ['Vencimento', 'Observações', 'Origem']]
+    # Remover colunas indesejadas e colunas de cálculo intermediário antes de salvar
+    colunas_internas = ['Vencimento', 'Observações', 'Origem', 'Valor Parcela', 'Valor Total a Pagar', 'Juros Implícitos', 'Percentual Juros']
+    colunas_para_salvar = [col for col in df_final.columns if col not in colunas_internas]
     df_salvar = df_final[colunas_para_salvar]
     
     # Salvar arquivo consolidado
@@ -197,10 +273,41 @@ def consolidar_dados():
         total = len(df_final[df_final['Status'] == status])
         print(f"- {status}: {total} registros")
     
+    print("\nEstatísticas de Juros:")
+    # Considerar apenas registros com juros válidos
+    df_juros_validos = df_final[df_final['Percentual Juros'] > 0]
+    if len(df_juros_validos) > 0:
+        juros_medios = df_juros_validos['Percentual Juros'].mean()
+        juros_medianos = df_juros_validos['Percentual Juros'].median()
+        juros_minimos = df_juros_validos['Percentual Juros'].min()
+        juros_maximos = df_juros_validos['Percentual Juros'].max()
+        print(f"- Juros Médios: {juros_medios:.2f}%")
+        print(f"- Juros Medianos: {juros_medianos:.2f}%")
+        print(f"- Juros Mínimos: {juros_minimos:.2f}%")
+        print(f"- Juros Máximos: {juros_maximos:.2f}%")
+        print(f"- Registros com juros calculados: {len(df_juros_validos)} de {len(df_final)}")
+    else:
+        print("- Nenhum registro com juros válidos encontrado")
+    
+    print("\nEstatísticas de Entrada:")
+    entrada_media = df_final['Percentual Entrada'].mean()
+    entrada_mediana = df_final['Percentual Entrada'].median()
+    entrada_minima = df_final['Percentual Entrada'].min()
+    entrada_maxima = df_final['Percentual Entrada'].max()
+    print(f"- Percentual Médio de Entrada: {entrada_media:.2f}%")
+    print(f"- Percentual Mediano de Entrada: {entrada_mediana:.2f}%")
+    print(f"- Percentual Mínimo de Entrada: {entrada_minima:.2f}%")
+    print(f"- Percentual Máximo de Entrada: {entrada_maxima:.2f}%")
+    
     print("\nMelhores oportunidades (Top 5):")
     top_5 = df_final.head(5)
-    for _, row in top_5.iterrows():
-        print(f"- {row['Tipo']} - Valor: R$ {row['Valor da carta']:,.2f} - Entrada: R$ {row['Entrada']:,.2f} ({row['Percentual Entrada']:.1f}%) - {row['Total de Parcelas']} parcelas")
+    for i, (_, row) in enumerate(top_5.iterrows(), 1):
+        print(f"{i}. {row['Tipo']} - R$ {row['Valor da carta']:,.2f}")
+        print(f"   Entrada: R$ {row['Entrada']:,.2f} ({row['Percentual Entrada']:.1f}%)")
+        print(f"   Parcelas: {row['Total de Parcelas']} x R$ {row['Valor Parcela']:,.2f}")
+        print(f"   Juros estimados: {row['Percentual Juros']:.2f}%")
+        print(f"   Razão de investimento: {row['Razão Investimento']:.2f}")
+        print()
     
     print(f"\nArquivo consolidado salvo com sucesso em: {arquivo_saida}")
 
