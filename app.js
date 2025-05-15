@@ -196,11 +196,27 @@ async function loadData() {
       if (valorCartaField) {
         newRow["Valor da carta"] = row[valorCartaField];
         try {
-          newRow["Valor da carta_num"] = parseFloat(
-            String(row[valorCartaField])
-              .replace(/[^\d,.-]/g, "")
-              .replace(/\./g, "")
-              .replace(/,/g, ".")
+          // Nova versão corrigida para tratar valores monetários corretamente
+          const valorStr = String(row[valorCartaField]).trim();
+          if (valorStr.match(/^\d+(\.\d{3})+(,\d+)?$/)) {
+            // Formato brasileiro: 12.345,67
+            newRow["Valor da carta_num"] = parseFloat(
+              valorStr.replace(/\./g, "").replace(/,/g, ".")
+            );
+          } else if (valorStr.match(/^\d+(,\d{3})+(.\d+)?$/)) {
+            // Formato internacional: 12,345.67
+            newRow["Valor da carta_num"] = parseFloat(
+              valorStr.replace(/,/g, "")
+            );
+          } else {
+            // Formato simples sem separadores de milhares
+            newRow["Valor da carta_num"] = parseFloat(
+              valorStr.replace(/,/g, ".")
+            );
+          }
+
+          console.log(
+            `Valor da carta processado: Original=${row[valorCartaField]}, Processado=${newRow["Valor da carta_num"]}`
           );
         } catch (e) {
           console.error("Erro ao processar valor da carta:", e);
@@ -215,11 +231,23 @@ async function loadData() {
       if (entradaField) {
         newRow["Entrada"] = row[entradaField];
         try {
-          newRow["Entrada_num"] = parseFloat(
-            String(row[entradaField])
-              .replace(/[^\d,.-]/g, "")
-              .replace(/\./g, "")
-              .replace(/,/g, ".")
+          // Nova versão corrigida para tratar valores monetários corretamente
+          const valorStr = String(row[entradaField]).trim();
+          if (valorStr.match(/^\d+(\.\d{3})+(,\d+)?$/)) {
+            // Formato brasileiro: 12.345,67
+            newRow["Entrada_num"] = parseFloat(
+              valorStr.replace(/\./g, "").replace(/,/g, ".")
+            );
+          } else if (valorStr.match(/^\d+(,\d{3})+(.\d+)?$/)) {
+            // Formato internacional: 12,345.67
+            newRow["Entrada_num"] = parseFloat(valorStr.replace(/,/g, ""));
+          } else {
+            // Formato simples sem separadores de milhares
+            newRow["Entrada_num"] = parseFloat(valorStr.replace(/,/g, "."));
+          }
+
+          console.log(
+            `Entrada processada: Original=${row[entradaField]}, Processado=${newRow["Entrada_num"]}`
           );
         } catch (e) {
           console.error("Erro ao processar valor da entrada:", e);
